@@ -66,6 +66,11 @@
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #30363d;
+    transition: transform 0.2s ease;
+  }
+
+  .kpi-card:hover {
+    transform: translateY(-5px);
   }
 
   .kpi-card h3 {
@@ -85,7 +90,7 @@
     color: #8b949e;
   }
 
-  /* Fake charts */
+  /* Charts */
   .chart {
     background: #161b22;
     border: 1px solid #30363d;
@@ -105,6 +110,7 @@
     background: linear-gradient(90deg, #58a6ff33, #58a6ff11);
     border-radius: 8px;
     position: relative;
+    overflow: hidden;
   }
 
   .bar {
@@ -113,9 +119,13 @@
     position: absolute;
     bottom: 0;
     border-radius: 4px;
+    animation: grow 2s ease-out;
   }
 
-  /* Example bar heights */
+  @keyframes grow {
+    from { height: 0; }
+  }
+
   .b1 { left: 5%; height: 40%; }
   .b2 { left: 20%; height: 60%; }
   .b3 { left: 35%; height: 80%; }
@@ -152,43 +162,42 @@
   <a href="#datasphere">Datasphere</a>
   <a href="#bwbridge">BW Bridge</a>
   <a href="#analytics">Analytics</a>
-  <a href="#contact">Contacto</a>
 </div>
 
 <div class="main">
 
   <!-- KPI SECTION -->
-  <h2 class="section-title" id="kpis">KPIs Principales</h2>
+  <h2 class="section-title" id="kpis">Key Performance Indicators</h2>
 
   <div class="kpi-grid">
     <div class="kpi-card">
-      <h3>Extractores Analizados</h3>
+      <h3>Extractors Analyzed</h3>
       <div class="kpi-value">128</div>
       <div class="kpi-sub">BW → S/4HANA</div>
     </div>
 
     <div class="kpi-card">
-      <h3>Modelos Semánticos</h3>
+      <h3>Semantic Models</h3>
       <div class="kpi-value">42</div>
       <div class="kpi-sub">Datasphere</div>
     </div>
 
     <div class="kpi-card">
-      <h3>KPIs Gobernados</h3>
+      <h3>Governed KPIs</h3>
       <div class="kpi-value">67</div>
-      <div class="kpi-sub">Catálogo corporativo</div>
+      <div class="kpi-sub">Corporate Catalog</div>
     </div>
 
     <div class="kpi-card">
-      <h3>Dashboards SAC</h3>
+      <h3>SAC Dashboards</h3>
       <div class="kpi-value">18</div>
-      <div class="kpi-sub">Operaciones / Calidad</div>
+      <div class="kpi-sub">Ops / Quality</div>
     </div>
   </div>
 
   <!-- CHART -->
   <div class="chart">
-    <div class="chart-title">Tickets / Procesos Migrados (Simulación)</div>
+    <div class="chart-title">Processes Migrated (Simulation)</div>
     <div class="chart-bar">
       <div class="bar b1"></div>
       <div class="bar b2"></div>
@@ -201,48 +210,43 @@
 
   <!-- CONTENT SECTIONS -->
   <div class="card" id="migration">
-    <h3>Migración ECC → S/4HANA</h3>
+    <h3>ECC → S/4HANA Migration</h3>
     <ul>
-      <li>Inventario completo de extractores BW</li>
-      <li>Rediseño de ADSOs para S/4</li>
-      <li>Continuidad del reporting durante la transición</li>
-      <li>Gestión de históricos y deltas</li>
+      <li>Full extractor inventory</li>
+      <li>ADSO redesign for S/4</li>
+      <li>Reporting continuity during transition</li>
+      <li>Historical data & delta logic management</li>
     </ul>
   </div>
 
   <div class="card" id="datasphere">
-    <h3>Arquitectura SAP Datasphere</h3>
+    <h3>SAP Datasphere Architecture</h3>
     <ul>
-      <li>Espacios por dominio</li>
-      <li>Modelos semánticos para negocio</li>
-      <li>Federación y virtualización</li>
-      <li>Integración con SAC</li>
+      <li>Domain-based spaces</li>
+      <li>Business semantic models</li>
+      <li>Federation & virtualization</li>
+      <li>SAC integration</li>
     </ul>
   </div>
 
   <div class="card" id="bwbridge">
     <h3>SAP BW Bridge</h3>
     <ul>
-      <li>Migración segura de objetos BW</li>
-      <li>Preservación de lógica delta</li>
-      <li>Reducción de riesgo</li>
-      <li>Hoja de ruta para desmantelar BW</li>
+      <li>Safe migration of BW objects</li>
+      <li>Delta logic preservation</li>
+      <li>Risk reduction</li>
+      <li>Roadmap for BW decommissioning</li>
     </ul>
   </div>
 
   <div class="card" id="analytics">
-    <h3>Analytics & KPIs</h3>
+    <h3>Analytics & KPI Governance</h3>
     <ul>
-      <li>Dashboards SAC para operaciones</li>
-      <li>KPIs gobernados y catálogo corporativo</li>
-      <li>Monitorización y performance</li>
-      <li>Fundación para IA y predicción</li>
+      <li>SAC dashboards for operations</li>
+      <li>Governed KPI catalog</li>
+      <li>Monitoring & performance</li>
+      <li>Foundation for predictive analytics</li>
     </ul>
-  </div>
-
-  <div class="card" id="contact">
-    <h3>Contacto</h3>
-    <p>Email: tu.email@dominio.com</p>
   </div>
 
 </div>
