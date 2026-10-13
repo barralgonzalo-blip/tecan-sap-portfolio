@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Interactive Counters – Gonzalo Barral</title>
+<title>Gonzalo Barral – KPI Navigation Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -22,23 +22,32 @@
     color: var(--text-main);
   }
 
-  /* Dashboard Counter Buttons */
-  .data-button {
+  /* KPI Cards */
+  .kpi-card {
     background: var(--card-bg);
     border: 1px solid var(--border-soft);
-    padding: 16px;
+    padding: 20px;
     border-radius: 12px;
     cursor: pointer;
-    font-size: 18px;
-    color: var(--tecan-blue);
-    font-weight: bold;
-    margin-bottom: 12px;
     text-align: center;
     transition: background 0.2s;
+    margin-bottom: 16px;
   }
 
-  .data-button:hover {
+  .kpi-card:hover {
     background: #e8f7ff;
+  }
+
+  .kpi-title {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .kpi-value {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--tecan-blue);
+    margin-top: 6px;
   }
 
   /* Detail Sections */
@@ -72,29 +81,32 @@
     cursor: pointer;
     font-size: 14px;
   }
-
 </style>
 </head>
 
 <body>
 
-<!-- DASHBOARD COUNTERS -->
-<div style="padding: 20px; max-width: 600px; margin: auto;">
+<!-- KPI DASHBOARD -->
+<div style="padding: 20px; max-width: 600px; margin: auto;" id="top">
 
   <h1 style="text-align:center; color: var(--tecan-blue); margin-bottom: 20px;">
-    Gonzalo Barral – Interactive Dashboard
+    Gonzalo Barral – KPI Dashboard
   </h1>
 
-  <div class="data-button" onclick="scrollToSection('job-experience-section')">
-    Job Experience: 8
+  <!-- KPI CARDS -->
+  <div class="kpi-card" onclick="scrollToSection('job-experience-section')">
+    <div class="kpi-title">Job Experience</div>
+    <div class="kpi-value">8</div>
   </div>
 
-  <div class="data-button" onclick="scrollToSection('certifications-section')">
-    Certifications: 6
+  <div class="kpi-card" onclick="scrollToSection('certifications-section')">
+    <div class="kpi-title">Certifications</div>
+    <div class="kpi-value">6</div>
   </div>
 
-  <div class="data-button" onclick="scrollToSection('skills-section')">
-    Technical Skills: 7
+  <div class="kpi-card" onclick="scrollToSection('skills-section')">
+    <div class="kpi-title">Technical Skills</div>
+    <div class="kpi-value">7</div>
   </div>
 
 </div>
