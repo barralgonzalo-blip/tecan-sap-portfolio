@@ -1,162 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Gonzalo Barral – KPI Navigation Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Gonzalo Barral – KPI Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --tecan-blue: #009FE3;
+      --bg-light: #f5f7fb;
+      --card-bg: #ffffff;
+      --text-main: #1f2933;
+      --text-muted: #6b7280;
+      --border-soft: #e5e7eb;
+      --accent-green: #16a34a;
+      --accent-red: #ef4444;
+      --glass: rgba(255,255,255,0.6);
+    }
 
-<style>
-  :root {
-    --tecan-blue: #009FE3;
-    --bg-light: #f5f7fb;
-    --card-bg: #ffffff;
-    --text-main: #1f2933;
-    --text-muted: #6b7280;
-    --border-soft: #e5e7eb;
-  }
+    /* Reset & layout */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg-light) 0%, #eef6fb 100%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 28px;
+    }
 
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg-light);
-    color: var(--text-main);
-  }
+    header {
+      max-width: 1200px;
+      margin: 0 auto 18px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-  /* KPI Cards */
-  .kpi-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-soft);
-    padding: 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.2s;
-    margin-bottom: 16px;
-  }
+    h1 {
+      margin: 0;
+      color: var(--tecan-blue);
+      font-size: 20px;
+    }
 
-  .kpi-card:hover {
-    background: #e8f7ff;
-  }
+    .subtitle { color: var(--text-muted); font-size: 13px; }
 
-  .kpi-title {
-    font-size: 14px;
-    color: var(--text-muted);
-  }
+    main { max-width: 1200px; margin: 0 auto; }
 
-  .kpi-value {
-    font-size: 26px;
-    font-weight: bold;
-    color: var(--tecan-blue);
-    margin-top: 6px;
-  }
+    /* KPI grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
 
-  /* Detail Sections */
-  .detail-section {
-    background: var(--card-bg);
-    border: 1px solid var(--border-soft);
-    padding: 20px;
-    border-radius: 12px;
-    margin: 40px 20px;
-  }
+    .kpi-card {
+      background: linear-gradient(180deg, var(--card-bg) 0%, var(--glass) 100%);
+      border: 1px solid var(--border-soft);
+      padding: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 120px;
+    }
 
-  .detail-section h2 {
-    color: var(--tecan-blue);
-    margin-bottom: 12px;
-  }
+    .kpi-card:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(31,41,51,0.08); }
 
-  .data-item {
-    font-size: 15px;
-    padding: 6px 0;
-    color: var(--text-main);
-  }
+    .kpi-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+    .kpi-title { font-size: 13px; color: var(--text-muted); }
+    .kpi-value { font-size: 28px; font-weight: 700; color: var(--tecan-blue); }
+    .kpi-meta { font-size: 12px; color: var(--text-muted); }
 
-  /* Back to top button */
-  .back-button {
-    margin-top: 20px;
-    display: inline-block;
-    padding: 10px 14px;
-    background: var(--tecan-blue);
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-</style>
+    .kpi-delta { font-weight: 600; padding: 6px 8px; border-radius: 999px; font-size: 12px; }
+    .delta-up { color: white; background: var(--accent-green); }
+    .delta-down { color: white; background: var(--accent-red); }
+
+    .kpi-spark { width:100%; height:28px; opacity:0.9; }
+
+    /* Details list inside card (short) */
+    .kpi-shortlist { color: var(--text-muted); font-size: 13px; margin-top: auto; }
+
+    /* Modal / Details panel */
+    .overlay {
+      position: fixed;
+      inset: 0; background: rgba(16,24,40,0.55);
+      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 60;
+    }
+
+    .panel {
+      width: 100%; max-width: 820px; background: var(--card-bg); border-radius: 12px; padding: 20px; border:1px solid var(--border-soft);
+      box-shadow: 0 20px 60px rgba(16,24,40,0.25);
+      max-height: 90vh; overflow: auto;
+    }
+
+    .panel h2 { margin: 0 0 8px 0; color: var(--tecan-blue); }
+    .panel .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
+    .panel .list { display: grid; gap:8px; }
+    .panel .list .item { padding: 10px; border-radius: 8px; border: 1px dashed var(--border-soft); background: linear-gradient(180deg,#fff,#fcfcff); }
+
+    .close-btn { background: transparent; border: none; color: var(--text-muted); font-weight: 700; cursor: pointer; }
+
+    footer { max-width:1200px; margin:18px auto 40px auto; color:var(--text-muted); font-size:13px; text-align:center; }
+
+    /* Responsive tweaks */
+    @media (max-width:560px){ body{padding:14px;} .kpi-value{font-size:22px;} }
+
+  </style>
 </head>
-
 <body>
+  <header>
+    <div>
+      <h1>Gonzalo Barral – KPI Dashboard</h1>
+      <div class="subtitle">Click a card to see full details</div>
+    </div>
+    <div class="subtitle">Updated: 2026-10-13</div>
+  </header>
 
-<!-- KPI DASHBOARD -->
-<div style="padding: 20px; max-width: 600px; margin: auto;" id="top">
+  <main>
+    <section class="kpi-grid" id="kpiGrid" aria-live="polite"></section>
+  </main>
 
-  <h1 style="text-align:center; color: var(--tecan-blue); margin-bottom: 20px;">
-    Gonzalo Barral – KPI Dashboard
-  </h1>
+  <!-- Details overlay -->
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="panel" role="document">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+        <div>
+          <h2 id="panelTitle">Title</h2>
+          <div class="meta" id="panelSubtitle">Subtitle</div>
+        </div>
+        <div style="text-align:right">
+          <div id="panelValue" style="font-weight:800; color:var(--tecan-blue); font-size:20px"></div>
+          <button class="close-btn" id="closeBtn">Close ✕</button>
+        </div>
+      </div>
 
-  <!-- KPI CARDS -->
-  <div class="kpi-card" onclick="scrollToSection('job-experience-section')">
-    <div class="kpi-title">Job Experience</div>
-    <div class="kpi-value">8</div>
+      <div style="margin-top:12px">
+        <div style="font-size:13px; color:var(--text-muted); margin-bottom:10px">Full details</div>
+        <div class="list" id="panelList"></div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap">
+        <div style="color:var(--text-muted); font-size:13px">Source: local data</div>
+        <div>
+          <a href="#top" style="text-decoration:none; background:var(--tecan-blue); color:#fff; padding:8px 12px; border-radius:8px;">Back to top</a>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="kpi-card" onclick="scrollToSection('certifications-section')">
-    <div class="kpi-title">Certifications</div>
-    <div class="kpi-value">6</div>
-  </div>
+  <footer>Built with ❤️ — Gonzalo Barral • tecan-sap-portfolio</footer>
 
-  <div class="kpi-card" onclick="scrollToSection('skills-section')">
-    <div class="kpi-title">Technical Skills</div>
-    <div class="kpi-value">7</div>
-  </div>
+  <script>
+    // KPI data model — extend or replace with dynamic data later
+    const kpis = [
+      {
+        id: 'job-experience',
+        title: 'Job Experience',
+        value: '8 yrs',
+        delta: '+12% YoY',
+        deltaTrend: 'up',
+        short: '8 roles across industry',
+        details: [
+          'Ruby Group — 2024–Present',
+          'Chellenic — 2020–2024',
+          'Bayer — 2019',
+          'Bacardi — 2019–2020',
+          'Servihabitat — 2017–2019',
+          'Carrefour — 2015–2017',
+          'TUI Travel — 2014–2015',
+          'YPF — 2007–2011'
+        ],
+        spark: [3,6,4,7,8,6,9]
+      },
+      {
+        id: 'certifications',
+        title: 'Certifications',
+        value: '6',
+        delta: '+2 vs last year',
+        deltaTrend: 'up',
+        short: 'SAP & cloud certifications',
+        details: [
+          'SAP BW/4HANA — 2018',
+          'SAP BW 7.5 on HANA — 2018',
+          'SAP HANA — 2015',
+          'Scrum Master — 2020',
+          'Snowflake — 2024',
+          'SAP SQL Data — 2020'
+        ],
+        spark: [1,2,3,3,2,4,5]
+      },
+      {
+        id: 'technical-skills',
+        title: 'Technical Skills',
+        value: '7/10',
+        delta: 'Stable',
+        deltaTrend: 'neutral',
+        short: 'SAP, SQL, ABAP, HANA',
+        details: [
+          'SAP BW/4HANA — Expert',
+          'SAP BW 7.5 on HANA — Expert',
+          'SAP HANA — Advanced',
+          'SAP Analytics Cloud — Advanced',
+          'CDS Views — Advanced',
+          'SQL / ABAP / AMDP — Advanced',
+          'LSA++ Architecture — Expert'
+        ],
+        spark: [5,6,6,5,7,6,7]
+      },
+      {
+        id: 'projects',
+        title: 'Projects',
+        value: '12',
+        delta: '-1 active',
+        deltaTrend: 'down',
+        short: 'Delivery & analytics projects',
+        details: [
+          'Tecan Integration — 2026',
+          'SAP BW migration — 2024',
+          'Analytics rollout — 2023',
+          'Cloud reporting framework — 2022'
+        ],
+        spark: [6,5,7,6,5,4,3]
+      },
+      {
+        id: 'education',
+        title: 'Education',
+        value: 'B.Sc.',
+        delta: '',
+        deltaTrend: 'neutral',
+        short: 'Computer Science / Data',
+        details: [
+          'University Degree — Computer Science',
+          'Various professional trainings in SAP and cloud'
+        ],
+        spark: [2,2,3,3,4]
+      },
+      {
+        id: 'languages',
+        title: 'Languages',
+        value: 'ES / EN',
+        delta: '',
+        deltaTrend: 'neutral',
+        short: 'Spanish (native), English (fluent)',
+        details: [
+          'Spanish — Native',
+          'English — Fluent'
+        ],
+        spark: [3,3,2]
+      }
+    ];
 
-</div>
+    // Helper to create a tiny inline sparkline SVG
+    function sparklineSVG(values, color = '#9ecff8'){
+      if(!values || values.length === 0) return '';
+      const w = 140; const h = 28; const max = Math.max(...values); const min = Math.min(...values);
+      const len = values.length;
+      const points = values.map((v,i)=>{
+        const x = (i/(len-1)) * w;
+        const y = (1 - (v - min) / (max - min || 1)) * (h-4) + 2;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(' ');
+      return `<svg class="kpi-spark" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><polyline fill="none" stroke="${color}" stroke-width="2" points="${points}" stroke-linecap="round" stroke-linejoin="round" /></svg>`;
+    }
 
-<!-- DETAIL SECTIONS -->
+    // Render grid
+    const grid = document.getElementById('kpiGrid');
+    function renderGrid(){
+      grid.innerHTML = '';
+      kpis.forEach(k=>{
+        const card = document.createElement('button');
+        card.className = 'kpi-card';
+        card.setAttribute('aria-describedby', k.id+'-desc');
+        card.onclick = ()=> openPanel(k.id);
+        card.innerHTML = `
+          <div class="kpi-top">
+            <div>
+              <div class="kpi-title">${k.title}</div>
+              <div class="kpi-value">${k.value}</div>
+            </div>
+            <div style="text-align:right">
+              <div class="kpi-meta">${k.short}</div>
+              <div style="margin-top:8px">
+                <span class="kpi-delta ${k.deltaTrend === 'up' ? 'delta-up' : (k.deltaTrend === 'down' ? 'delta-down' : '')}">${k.delta || ''}</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:6px">${sparklineSVG(k.spark)}</div>
+          <div class="kpi-shortlist" id="${k.id}-desc">${k.short}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
-<div id="job-experience-section" class="detail-section">
-  <h2>Job Experience</h2>
-  <div class="data-item">Ruby Group — 2024–Present</div>
-  <div class="data-item">Chellenic — 2020–2024</div>
-  <div class="data-item">Bayer — 2019</div>
-  <div class="data-item">Bacardi — 2019–2020</div>
-  <div class="data-item">Servihabitat — 2017–2019</div>
-  <div class="data-item">Carrefour — 2015–2017</div>
-  <div class="data-item">TUI Travel — 2014–2015</div>
-  <div class="data-item">YPF — 2007–2011</div>
+    // Panel logic
+    const overlay = document.getElementById('overlay');
+    const panelTitle = document.getElementById('panelTitle');
+    const panelSubtitle = document.getElementById('panelSubtitle');
+    const panelValue = document.getElementById('panelValue');
+    const panelList = document.getElementById('panelList');
+    const closeBtn = document.getElementById('closeBtn');
 
-  <div class="back-button" onclick="scrollToSection('top')">Back to Dashboard</div>
-</div>
+    function openPanel(id){
+      const k = kpis.find(x=>x.id===id);
+      if(!k) return;
+      panelTitle.textContent = k.title;
+      panelSubtitle.textContent = k.short;
+      panelValue.textContent = k.value;
+      panelList.innerHTML = '';
+      k.details.forEach(d=>{
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.textContent = d;
+        panelList.appendChild(div);
+      });
+      overlay.style.display = 'flex';
+      overlay.setAttribute('aria-hidden', 'false');
+      // trap focus
+      closeBtn.focus();
+    }
 
-<div id="certifications-section" class="detail-section">
-  <h2>Certifications</h2>
-  <div class="data-item">SAP BW/4HANA — 2018</div>
-  <div class="data-item">SAP BW 7.5 on HANA — 2018</div>
-  <div class="data-item">SAP HANA — 2015</div>
-  <div class="data-item">Scrum Master — 2020</div>
-  <div class="data-item">Snowflake — 2024</div>
-  <div class="data-item">SAP SQL Data — 2020</div>
+    function closePanel(){
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+    }
 
-  <div class="back-button" onclick="scrollToSection('top')">Back to Dashboard</div>
-</div>
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closePanel(); });
+    closeBtn.addEventListener('click', closePanel);
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePanel(); });
 
-<div id="skills-section" class="detail-section">
-  <h2>Technical Skills</h2>
-  <div class="data-item">SAP BW/4HANA — Expert</div>
-  <div class="data-item">SAP BW 7.5 on HANA — Expert</div>
-  <div class="data-item">SAP HANA — Advanced</div>
-  <div class="data-item">SAP Analytics Cloud — Advanced</div>
-  <div class="data-item">CDS Views — Advanced</div>
-  <div class="data-item">SQL / ABAP / AMDP — Advanced</div>
-  <div class="data-item">LSA++ Architecture — Expert</div>
+    // Initial render
+    renderGrid();
 
-  <div class="back-button" onclick="scrollToSection('top')">Back to Dashboard</div>
-</div>
-
-<script>
-function scrollToSection(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-}
-</script>
-
+    // Expose for debugging
+    window._kpis = kpis;
+  </script>
 </body>
 </html>
