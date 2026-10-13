@@ -99,7 +99,6 @@
         <div class="panel">
           <h3 style="margin:0 0 10px 0;color:var(--tecan-blue)">Live charts & details</h3>
           <div style="display:grid;gap:10px">
-            <canvas id="lineChart" height="160" aria-label="Time series of Data Load Success Rate"></canvas>
             <div style="display:flex;gap:8px;align-items:center">
               <canvas id="barChart" width="180" height="120" aria-label="Query response time by month"></canvas>
               <canvas id="doughnutChart" width="120" height="120" aria-label="Data quality distribution"></canvas>
@@ -166,10 +165,6 @@
   <script>
     // -- Data model (editable) -- sample SAP-related metrics
     const dataModel = {
-      seriesLoadSuccess: {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],
-        values: [96,97,95,98,97,96,98,99,98]
-      },
       queryResponse: {
         labels: ['Jan','Feb','Mar','Apr','May','Jun'],
         values: [1.2,1.1,1.4,1.0,0.9,0.95] // seconds
@@ -199,15 +194,8 @@
     renderKPIs();
 
     // Chart instances
-    let lineChart, barChart, doughnutChart;
+    let barChart, doughnutChart;
     function createCharts(){
-      const lineCtx = document.getElementById('lineChart').getContext('2d');
-      lineChart = new Chart(lineCtx, {
-        type: 'line',
-        data: {labels:dataModel.seriesLoadSuccess.labels,datasets:[{label:'Load success %',data:dataModel.seriesLoadSuccess.values,borderColor:getComputedStyle(document.documentElement).getPropertyValue('--tecan-blue')||'#009FE3',backgroundColor:'rgba(0,159,227,0.08)',tension:0.35,pointRadius:4}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index'}},scales:{y:{beginAtZero:false,suggestedMin:80,suggestedMax:100}}}
-      });
-
       const barCtx = document.getElementById('barChart').getContext('2d');
       barChart = new Chart(barCtx, {
         type:'bar',
@@ -250,34 +238,25 @@
     ];
 
     function highlightKPI(id){
-      // small pulse on corresponding card (by matching title id mapping)
       const buttons = document.querySelectorAll('.kpi-card'); buttons.forEach(b=>b.style.boxShadow='');
-      // naive matching by index
       const idx = kpis.findIndex(k=>k.id===id || k.title.toLowerCase().includes(id.replace('-',' ')));
       if(idx>=0 && buttons[idx]){ buttons[idx].style.boxShadow='0 10px 30px rgba(0,159,227,0.12)'; buttons[idx].focus(); }
     }
 
     function updateChartsFor(key){
-      // example: change datasets to emphasize slide
       if(key==='quality'){
-        lineChart.data.datasets[0].data = [95,96,95,96,97,95,96,97,95]; lineChart.update();
         barChart.data.datasets[0].data = [1.1,1.0,1.0,0.95,0.9,0.9]; barChart.update();
       } else if(key==='etl'){
-        lineChart.data.datasets[0].data = [94,95,96,97,98,98,99,99,98]; lineChart.update();
         barChart.data.datasets[0].data = [1.3,1.2,1.1,1.0,0.95,0.9]; barChart.update();
       } else if(key==='performance'){
-        lineChart.data.datasets[0].data = [96,97,96,97,96,95,95,96,97]; lineChart.update();
         barChart.data.datasets[0].data = [1.5,1.4,1.3,1.2,1.1,1.0]; barChart.update();
       } else if(key==='impact'){
-        lineChart.data.datasets[0].data = [92,93,94,95,96,97,98,98,99]; lineChart.update();
         barChart.data.datasets[0].data = [1.4,1.2,1.1,1.0,0.9,0.85]; barChart.update();
       }
     }
 
     function showNote(text){
-      // quick toast-like note in console and small UI update
       console.log('Slide note:',text);
-      // small accessible announcement
       const prev = document.querySelector('.slide-note'); if(prev) prev.remove();
       const n = document.createElement('div'); n.className='slide-note muted'; n.textContent = text; n.style.marginTop='8px'; n.style.padding='8px'; n.style.borderLeft='3px solid var(--tecan-blue)'; document.querySelector('main').prepend(n);
       setTimeout(()=>n.remove(),3500);
@@ -298,7 +277,7 @@
     document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeDetail(); });
 
     // expose update function for manual data edits
-    window.updateData = function(newModel){ Object.assign(dataModel,newModel); lineChart.data.labels = dataModel.seriesLoadSuccess.labels; lineChart.data.datasets[0].data = dataModel.seriesLoadSuccess.values; lineChart.update(); barChart.data.labels = dataModel.queryResponse.labels; barChart.data.datasets[0].data = dataModel.queryResponse.values; barChart.update(); doughnutChart.data.datasets[0].data = dataModel.qualitySplit.values; doughnutChart.update(); }
+    window.updateData = function(newModel){ Object.assign(dataModel,newModel); barChart.data.labels = dataModel.queryResponse.labels; barChart.data.datasets[0].data = dataModel.queryResponse.values; barChart.update(); doughnutChart.data.datasets[0].data = dataModel.qualitySplit.values; doughnutChart.update(); }
 
   </script>
 </body>
