@@ -97,20 +97,9 @@
 
       <aside class="right-col">
         <div class="panel">
-          <h3 style="margin:0 0 10px 0;color:var(--tecan-blue)">Live charts & details</h3>
+          <h3 style="margin:0 0 10px 0;color:var(--tecan-blue)">Charts moved</h3>
           <div style="display:grid;gap:10px">
-            <div style="display:flex;gap:8px;align-items:center">
-              <canvas id="barChart" width="180" height="120" aria-label="Query response time by month"></canvas>
-              <canvas id="doughnutChart" width="120" height="120" aria-label="Data quality distribution"></canvas>
-            </div>
-
-            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
-              <div style="flex:1">
-                <div style="display:flex;justify-content:space-between"><div class="muted">SAP Data Quality</div><div class="muted">95%</div></div>
-                <div class="meter" aria-hidden="true"><i style="width:95%"></i></div>
-              </div>
-            </div>
-
+            <p class="muted" style="margin:0">The interactive charts have been removed from the main page to keep the interview flow focused. If you need them during the presentation, open the separate charts page (charts.html) or use the PDF export.</p>
           </div>
         </div>
 
@@ -161,17 +150,7 @@
 
   <footer>Built with ❤️ — Gonzalo Barral • tecan-sap-portfolio</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // -- Data model (editable) -- sample SAP-related metrics
-    const dataModel = {
-      queryResponse: {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-        values: [1.2,1.1,1.4,1.0,0.9,0.95] // seconds
-      },
-      qualitySplit: {labels:['Valid','Warnings','Errors'], values:[85,10,5]}
-    };
-
     const kpis = [
       {id:'data-quality',title:'Data Quality',value:'95%',short:'High validation rate',details:['Data completeness 99%','Validation rules: 120','Exceptions: 5%']},
       {id:'etl-success',title:'ETL Success Rate',value:'98%',short:'Reliable loads',details:['Avg load time: 45m','Incidents last month: 1','Retries automated: yes']},
@@ -193,25 +172,6 @@
     }
     renderKPIs();
 
-    // Chart instances
-    let barChart, doughnutChart;
-    function createCharts(){
-      const barCtx = document.getElementById('barChart').getContext('2d');
-      barChart = new Chart(barCtx, {
-        type:'bar',
-        data:{labels:dataModel.queryResponse.labels,datasets:[{label:'Avg response (s)',data:dataModel.queryResponse.values,backgroundColor:'#9ecff8'}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
-      });
-
-      const doughCtx = document.getElementById('doughnutChart').getContext('2d');
-      doughnutChart = new Chart(doughCtx, {
-        type:'doughnut',
-        data:{labels:dataModel.qualitySplit.labels,datasets:[{data:dataModel.qualitySplit.values,backgroundColor:['#16a34a','#f59e0b','#ef4444']}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}
-      });
-    }
-    createCharts();
-
     // Details overlay
     const overlay = document.getElementById('overlay');
     function openDetail(title){
@@ -227,32 +187,20 @@
     }
     function closeDetail(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');}
 
-    // Presentation guided flow
+    // Presentation guided flow (charts removed)
     const presentBtn = document.getElementById('presentBtn');
     let slide = 0; let presenting = false; let slideTimer;
     const slides = [
-      {title:'Data Quality',action:()=>{ highlightKPI('data-quality'); updateChartsFor('quality'); showNote('Emphasize data validation rules, completeness & lineage.'); }},
-      {title:'ETL & Lineage',action:()=>{ highlightKPI('etl-success'); updateChartsFor('etl'); showNote('Describe ETL orchestration, delta loads, monitoring.'); }},
-      {title:'Performance',action:()=>{ highlightKPI('query-time'); updateChartsFor('performance'); showNote('Explain query tuning: CDS, AMDP, aggregates.'); }},
-      {title:'Business Impact',action:()=>{ highlightKPI('models'); updateChartsFor('impact'); showNote('Show how dashboards improved decision latency and outcomes.'); }}
+      {title:'Data Quality',action:()=>{ highlightKPI('data-quality'); showNote('Emphasize data validation rules, completeness & lineage.'); }},
+      {title:'ETL & Lineage',action:()=>{ highlightKPI('etl-success'); showNote('Describe ETL orchestration, delta loads, monitoring.'); }},
+      {title:'Performance',action:()=>{ highlightKPI('query-time'); showNote('Explain query tuning: CDS, AMDP, aggregates.'); }},
+      {title:'Business Impact',action:()=>{ highlightKPI('models'); showNote('Show how dashboards improved decision latency and outcomes.'); }}
     ];
 
     function highlightKPI(id){
       const buttons = document.querySelectorAll('.kpi-card'); buttons.forEach(b=>b.style.boxShadow='');
       const idx = kpis.findIndex(k=>k.id===id || k.title.toLowerCase().includes(id.replace('-',' ')));
       if(idx>=0 && buttons[idx]){ buttons[idx].style.boxShadow='0 10px 30px rgba(0,159,227,0.12)'; buttons[idx].focus(); }
-    }
-
-    function updateChartsFor(key){
-      if(key==='quality'){
-        barChart.data.datasets[0].data = [1.1,1.0,1.0,0.95,0.9,0.9]; barChart.update();
-      } else if(key==='etl'){
-        barChart.data.datasets[0].data = [1.3,1.2,1.1,1.0,0.95,0.9]; barChart.update();
-      } else if(key==='performance'){
-        barChart.data.datasets[0].data = [1.5,1.4,1.3,1.2,1.1,1.0]; barChart.update();
-      } else if(key==='impact'){
-        barChart.data.datasets[0].data = [1.4,1.2,1.1,1.0,0.9,0.85]; barChart.update();
-      }
     }
 
     function showNote(text){
@@ -270,14 +218,11 @@
       presenting=true; presentBtn.textContent='Stop Presentation'; slides[0].action(); slideTimer=setInterval(nextSlide,4500);
     });
 
-    // small helpers for PDF (print)
+    // PDF (print)
     document.getElementById('downloadPdf').addEventListener('click',()=>{ window.print(); });
 
-    // small keyboard support to close overlay
+    // keyboard support
     document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeDetail(); });
-
-    // expose update function for manual data edits
-    window.updateData = function(newModel){ Object.assign(dataModel,newModel); barChart.data.labels = dataModel.queryResponse.labels; barChart.data.datasets[0].data = dataModel.queryResponse.values; barChart.update(); doughnutChart.data.datasets[0].data = dataModel.qualitySplit.values; doughnutChart.update(); }
 
   </script>
 </body>
