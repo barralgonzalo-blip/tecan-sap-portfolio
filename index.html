@@ -2,342 +2,304 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Gonzalo Barral – KPI Dashboard</title>
+  <title>Gonzalo Barral – BI KPI Portfolio & Presentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
   <style>
-    :root {
-      --tecan-blue: #009FE3;
-      --bg-light: #f5f7fb;
-      --card-bg: #ffffff;
-      --text-main: #1f2933;
-      --text-muted: #6b7280;
-      --border-soft: #e5e7eb;
-      --accent-green: #16a34a;
-      --accent-red: #ef4444;
-      --glass: rgba(255,255,255,0.6);
-    }
+    :root{--tecan-blue:#009FE3;--bg:#f5f7fb;--card:#fff;--muted:#6b7280;--success:#16a34a;--danger:#ef4444}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:linear-gradient(180deg,var(--bg),#eef6fb);color:#1f2933;padding:28px}
+    header{max-width:1200px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center}
+    h1{margin:0;color:var(--tecan-blue);font-size:20px}
+    .subtitle{color:var(--muted);font-size:13px}
+    main{max-width:1200px;margin:0 auto}
 
-    /* Reset & layout */
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg, var(--bg-light) 0%, #eef6fb 100%);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      padding: 28px;
-    }
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--tecan-blue);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    .btn-ghost{background:transparent;border:1px solid #e5e7eb;padding:8px 12px;border-radius:8px;cursor:pointer}
 
-    header {
-      max-width: 1200px;
-      margin: 0 auto 18px auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
+    .layout{display:grid;grid-template-columns:1fr 420px;gap:18px}
+    @media(max-width:980px){.layout{grid-template-columns:1fr} .right-col{order:2}}
 
-    h1 {
-      margin: 0;
-      color: var(--tecan-blue);
-      font-size: 20px;
-    }
+    /* KPI Grid */
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+    .kpi-card{background:var(--card);border:1px solid #eaeff4;padding:14px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:110px}
+    .kpi-title{font-size:13px;color:var(--muted)}
+    .kpi-value{font-size:22px;font-weight:700;color:var(--tecan-blue)}
+    .kpi-extra{font-size:12px;color:var(--muted)}
 
-    .subtitle { color: var(--text-muted); font-size: 13px; }
+    /* Presentation area */
+    .right-col .panel{background:var(--card);border:1px solid #eaeff4;padding:14px;border-radius:10px}
 
-    main { max-width: 1200px; margin: 0 auto; }
+    /* Why Hire Me */
+    .hire{display:grid;gap:12px;margin-top:12px}
+    .hire .item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:8px;background:linear-gradient(180deg,#fff,#fcfdff);border:1px solid #f0f6fb}
+    .meter{height:8px;background:#eef3fb;border-radius:999px;overflow:hidden;flex:1}
+    .meter > i{display:block;height:100%;background:var(--tecan-blue)}
 
-    /* KPI grid */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
+    /* Details modal */
+    .overlay{position:fixed;inset:0;background:rgba(16,24,40,0.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
+    .panel-large{width:100%;max-width:1000px;background:var(--card);border-radius:12px;padding:18px;border:1px solid #eaeff4;box-shadow:0 20px 60px rgba(16,24,40,0.25);max-height:90vh;overflow:auto}
 
-    .kpi-card {
-      background: linear-gradient(180deg, var(--card-bg) 0%, var(--glass) 100%);
-      border: 1px solid var(--border-soft);
-      padding: 18px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 120px;
-    }
+    footer{text-align:center;color:var(--muted);margin-top:18px;font-size:13px}
 
-    .kpi-card:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(31,41,51,0.08); }
-
-    .kpi-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
-    .kpi-title { font-size: 13px; color: var(--text-muted); }
-    .kpi-value { font-size: 28px; font-weight: 700; color: var(--tecan-blue); }
-    .kpi-meta { font-size: 12px; color: var(--text-muted); }
-
-    .kpi-delta { font-weight: 600; padding: 6px 8px; border-radius: 999px; font-size: 12px; }
-    .delta-up { color: white; background: var(--accent-green); }
-    .delta-down { color: white; background: var(--accent-red); }
-
-    .kpi-spark { width:100%; height:28px; opacity:0.9; }
-
-    /* Details list inside card (short) */
-    .kpi-shortlist { color: var(--text-muted); font-size: 13px; margin-top: auto; }
-
-    /* Modal / Details panel */
-    .overlay {
-      position: fixed;
-      inset: 0; background: rgba(16,24,40,0.55);
-      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 60;
-    }
-
-    .panel {
-      width: 100%; max-width: 820px; background: var(--card-bg); border-radius: 12px; padding: 20px; border:1px solid var(--border-soft);
-      box-shadow: 0 20px 60px rgba(16,24,40,0.25);
-      max-height: 90vh; overflow: auto;
-    }
-
-    .panel h2 { margin: 0 0 8px 0; color: var(--tecan-blue); }
-    .panel .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
-    .panel .list { display: grid; gap:8px; }
-    .panel .list .item { padding: 10px; border-radius: 8px; border: 1px dashed var(--border-soft); background: linear-gradient(180deg,#fff,#fcfcff); }
-
-    .close-btn { background: transparent; border: none; color: var(--text-muted); font-weight: 700; cursor: pointer; }
-
-    footer { max-width:1200px; margin:18px auto 40px auto; color:var(--text-muted); font-size:13px; text-align:center; }
-
-    /* Responsive tweaks */
-    @media (max-width:560px){ body{padding:14px;} .kpi-value{font-size:22px;} }
-
+    /* small helpers */
+    .muted{color:var(--muted);font-size:13px}
   </style>
 </head>
 <body>
   <header>
     <div>
-      <h1>Gonzalo Barral – KPI Dashboard</h1>
-      <div class="subtitle">Click a card to see full details</div>
+      <h1>Gonzalo Barral — BI KPI Portfolio (Presentation)</h1>
+      <div class="subtitle">Interactive demo tailored for a BI role — show data lineage, ETL, SAP data KPIs & decisions</div>
     </div>
-    <div class="subtitle">Updated: 2026-10-13</div>
+
+    <div class="controls">
+      <button class="btn" id="presentBtn">Start Presentation</button>
+      <button class="btn-ghost" id="downloadPdf">Download PDF</button>
+    </div>
   </header>
 
   <main>
-    <section class="kpi-grid" id="kpiGrid" aria-live="polite"></section>
+    <div class="layout">
+      <section>
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1">
+            <h3 style="margin:0 0 8px 0;color:var(--tecan-blue)">Why this matters for the BI role</h3>
+            <p class="muted" style="margin:0">In interviews I present clear data-driven stories: reliable ETL, high-quality SAP data model, performant queries, and actionable dashboards that support business decisions.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <h4 style="margin:0 0 8px 0">Selected Projects (summary)</h4>
+          <div class="kpi-grid">
+            <div class="kpi-card" onclick="openDetail('Tecan Integration')">
+              <div class="kpi-title">Tecan Integration</div>
+              <div class="kpi-value">Integration • 2026</div>
+              <div class="kpi-extra">Result: 35% faster report delivery</div>
+            </div>
+            <div class="kpi-card" onclick="openDetail('SAP BW Migration')">
+              <div class="kpi-title">SAP BW Migration</div>
+              <div class="kpi-value">Migration • 2024</div>
+              <div class="kpi-extra">Result: Consolidated 6 models into 1 LSA++</div>
+            </div>
+            <div class="kpi-card" onclick="openDetail('Analytics Rollout')">
+              <div class="kpi-title">Analytics Rollout</div>
+              <div class="kpi-value">Rollout • 2023</div>
+              <div class="kpi-extra">Result: 20% better decision latency</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-col">
+        <div class="panel">
+          <h3 style="margin:0 0 10px 0;color:var(--tecan-blue)">Live charts & details</h3>
+          <div style="display:grid;gap:10px">
+            <canvas id="lineChart" height="160" aria-label="Time series of Data Load Success Rate"></canvas>
+            <div style="display:flex;gap:8px;align-items:center">
+              <canvas id="barChart" width="180" height="120" aria-label="Query response time by month"></canvas>
+              <canvas id="doughnutChart" width="120" height="120" aria-label="Data quality distribution"></canvas>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between"><div class="muted">SAP Data Quality</div><div class="muted">95%</div></div>
+                <div class="meter" aria-hidden="true"><i style="width:95%"></i></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h4 style="margin:0 0 8px 0;color:var(--tecan-blue)">Why hire me — quick evidence</h4>
+          <div class="hire">
+            <div class="item"><div style="width:36px;height:36;border-radius:8px;background:#f0fbff;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--tecan-blue)">+8</div>
+              <div style="flex:1"><div style="font-weight:600">Years experience</div><div class="muted">SAP analytics, ETL, reporting</div></div></div>
+
+            <div class="item"><div style="width:36px;height:36;border-radius:8px;background:#fff7f7;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--danger)">6</div>
+              <div style="flex:1"><div style="font-weight:600">Certifications</div><div class="muted">BW/4HANA, HANA, Snowflake</div></div></div>
+
+            <div class="item"><div style="width:36px;height:36;border-radius:8px;background:#f6fff6;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--success)">12</div>
+              <div style="flex:1"><div style="font-weight:600">Projects delivered</div><div class="muted">Integration, migration, analytics</div></div></div>
+
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section style="margin-top:18px">
+      <h3 style="color:var(--tecan-blue);margin:0 0 8px 0">Presentation script (guided)</h3>
+      <p class="muted" style="margin:0 0 10px 0">Use the presentation button — I created a guided flow that highlights data story points: data quality, ETL, performance, business impact.</p>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-ghost" onclick="goSlide(0)">Data Quality</button>
+        <button class="btn-ghost" onclick="goSlide(1)">ETL & Lineage</button>
+        <button class="btn-ghost" onclick="goSlide(2)">Performance</button>
+        <button class="btn-ghost" onclick="goSlide(3)">Business Impact</button>
+      </div>
+    </section>
+
   </main>
 
-  <!-- Details overlay -->
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="panel" role="document">
-      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+  <!-- Details modal -->
+  <div id="overlay" class="overlay" role="dialog" aria-hidden="true">
+    <div class="panel-large">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
         <div>
-          <h2 id="panelTitle">Title</h2>
-          <div class="meta" id="panelSubtitle">Subtitle</div>
+          <h2 id="detailTitle">Title</h2>
+          <div class="muted" id="detailSubtitle">Subtitle</div>
         </div>
-        <div style="text-align:right">
-          <div id="panelValue" style="font-weight:800; color:var(--tecan-blue); font-size:20px"></div>
-          <button class="close-btn" id="closeBtn">Close ✕</button>
-        </div>
+        <div><button class="btn-ghost" onclick="closeDetail()">Close</button></div>
       </div>
-
-      <div style="margin-top:12px">
-        <div style="font-size:13px; color:var(--text-muted); margin-bottom:10px">Full details</div>
-        <div class="list" id="panelList"></div>
-      </div>
-
-      <div style="margin-top:18px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap">
-        <div style="color:var(--text-muted); font-size:13px">Source: local data</div>
-        <div>
-          <a href="#top" style="text-decoration:none; background:var(--tecan-blue); color:#fff; padding:8px 12px; border-radius:8px;">Back to top</a>
-        </div>
-      </div>
-
+      <div id="detailContent" style="margin-top:12px"></div>
     </div>
   </div>
 
   <footer>Built with ❤️ — Gonzalo Barral • tecan-sap-portfolio</footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // KPI data model — extend or replace with dynamic data later
+    // -- Data model (editable) -- sample SAP-related metrics
+    const dataModel = {
+      seriesLoadSuccess: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],
+        values: [96,97,95,98,97,96,98,99,98]
+      },
+      queryResponse: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        values: [1.2,1.1,1.4,1.0,0.9,0.95] // seconds
+      },
+      qualitySplit: {labels:['Valid','Warnings','Errors'], values:[85,10,5]}
+    };
+
     const kpis = [
-      {
-        id: 'job-experience',
-        title: 'Job Experience',
-        value: '8 yrs',
-        delta: '+12% YoY',
-        deltaTrend: 'up',
-        short: '8 roles across industry',
-        details: [
-          'Ruby Group — 2024–Present',
-          'Chellenic — 2020–2024',
-          'Bayer — 2019',
-          'Bacardi — 2019–2020',
-          'Servihabitat — 2017–2019',
-          'Carrefour — 2015–2017',
-          'TUI Travel — 2014–2015',
-          'YPF — 2007–2011'
-        ],
-        spark: [3,6,4,7,8,6,9]
-      },
-      {
-        id: 'certifications',
-        title: 'Certifications',
-        value: '6',
-        delta: '+2 vs last year',
-        deltaTrend: 'up',
-        short: 'SAP & cloud certifications',
-        details: [
-          'SAP BW/4HANA — 2018',
-          'SAP BW 7.5 on HANA — 2018',
-          'SAP HANA — 2015',
-          'Scrum Master — 2020',
-          'Snowflake — 2024',
-          'SAP SQL Data — 2020'
-        ],
-        spark: [1,2,3,3,2,4,5]
-      },
-      {
-        id: 'technical-skills',
-        title: 'Technical Skills',
-        value: '7/10',
-        delta: 'Stable',
-        deltaTrend: 'neutral',
-        short: 'SAP, SQL, ABAP, HANA',
-        details: [
-          'SAP BW/4HANA — Expert',
-          'SAP BW 7.5 on HANA — Expert',
-          'SAP HANA — Advanced',
-          'SAP Analytics Cloud — Advanced',
-          'CDS Views — Advanced',
-          'SQL / ABAP / AMDP — Advanced',
-          'LSA++ Architecture — Expert'
-        ],
-        spark: [5,6,6,5,7,6,7]
-      },
-      {
-        id: 'projects',
-        title: 'Projects',
-        value: '12',
-        delta: '-1 active',
-        deltaTrend: 'down',
-        short: 'Delivery & analytics projects',
-        details: [
-          'Tecan Integration — 2026',
-          'SAP BW migration — 2024',
-          'Analytics rollout — 2023',
-          'Cloud reporting framework — 2022'
-        ],
-        spark: [6,5,7,6,5,4,3]
-      },
-      {
-        id: 'education',
-        title: 'Education',
-        value: 'B.Sc.',
-        delta: '',
-        deltaTrend: 'neutral',
-        short: 'Computer Science / Data',
-        details: [
-          'University Degree — Computer Science',
-          'Various professional trainings in SAP and cloud'
-        ],
-        spark: [2,2,3,3,4]
-      },
-      {
-        id: 'languages',
-        title: 'Languages',
-        value: 'ES / EN',
-        delta: '',
-        deltaTrend: 'neutral',
-        short: 'Spanish (native), English (fluent)',
-        details: [
-          'Spanish — Native',
-          'English — Fluent'
-        ],
-        spark: [3,3,2]
-      }
+      {id:'data-quality',title:'Data Quality',value:'95%',short:'High validation rate',details:['Data completeness 99%','Validation rules: 120','Exceptions: 5%']},
+      {id:'etl-success',title:'ETL Success Rate',value:'98%',short:'Reliable loads',details:['Avg load time: 45m','Incidents last month: 1','Retries automated: yes']},
+      {id:'query-time',title:'Avg Query Time',value:'1.0s',short:'Optimized models',details:['Top query: Sales by region','Indexes: AMDP, CDS views']},
+      {id:'models',title:'SAP Models',value:'8',short:'BW/4HANA & CDS',details:['LSA++ modeled','Star schemas: 3','Composite providers: 5']}
     ];
 
-    // Helper to create a tiny inline sparkline SVG
-    function sparklineSVG(values, color = '#9ecff8'){
-      if(!values || values.length === 0) return '';
-      const w = 140; const h = 28; const max = Math.max(...values); const min = Math.min(...values);
-      const len = values.length;
-      const points = values.map((v,i)=>{
-        const x = (i/(len-1)) * w;
-        const y = (1 - (v - min) / (max - min || 1)) * (h-4) + 2;
-        return `${x.toFixed(1)},${y.toFixed(1)}`;
-      }).join(' ');
-      return `<svg class="kpi-spark" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><polyline fill="none" stroke="${color}" stroke-width="2" points="${points}" stroke-linecap="round" stroke-linejoin="round" /></svg>`;
-    }
-
-    // Render grid
+    // render KPI grid
     const grid = document.getElementById('kpiGrid');
-    function renderGrid(){
-      grid.innerHTML = '';
+    function renderKPIs(){
+      grid.innerHTML='';
       kpis.forEach(k=>{
-        const card = document.createElement('button');
-        card.className = 'kpi-card';
-        card.setAttribute('aria-describedby', k.id+'-desc');
-        card.onclick = ()=> openPanel(k.id);
-        card.innerHTML = `
-          <div class="kpi-top">
-            <div>
-              <div class="kpi-title">${k.title}</div>
-              <div class="kpi-value">${k.value}</div>
-            </div>
-            <div style="text-align:right">
-              <div class="kpi-meta">${k.short}</div>
-              <div style="margin-top:8px">
-                <span class="kpi-delta ${k.deltaTrend === 'up' ? 'delta-up' : (k.deltaTrend === 'down' ? 'delta-down' : '')}">${k.delta || ''}</span>
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:6px">${sparklineSVG(k.spark)}</div>
-          <div class="kpi-shortlist" id="${k.id}-desc">${k.short}</div>
-        `;
-        grid.appendChild(card);
+        const el = document.createElement('button');
+        el.className='kpi-card';
+        el.onclick = ()=> openDetail(k.title);
+        el.innerHTML = `<div><div class="kpi-title">${k.title}</div><div class="kpi-value">${k.value}</div></div><div class="kpi-extra">${k.short}</div>`;
+        grid.appendChild(el);
       });
     }
+    renderKPIs();
 
-    // Panel logic
+    // Chart instances
+    let lineChart, barChart, doughnutChart;
+    function createCharts(){
+      const lineCtx = document.getElementById('lineChart').getContext('2d');
+      lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {labels:dataModel.seriesLoadSuccess.labels,datasets:[{label:'Load success %',data:dataModel.seriesLoadSuccess.values,borderColor:getComputedStyle(document.documentElement).getPropertyValue('--tecan-blue')||'#009FE3',backgroundColor:'rgba(0,159,227,0.08)',tension:0.35,pointRadius:4}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index'}},scales:{y:{beginAtZero:false,suggestedMin:80,suggestedMax:100}}}
+      });
+
+      const barCtx = document.getElementById('barChart').getContext('2d');
+      barChart = new Chart(barCtx, {
+        type:'bar',
+        data:{labels:dataModel.queryResponse.labels,datasets:[{label:'Avg response (s)',data:dataModel.queryResponse.values,backgroundColor:'#9ecff8'}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+      });
+
+      const doughCtx = document.getElementById('doughnutChart').getContext('2d');
+      doughnutChart = new Chart(doughCtx, {
+        type:'doughnut',
+        data:{labels:dataModel.qualitySplit.labels,datasets:[{data:dataModel.qualitySplit.values,backgroundColor:['#16a34a','#f59e0b','#ef4444']}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}
+      });
+    }
+    createCharts();
+
+    // Details overlay
     const overlay = document.getElementById('overlay');
-    const panelTitle = document.getElementById('panelTitle');
-    const panelSubtitle = document.getElementById('panelSubtitle');
-    const panelValue = document.getElementById('panelValue');
-    const panelList = document.getElementById('panelList');
-    const closeBtn = document.getElementById('closeBtn');
+    function openDetail(title){
+      const item = kpis.find(x=>x.title===title) || {title,details:['No details configured']};
+      document.getElementById('detailTitle').textContent = item.title;
+      document.getElementById('detailSubtitle').textContent = item.short || '';
+      const content = document.getElementById('detailContent');
+      content.innerHTML = `<p class=\"muted\">Detailed evidence:</p>`;
+      const ul = document.createElement('div'); ul.style.display='grid'; ul.style.gap='8px';
+      (item.details||[]).forEach(d=>{ const dEl = document.createElement('div'); dEl.className='item'; dEl.textContent=d; dEl.style.padding='8px'; dEl.style.border='1px dashed #e6eef7'; dEl.style.borderRadius='6px'; ul.appendChild(dEl); });
+      content.appendChild(ul);
+      overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
+    }
+    function closeDetail(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');}
 
-    function openPanel(id){
-      const k = kpis.find(x=>x.id===id);
-      if(!k) return;
-      panelTitle.textContent = k.title;
-      panelSubtitle.textContent = k.short;
-      panelValue.textContent = k.value;
-      panelList.innerHTML = '';
-      k.details.forEach(d=>{
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.textContent = d;
-        panelList.appendChild(div);
-      });
-      overlay.style.display = 'flex';
-      overlay.setAttribute('aria-hidden', 'false');
-      // trap focus
-      closeBtn.focus();
+    // Presentation guided flow
+    const presentBtn = document.getElementById('presentBtn');
+    let slide = 0; let presenting = false; let slideTimer;
+    const slides = [
+      {title:'Data Quality',action:()=>{ highlightKPI('data-quality'); updateChartsFor('quality'); showNote('Emphasize data validation rules, completeness & lineage.'); }},
+      {title:'ETL & Lineage',action:()=>{ highlightKPI('etl-success'); updateChartsFor('etl'); showNote('Describe ETL orchestration, delta loads, monitoring.'); }},
+      {title:'Performance',action:()=>{ highlightKPI('query-time'); updateChartsFor('performance'); showNote('Explain query tuning: CDS, AMDP, aggregates.'); }},
+      {title:'Business Impact',action:()=>{ highlightKPI('models'); updateChartsFor('impact'); showNote('Show how dashboards improved decision latency and outcomes.'); }}
+    ];
+
+    function highlightKPI(id){
+      // small pulse on corresponding card (by matching title id mapping)
+      const buttons = document.querySelectorAll('.kpi-card'); buttons.forEach(b=>b.style.boxShadow='');
+      // naive matching by index
+      const idx = kpis.findIndex(k=>k.id===id || k.title.toLowerCase().includes(id.replace('-',' ')));
+      if(idx>=0 && buttons[idx]){ buttons[idx].style.boxShadow='0 10px 30px rgba(0,159,227,0.12)'; buttons[idx].focus(); }
     }
 
-    function closePanel(){
-      overlay.style.display = 'none';
-      overlay.setAttribute('aria-hidden', 'true');
+    function updateChartsFor(key){
+      // example: change datasets to emphasize slide
+      if(key==='quality'){
+        lineChart.data.datasets[0].data = [95,96,95,96,97,95,96,97,95]; lineChart.update();
+        barChart.data.datasets[0].data = [1.1,1.0,1.0,0.95,0.9,0.9]; barChart.update();
+      } else if(key==='etl'){
+        lineChart.data.datasets[0].data = [94,95,96,97,98,98,99,99,98]; lineChart.update();
+        barChart.data.datasets[0].data = [1.3,1.2,1.1,1.0,0.95,0.9]; barChart.update();
+      } else if(key==='performance'){
+        lineChart.data.datasets[0].data = [96,97,96,97,96,95,95,96,97]; lineChart.update();
+        barChart.data.datasets[0].data = [1.5,1.4,1.3,1.2,1.1,1.0]; barChart.update();
+      } else if(key==='impact'){
+        lineChart.data.datasets[0].data = [92,93,94,95,96,97,98,98,99]; lineChart.update();
+        barChart.data.datasets[0].data = [1.4,1.2,1.1,1.0,0.9,0.85]; barChart.update();
+      }
     }
 
-    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closePanel(); });
-    closeBtn.addEventListener('click', closePanel);
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePanel(); });
+    function showNote(text){
+      // quick toast-like note in console and small UI update
+      console.log('Slide note:',text);
+      // small accessible announcement
+      const prev = document.querySelector('.slide-note'); if(prev) prev.remove();
+      const n = document.createElement('div'); n.className='slide-note muted'; n.textContent = text; n.style.marginTop='8px'; n.style.padding='8px'; n.style.borderLeft='3px solid var(--tecan-blue)'; document.querySelector('main').prepend(n);
+      setTimeout(()=>n.remove(),3500);
+    }
 
-    // Initial render
-    renderGrid();
+    function nextSlide(){ slide = (slide+1) % slides.length; slides[slide].action(); }
+    function goSlide(i){ slide = i; slides[slide].action(); }
 
-    // Expose for debugging
-    window._kpis = kpis;
+    presentBtn.addEventListener('click',()=>{
+      if(presenting){ presenting=false; presentBtn.textContent='Start Presentation'; clearInterval(slideTimer); return; }
+      presenting=true; presentBtn.textContent='Stop Presentation'; slides[0].action(); slideTimer=setInterval(nextSlide,4500);
+    });
+
+    // small helpers for PDF (print)
+    document.getElementById('downloadPdf').addEventListener('click',()=>{ window.print(); });
+
+    // small keyboard support to close overlay
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeDetail(); });
+
+    // expose update function for manual data edits
+    window.updateData = function(newModel){ Object.assign(dataModel,newModel); lineChart.data.labels = dataModel.seriesLoadSuccess.labels; lineChart.data.datasets[0].data = dataModel.seriesLoadSuccess.values; lineChart.update(); barChart.data.labels = dataModel.queryResponse.labels; barChart.data.datasets[0].data = dataModel.queryResponse.values; barChart.update(); doughnutChart.data.datasets[0].data = dataModel.qualitySplit.values; doughnutChart.update(); }
+
   </script>
 </body>
 </html>
