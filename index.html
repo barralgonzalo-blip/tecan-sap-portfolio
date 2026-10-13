@@ -3,18 +3,30 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gonzalo Barral – SAP BW & Datasphere Fit for Tecan</title>
+<title>Gonzalo Barral – SAP BW & Datasphere for Tecan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
+  :root {
+    --tecan-blue: #009FE3;
+    --bg-light: #f5f7fb;
+    --card-bg: #ffffff;
+    --text-main: #1f2933;
+    --text-muted: #6b7280;
+    --border-soft: #e5e7eb;
+  }
+
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0d1117, #1b1f27);
-    color: #e6e6e6;
+    background: var(--bg-light);
+    color: var(--text-main);
   }
 
-  .container {
+  .layout {
     display: grid;
     grid-template-columns: 320px 1fr 360px;
     gap: 20px;
@@ -23,71 +35,100 @@
   }
 
   .panel {
-    background: #161b22;
+    background: var(--card-bg);
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #30363d;
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
   }
 
   .name {
-    background: #ff4da6;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
     text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--tecan-blue);
+    margin-bottom: 6px;
   }
 
   .role {
-    font-size: 16px;
-    color: #8b949e;
-    margin-bottom: 20px;
     text-align: center;
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
   }
 
   .section-title {
-    font-size: 18px;
-    color: #58a6ff;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    font-size: 17px;
+    color: var(--tecan-blue);
+    margin-top: 18px;
+    margin-bottom: 8px;
   }
 
   p {
     font-size: 14px;
     line-height: 1.5;
+    color: var(--text-main);
   }
 
   ul {
-    margin-left: 20px;
+    margin-left: 18px;
     font-size: 14px;
+    color: var(--text-main);
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .kpi-card {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid var(--border-soft);
+  }
+
+  .kpi-title {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .kpi-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--tecan-blue);
   }
 
   .card {
-    background: #1f242e;
-    padding: 15px;
+    background: #f9fafb;
+    padding: 14px;
     border-radius: 10px;
-    border: 1px solid #30363d;
-    margin-bottom: 15px;
+    border: 1px solid var(--border-soft);
+    margin-bottom: 14px;
   }
 
   .card h3 {
     margin-top: 0;
-    color: #58a6ff;
-    font-size: 16px;
+    font-size: 15px;
+    color: var(--tecan-blue);
+    margin-bottom: 6px;
   }
 
   .skill {
-    margin-bottom: 15px;
+    margin-bottom: 14px;
   }
 
   .skill-name {
-    font-size: 14px;
-    margin-bottom: 5px;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: var(--text-main);
   }
 
   .skill-bar {
-    background: #30363d;
+    background: #e5e7eb;
     height: 10px;
     border-radius: 5px;
     overflow: hidden;
@@ -95,69 +136,52 @@
 
   .skill-fill {
     height: 10px;
-    background: #58a6ff;
+    background: var(--tecan-blue);
     border-radius: 5px;
   }
 
-  .stats {
+  .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-top: 20px;
+    gap: 16px;
+    margin-top: 16px;
   }
 
-  .circle {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: conic-gradient(#58a6ff 0% 75%, #30363d 75% 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: bold;
-    margin: auto;
+  .circle-wrapper {
+    text-align: center;
   }
 
   .circle-label {
-    text-align: center;
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: 13px;
+    color: var(--text-main);
   }
 
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 10px;
+  .chart-card {
+    background: #f9fafb;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+    margin-bottom: 14px;
   }
 
-  .kpi-card {
-    background: #1f242e;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #30363d;
-    font-size: 13px;
+  .chart-title {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
   }
 
-  .kpi-title {
-    color: #8b949e;
-    margin-bottom: 4px;
-  }
-
-  .kpi-value {
-    color: #58a6ff;
-    font-size: 18px;
-    font-weight: bold;
+  canvas {
+    max-width: 100%;
   }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="layout">
 
-  <!-- LEFT PANEL: SUMMARY + FIT FOR TECAN -->
+  <!-- LEFT PANEL -->
   <div class="panel">
     <div class="name">Gonzalo Barral</div>
     <div class="role">Senior SAP BW/4HANA & Analytics Consultant</div>
@@ -175,8 +199,7 @@
       Tecan is migrating from ECC to S/4HANA and adopting SAP Datasphere. I bring hands-on experience
       rebuilding BW models on ACDOCA, activating and customizing Business Content, defining LSA++ architecture,
       and delivering hybrid reporting using BW, S/4HANA, HANA, and SAC. I have worked in regulated environments
-      (Bayer, banking, government) and can bridge technical architecture with business requirements, reducing
-      migration risk and accelerating value.
+      and can bridge technical architecture with business requirements, reducing migration risk and accelerating value.
     </p>
 
     <div class="section-title">Highlights</div>
@@ -209,66 +232,59 @@
     </div>
   </div>
 
-  <!-- MIDDLE PANEL: EXPERIENCE (MERGED WITH TECAN NEEDS) -->
+  <!-- MIDDLE PANEL -->
   <div class="panel">
 
-    <div class="section-title">Relevant Experience for Tecan</div>
+    <div class="section-title">Experience Aligned with Tecan</div>
 
     <div class="card">
       <h3>Ruby Group – SAP BW/4HANA & SAC (2024–Present)</h3>
       <ul>
-        <li>Designed and implemented BW/4HANA reporting solutions for Finance and Controlling (FI/CO).</li>
-        <li>Developed BW/4HANA models based on ACDOCA structures and activated Business Content.</li>
-        <li>Created SAC stories using BW and S/4HANA as data sources for Commercial and Finance areas.</li>
-        <li>Built queries and dashboards consumed by Fiori, Analysis for Office, and BusinessObjects.</li>
+        <li>BW/4HANA reporting solutions for Finance and Controlling (FI/CO).</li>
+        <li>ACDOCA-based BW/4HANA models and Business Content activation.</li>
+        <li>SAC stories and apps using BW and S/4HANA for Commercial and Finance.</li>
+        <li>Queries and dashboards for Fiori, Analysis for Office, and BusinessObjects.</li>
       </ul>
     </div>
 
     <div class="card">
       <h3>Chellenic – SAP BW/4HANA & S/4HANA (2020–2024)</h3>
       <ul>
-        <li>Built FI/SD/MM models, ETL processes, ABAP/AMDP routines, and queries.</li>
-        <li>Created CDS Views and reused standard CDS artifacts (e.g., i_material).</li>
-        <li>Participated in PoCs, UAT, and technical/functional requirement analysis.</li>
-        <li>Defined data architecture aligned with S/4HANA and modern analytics needs.</li>
+        <li>FI/SD/MM models, ETL, ABAP/AMDP routines, and queries.</li>
+        <li>CDS Views and reuse of standard CDS artifacts (e.g., i_material).</li>
+        <li>PoCs, UAT, and technical/functional requirement analysis.</li>
       </ul>
     </div>
 
     <div class="card">
       <h3>Bayer – SAP BW/4HANA & HANA (2019)</h3>
       <ul>
-        <li>Defined architecture of data models and customer-specific LSA.</li>
-        <li>Established best practices for AMDP, ABAP, virtual joins, ADSO types, and performance.</li>
-        <li>Reduced complexity and improved reporting performance in a regulated environment.</li>
+        <li>Data model architecture and customer-specific LSA definition.</li>
+        <li>Best practices for AMDP, ABAP, virtual joins, ADSO types, and performance.</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>Bacardi – SAP BW/4HANA & S/4HANA (2019–2020)</h3>
+      <h3>Bacardi – SAP BW on HANA (2019–2020)</h3>
       <ul>
-        <li>Developed advanced BW on HANA models and reporting solutions.</li>
-        <li>Built queries and workbooks using Analysis for Office and Web Intelligence.</li>
-        <li>Supported analytical and operational reporting initiatives.</li>
+        <li>Advanced BW on HANA models and reporting solutions.</li>
+        <li>Analysis for Office and Web Intelligence reporting.</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>Servihabitat (Seidor) – SAP BW/4HANA & S/4HANA (2017–2019)</h3>
+      <h3>Servihabitat (Seidor) – SAP BW on HANA (2017–2019)</h3>
       <ul>
-        <li>Developed BW on HANA models and reporting for financial and operational processes.</li>
-        <li>Supported analytical reporting and performance optimization.</li>
+        <li>BW on HANA models for financial and operational reporting.</li>
       </ul>
     </div>
 
-    <div class="section-title">Earlier Experience (BW on HANA & BW Classic)</div>
-
     <div class="card">
-      <h3>Carrefour, Banco Compartamos, AFIP, TUI Travel, Telecom, YPF</h3>
+      <h3>Earlier Experience (Carrefour, Banco Compartamos, AFIP, TUI, Telecom, YPF)</h3>
       <ul>
-        <li>Developed BW and BW on HANA data models for FI, HR, RE, Banking, CRM, and non-SAP systems.</li>
-        <li>Created reports using Query Designer, Analysis for Office, MicroStrategy, and BusinessObjects.</li>
-        <li>Migrated BW models (DSO, cubes, reports) and upgraded transformations from 3.x to 7.x.</li>
-        <li>Resolved issues, monitored process chains, and ensured stable reporting landscapes.</li>
+        <li>BW and BW on HANA models for FI, HR, RE, Banking, CRM, and non-SAP systems.</li>
+        <li>Reporting with Query Designer, Analysis for Office, MicroStrategy, and BusinessObjects.</li>
+        <li>Migration of BW objects and transformations from 3.x to 7.x.</li>
       </ul>
     </div>
 
@@ -284,9 +300,33 @@
         <li>Course: Snowflake – Data Warehouse (2024).</li>
       </ul>
     </div>
+
+    <!-- CHARTS -->
+    <div class="section-title">Analytics View</div>
+
+    <div class="chart-card">
+      <div class="chart-title">Experience Timeline</div>
+      <canvas id="experienceChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">ECC → S/4HANA Migration Exposure</div>
+      <canvas id="migrationChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Semantic Models by Domain</div>
+      <canvas id="semanticChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">SAC Dashboards Delivered Over Time</div>
+      <canvas id="sacChart"></canvas>
+    </div>
+
   </div>
 
-  <!-- RIGHT PANEL: SKILLS + KPIs -->
+  <!-- RIGHT PANEL -->
   <div class="panel">
 
     <div class="section-title">Skills</div>
@@ -328,21 +368,21 @@
 
     <div class="section-title">Dashboard KPIs</div>
 
-    <div class="stats">
-      <div>
-        <div class="circle">75%</div>
+    <div class="stats-grid">
+      <div class="circle-wrapper">
+        <canvas id="kpiMigration"></canvas>
         <div class="circle-label">ECC → S/4HANA Migration Exposure</div>
       </div>
-      <div>
-        <div class="circle">42</div>
+      <div class="circle-wrapper">
+        <canvas id="kpiModels"></canvas>
         <div class="circle-label">Semantic / BW Models Designed</div>
       </div>
-      <div>
-        <div class="circle">67</div>
+      <div class="circle-wrapper">
+        <canvas id="kpiKPIs"></canvas>
         <div class="circle-label">Governed KPIs Implemented</div>
       </div>
-      <div>
-        <div class="circle">18</div>
+      <div class="circle-wrapper">
+        <canvas id="kpiSAC"></canvas>
         <div class="circle-label">SAC Dashboards Delivered</div>
       </div>
     </div>
@@ -358,6 +398,159 @@
   </div>
 
 </div>
+
+<script>
+  // Common chart options
+  const tecanBlue = '#009FE3';
+  const tecanBlueLight = 'rgba(0,159,227,0.2)';
+  const textColor = '#1f2933';
+
+  // Experience Timeline (horizontal bar)
+  new Chart(document.getElementById('experienceChart'), {
+    type: 'bar',
+    data: {
+      labels: [
+        'Ruby Group (2024–Present)',
+        'Chellenic (2020–2024)',
+        'Bayer (2019)',
+        'Bacardi (2019–2020)',
+        'Servihabitat (2017–2019)',
+        'Carrefour / Banking / AFIP / TUI / Telecom / YPF (2007–2017)'
+      ],
+      datasets: [{
+        label: 'Years',
+        data: [1, 4, 1, 1, 2, 10],
+        backgroundColor: tecanBlueLight,
+        borderColor: tecanBlue,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { color: textColor },
+          grid: { color: '#e5e7eb' }
+        },
+        y: {
+          ticks: { color: textColor },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+
+  // Migration Exposure (donut)
+  new Chart(document.getElementById('migrationChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Migration Exposure', 'Other Experience'],
+      datasets: [{
+        data: [75, 25],
+        backgroundColor: [tecanBlue, '#e5e7eb']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom', labels: { color: textColor } }
+      },
+      cutout: '60%'
+    }
+  });
+
+  // Semantic Models by Domain (bar)
+  new Chart(document.getElementById('semanticChart'), {
+    type: 'bar',
+    data: {
+      labels: ['FI', 'SD', 'MM', 'HR', 'Banking'],
+      datasets: [{
+        label: 'Models',
+        data: [12, 10, 8, 6, 6],
+        backgroundColor: tecanBlueLight,
+        borderColor: tecanBlue,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { color: textColor },
+          grid: { display: false }
+        },
+        y: {
+          ticks: { color: textColor },
+          grid: { color: '#e5e7eb' },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // SAC Dashboards over time (line)
+  new Chart(document.getElementById('sacChart'), {
+    type: 'line',
+    data: {
+      labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+      datasets: [{
+        label: 'SAC Dashboards',
+        data: [3, 5, 4, 2, 3, 4, 5],
+        borderColor: tecanBlue,
+        backgroundColor: tecanBlueLight,
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { color: textColor },
+          grid: { display: false }
+        },
+        y: {
+          ticks: { color: textColor },
+          grid: { color: '#e5e7eb' },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // KPI doughnut helper
+  function createKpiChart(id, value, max, label) {
+    return new Chart(document.getElementById(id), {
+      type: 'doughnut',
+      data: {
+        labels: [label, 'Remaining'],
+        datasets: [{
+          data: [value, max - value],
+          backgroundColor: [tecanBlue, '#e5e7eb']
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        cutout: '70%'
+      }
+    });
+  }
+
+  // KPIs
+  createKpiChart('kpiMigration', 75, 100, 'Migration');
+  createKpiChart('kpiModels', 42, 60, 'Models');
+  createKpiChart('kpiKPIs', 67, 80, 'KPIs');
+  createKpiChart('kpiSAC', 18, 25, 'SAC');
+</script>
 
 </body>
 </html>
