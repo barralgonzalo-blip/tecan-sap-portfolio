@@ -1,255 +1,364 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gonzalo – SAP BW & Datasphere Dashboard</title>
+<title>Gonzalo Barral – SAP BW & Datasphere Fit for Tecan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0d1117;
+    background: linear-gradient(135deg, #0d1117, #1b1f27);
     color: #e6e6e6;
   }
 
-  /* Sidebar */
-  .sidebar {
-    width: 240px;
-    background: #161b22;
-    height: 100vh;
-    position: fixed;
+  .container {
+    display: grid;
+    grid-template-columns: 320px 1fr 360px;
+    gap: 20px;
     padding: 20px;
     box-sizing: border-box;
-    border-right: 1px solid #30363d;
   }
 
-  .sidebar h2 {
-    color: #58a6ff;
+  .panel {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+  }
+
+  .name {
+    background: #ff4da6;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .role {
+    font-size: 16px;
+    color: #8b949e;
     margin-bottom: 20px;
-  }
-
-  .sidebar a {
-    display: block;
-    padding: 10px 0;
-    color: #c9d1d9;
-    text-decoration: none;
-    font-size: 15px;
-  }
-
-  .sidebar a:hover {
-    color: #58a6ff;
-  }
-
-  /* Main content */
-  .main {
-    margin-left: 260px;
-    padding: 25px;
+    text-align: center;
   }
 
   .section-title {
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: #58a6ff;
-  }
-
-  /* KPI Cards */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 30px;
-  }
-
-  .kpi-card {
-    background: #161b22;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #30363d;
-    transition: transform 0.2s ease;
-  }
-
-  .kpi-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .kpi-card h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #8b949e;
-  }
-
-  .kpi-value {
-    font-size: 28px;
-    margin-top: 10px;
-    color: #58a6ff;
-  }
-
-  .kpi-sub {
-    font-size: 14px;
-    color: #8b949e;
-  }
-
-  /* Charts */
-  .chart {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-  }
-
-  .chart-title {
     font-size: 18px;
-    margin-bottom: 15px;
     color: #58a6ff;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
-  .chart-bar {
-    height: 180px;
-    background: linear-gradient(90deg, #58a6ff33, #58a6ff11);
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
+  p {
+    font-size: 14px;
+    line-height: 1.5;
   }
 
-  .bar {
-    width: 12%;
-    background: #58a6ff;
-    position: absolute;
-    bottom: 0;
-    border-radius: 4px;
-    animation: grow 2s ease-out;
+  ul {
+    margin-left: 20px;
+    font-size: 14px;
   }
 
-  @keyframes grow {
-    from { height: 0; }
-  }
-
-  .b1 { left: 5%; height: 40%; }
-  .b2 { left: 20%; height: 60%; }
-  .b3 { left: 35%; height: 80%; }
-  .b4 { left: 50%; height: 55%; }
-  .b5 { left: 65%; height: 30%; }
-  .b6 { left: 80%; height: 75%; }
-
-  /* Cards for SAP content */
   .card {
-    background: #161b22;
-    padding: 20px;
+    background: #1f242e;
+    padding: 15px;
     border-radius: 10px;
     border: 1px solid #30363d;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   .card h3 {
     margin-top: 0;
     color: #58a6ff;
+    font-size: 16px;
   }
 
-  ul {
-    margin-left: 20px;
+  .skill {
+    margin-bottom: 15px;
+  }
+
+  .skill-name {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .skill-bar {
+    background: #30363d;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    height: 10px;
+    background: #58a6ff;
+    border-radius: 5px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: conic-gradient(#58a6ff 0% 75%, #30363d 75% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin: auto;
+  }
+
+  .circle-label {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .kpi-card {
+    background: #1f242e;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    font-size: 13px;
+  }
+
+  .kpi-title {
+    color: #8b949e;
+    margin-bottom: 4px;
+  }
+
+  .kpi-value {
+    color: #58a6ff;
+    font-size: 18px;
+    font-weight: bold;
   }
 </style>
 </head>
 
 <body>
 
-<div class="sidebar">
-  <h2>Dashboard</h2>
-  <a href="#kpis">KPIs</a>
-  <a href="#migration">ECC → S/4HANA</a>
-  <a href="#datasphere">Datasphere</a>
-  <a href="#bwbridge">BW Bridge</a>
-  <a href="#analytics">Analytics</a>
-</div>
+<div class="container">
 
-<div class="main">
+  <!-- LEFT PANEL: SUMMARY + FIT FOR TECAN -->
+  <div class="panel">
+    <div class="name">Gonzalo Barral</div>
+    <div class="role">Senior SAP BW/4HANA & Analytics Consultant</div>
 
-  <!-- KPI SECTION -->
-  <h2 class="section-title" id="kpis">Key Performance Indicators</h2>
+    <div class="section-title">Professional Summary</div>
+    <p>
+      Senior SAP BW/4HANA and Analytics Consultant with more than 17 years of experience delivering
+      enterprise Business Intelligence, reporting, and data architecture solutions across international projects.
+      Specialized in SAP BW/4HANA, SAP HANA, SAP Analytics Cloud (SAC), SAP S/4HANA Embedded Analytics,
+      and enterprise reporting frameworks.
+    </p>
 
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <h3>Extractors Analyzed</h3>
-      <div class="kpi-value">128</div>
-      <div class="kpi-sub">BW → S/4HANA</div>
-    </div>
+    <div class="section-title">Why I Fit Tecan’s Role</div>
+    <p>
+      Tecan is migrating from ECC to S/4HANA and adopting SAP Datasphere. I bring hands-on experience
+      rebuilding BW models on ACDOCA, activating and customizing Business Content, defining LSA++ architecture,
+      and delivering hybrid reporting using BW, S/4HANA, HANA, and SAC. I have worked in regulated environments
+      (Bayer, banking, government) and can bridge technical architecture with business requirements, reducing
+      migration risk and accelerating value.
+    </p>
 
-    <div class="kpi-card">
-      <h3>Semantic Models</h3>
-      <div class="kpi-value">42</div>
-      <div class="kpi-sub">Datasphere</div>
-    </div>
-
-    <div class="kpi-card">
-      <h3>Governed KPIs</h3>
-      <div class="kpi-value">67</div>
-      <div class="kpi-sub">Corporate Catalog</div>
-    </div>
-
-    <div class="kpi-card">
-      <h3>SAC Dashboards</h3>
-      <div class="kpi-value">18</div>
-      <div class="kpi-sub">Ops / Quality</div>
-    </div>
-  </div>
-
-  <!-- CHART -->
-  <div class="chart">
-    <div class="chart-title">Processes Migrated (Simulation)</div>
-    <div class="chart-bar">
-      <div class="bar b1"></div>
-      <div class="bar b2"></div>
-      <div class="bar b3"></div>
-      <div class="bar b4"></div>
-      <div class="bar b5"></div>
-      <div class="bar b6"></div>
-    </div>
-  </div>
-
-  <!-- CONTENT SECTIONS -->
-  <div class="card" id="migration">
-    <h3>ECC → S/4HANA Migration</h3>
+    <div class="section-title">Highlights</div>
     <ul>
-      <li>Full extractor inventory</li>
-      <li>ADSO redesign for S/4</li>
-      <li>Reporting continuity during transition</li>
-      <li>Historical data & delta logic management</li>
+      <li>17+ years SAP BW / BW/4HANA / HANA</li>
+      <li>ECC → S/4HANA migration experience</li>
+      <li>SAC dashboards for Finance, Sales, Commercial</li>
+      <li>Architecture, semantic modeling, KPI governance</li>
+      <li>Consulting, freelance, and internal roles</li>
     </ul>
+
+    <div class="section-title">Key KPIs</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Years in SAP Analytics</div>
+        <div class="kpi-value">17+</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Industries Served</div>
+        <div class="kpi-value">7+</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">BW/4HANA Projects</div>
+        <div class="kpi-value">10+</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">SAC Dashboards Delivered</div>
+        <div class="kpi-value">20+</div>
+      </div>
+    </div>
   </div>
 
-  <div class="card" id="datasphere">
-    <h3>SAP Datasphere Architecture</h3>
-    <ul>
-      <li>Domain-based spaces</li>
-      <li>Business semantic models</li>
-      <li>Federation & virtualization</li>
-      <li>SAC integration</li>
-    </ul>
+  <!-- MIDDLE PANEL: EXPERIENCE (MERGED WITH TECAN NEEDS) -->
+  <div class="panel">
+
+    <div class="section-title">Relevant Experience for Tecan</div>
+
+    <div class="card">
+      <h3>Ruby Group – SAP BW/4HANA & SAC (2024–Present)</h3>
+      <ul>
+        <li>Designed and implemented BW/4HANA reporting solutions for Finance and Controlling (FI/CO).</li>
+        <li>Developed BW/4HANA models based on ACDOCA structures and activated Business Content.</li>
+        <li>Created SAC stories using BW and S/4HANA as data sources for Commercial and Finance areas.</li>
+        <li>Built queries and dashboards consumed by Fiori, Analysis for Office, and BusinessObjects.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Chellenic – SAP BW/4HANA & S/4HANA (2020–2024)</h3>
+      <ul>
+        <li>Built FI/SD/MM models, ETL processes, ABAP/AMDP routines, and queries.</li>
+        <li>Created CDS Views and reused standard CDS artifacts (e.g., i_material).</li>
+        <li>Participated in PoCs, UAT, and technical/functional requirement analysis.</li>
+        <li>Defined data architecture aligned with S/4HANA and modern analytics needs.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Bayer – SAP BW/4HANA & HANA (2019)</h3>
+      <ul>
+        <li>Defined architecture of data models and customer-specific LSA.</li>
+        <li>Established best practices for AMDP, ABAP, virtual joins, ADSO types, and performance.</li>
+        <li>Reduced complexity and improved reporting performance in a regulated environment.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Bacardi – SAP BW/4HANA & S/4HANA (2019–2020)</h3>
+      <ul>
+        <li>Developed advanced BW on HANA models and reporting solutions.</li>
+        <li>Built queries and workbooks using Analysis for Office and Web Intelligence.</li>
+        <li>Supported analytical and operational reporting initiatives.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Servihabitat (Seidor) – SAP BW/4HANA & S/4HANA (2017–2019)</h3>
+      <ul>
+        <li>Developed BW on HANA models and reporting for financial and operational processes.</li>
+        <li>Supported analytical reporting and performance optimization.</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Earlier Experience (BW on HANA & BW Classic)</div>
+
+    <div class="card">
+      <h3>Carrefour, Banco Compartamos, AFIP, TUI Travel, Telecom, YPF</h3>
+      <ul>
+        <li>Developed BW and BW on HANA data models for FI, HR, RE, Banking, CRM, and non-SAP systems.</li>
+        <li>Created reports using Query Designer, Analysis for Office, MicroStrategy, and BusinessObjects.</li>
+        <li>Migrated BW models (DSO, cubes, reports) and upgraded transformations from 3.x to 7.x.</li>
+        <li>Resolved issues, monitored process chains, and ensured stable reporting landscapes.</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Education & Certifications</div>
+    <div class="card">
+      <h3>Studies</h3>
+      <ul>
+        <li>System Information Engineer – Buenos Aires University (2005–2011).</li>
+        <li>Certified SAP BW/4HANA Consultant (SAP, 2018).</li>
+        <li>Certified SAP BW 7.5 on HANA Consultant (SAP, 2018).</li>
+        <li>Certified SAP HANA Consultant (SAP, 2015).</li>
+        <li>Course: SAP BW/4HANA and SAP SQL Data (SAP, 2020).</li>
+        <li>Course: Snowflake – Data Warehouse (2024).</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="card" id="bwbridge">
-    <h3>SAP BW Bridge</h3>
-    <ul>
-      <li>Safe migration of BW objects</li>
-      <li>Delta logic preservation</li>
-      <li>Risk reduction</li>
-      <li>Roadmap for BW decommissioning</li>
-    </ul>
-  </div>
+  <!-- RIGHT PANEL: SKILLS + KPIs -->
+  <div class="panel">
 
-  <div class="card" id="analytics">
-    <h3>Analytics & KPI Governance</h3>
-    <ul>
-      <li>SAC dashboards for operations</li>
-      <li>Governed KPI catalog</li>
-      <li>Monitoring & performance</li>
-      <li>Foundation for predictive analytics</li>
-    </ul>
+    <div class="section-title">Skills</div>
+
+    <div class="skill">
+      <div class="skill-name">SAP BW/4HANA</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 95%;"></div></div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-name">SAP BW 7.5 on HANA</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-name">SAP HANA</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-name">SAP Analytics Cloud (SAC)</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-name">CDS Views & S/4HANA Embedded Analytics</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-name">SQL / ABAP / AMDP</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 88%;"></div></div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-name">Data Architecture & LSA++</div>
+      <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+    </div>
+
+    <div class="section-title">Dashboard KPIs</div>
+
+    <div class="stats">
+      <div>
+        <div class="circle">75%</div>
+        <div class="circle-label">ECC → S/4HANA Migration Exposure</div>
+      </div>
+      <div>
+        <div class="circle">42</div>
+        <div class="circle-label">Semantic / BW Models Designed</div>
+      </div>
+      <div>
+        <div class="circle">67</div>
+        <div class="circle-label">Governed KPIs Implemented</div>
+      </div>
+      <div>
+        <div class="circle">18</div>
+        <div class="circle-label">SAC Dashboards Delivered</div>
+      </div>
+    </div>
+
+    <div class="section-title">Value for Tecan</div>
+    <p>
+      I can help Tecan design a modern, governed analytics architecture that bridges BW, S/4HANA, and Datasphere,
+      while delivering SAC dashboards and KPI catalogs that support Finance, Sales, Operations, and regulated
+      life-science processes. My experience across multiple industries and technologies allows me to reduce
+      migration risk and accelerate time-to-value for Tecan’s data transformation.
+    </p>
+
   </div>
 
 </div>
 
 </body>
 </html>
+```
