@@ -1,3 +1,5 @@
+Here’s the exact HTML you can copy‑paste as a standalone `index.html`:
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -174,6 +176,39 @@
   canvas {
     max-width: 100%;
   }
+
+  /* Data buttons */
+  .data-button {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #009FE3;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: background 0.2s;
+  }
+
+  .data-button:hover {
+    background: #f0f8ff;
+  }
+
+  .data-content {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: none;
+  }
+
+  .data-item {
+    font-size: 14px;
+    padding: 6px 0;
+    color: #1f2933;
+  }
 </style>
 </head>
 
@@ -301,7 +336,6 @@
       </ul>
     </div>
 
-    <!-- CHARTS -->
     <div class="section-title">Analytics View</div>
 
     <div class="chart-card">
@@ -323,6 +357,9 @@
       <div class="chart-title">SAC Dashboards Delivered Over Time</div>
       <canvas id="sacChart"></canvas>
     </div>
+
+    <div class="section-title">Data Buttons (Interactive)</div>
+    <div id="data-section"></div>
 
   </div>
 
@@ -400,12 +437,11 @@
 </div>
 
 <script>
-  // Common chart options
   const tecanBlue = '#009FE3';
   const tecanBlueLight = 'rgba(0,159,227,0.2)';
   const textColor = '#1f2933';
 
-  // Experience Timeline (horizontal bar)
+  // Experience Timeline
   new Chart(document.getElementById('experienceChart'), {
     type: 'bar',
     data: {
@@ -427,41 +463,28 @@
     },
     options: {
       indexAxis: 'y',
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
-        x: {
-          ticks: { color: textColor },
-          grid: { color: '#e5e7eb' }
-        },
-        y: {
-          ticks: { color: textColor },
-          grid: { display: false }
-        }
+        x: { ticks: { color: textColor }, grid: { color: '#e5e7eb' } },
+        y: { ticks: { color: textColor }, grid: { display: false } }
       }
     }
   });
 
-  // Migration Exposure (donut)
+  // Migration Exposure
   new Chart(document.getElementById('migrationChart'), {
     type: 'doughnut',
     data: {
       labels: ['Migration Exposure', 'Other Experience'],
-      datasets: [{
-        data: [75, 25],
-        backgroundColor: [tecanBlue, '#e5e7eb']
-      }]
+      datasets: [{ data: [75, 25], backgroundColor: [tecanBlue, '#e5e7eb'] }]
     },
     options: {
-      plugins: {
-        legend: { position: 'bottom', labels: { color: textColor } }
-      },
+      plugins: { legend: { position: 'bottom', labels: { color: textColor } } },
       cutout: '60%'
     }
   });
 
-  // Semantic Models by Domain (bar)
+  // Semantic Models
   new Chart(document.getElementById('semanticChart'), {
     type: 'bar',
     data: {
@@ -475,24 +498,15 @@
       }]
     },
     options: {
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
-        x: {
-          ticks: { color: textColor },
-          grid: { display: false }
-        },
-        y: {
-          ticks: { color: textColor },
-          grid: { color: '#e5e7eb' },
-          beginAtZero: true
-        }
+        x: { ticks: { color: textColor }, grid: { display: false } },
+        y: { ticks: { color: textColor }, grid: { color: '#e5e7eb' }, beginAtZero: true }
       }
     }
   });
 
-  // SAC Dashboards over time (line)
+  // SAC Dashboards over time
   new Chart(document.getElementById('sacChart'), {
     type: 'line',
     data: {
@@ -507,19 +521,10 @@
       }]
     },
     options: {
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
-        x: {
-          ticks: { color: textColor },
-          grid: { display: false }
-        },
-        y: {
-          ticks: { color: textColor },
-          grid: { color: '#e5e7eb' },
-          beginAtZero: true
-        }
+        x: { ticks: { color: textColor }, grid: { display: false } },
+        y: { ticks: { color: textColor }, grid: { color: '#e5e7eb' }, beginAtZero: true }
       }
     }
   });
@@ -530,26 +535,84 @@
       type: 'doughnut',
       data: {
         labels: [label, 'Remaining'],
-        datasets: [{
-          data: [value, max - value],
-          backgroundColor: [tecanBlue, '#e5e7eb']
-        }]
+        datasets: [{ data: [value, max - value], backgroundColor: [tecanBlue, '#e5e7eb'] }]
       },
       options: {
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: false }
-        },
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
         cutout: '70%'
       }
     });
   }
 
-  // KPIs
   createKpiChart('kpiMigration', 75, 100, 'Migration');
   createKpiChart('kpiModels', 42, 60, 'Models');
   createKpiChart('kpiKPIs', 67, 80, 'KPIs');
   createKpiChart('kpiSAC', 18, 25, 'SAC');
+
+  // Data buttons
+  const dataSets = [
+    {
+      title: "Job Experience",
+      items: [
+        { place: "Ruby Group", duration: "2024–Present" },
+        { place: "Chellenic", duration: "2020–2024" },
+        { place: "Bayer", duration: "2019" },
+        { place: "Bacardi", duration: "2019–2020" },
+        { place: "Servihabitat", duration: "2017–2019" },
+        { place: "Carrefour", duration: "2015–2017" },
+        { place: "TUI Travel", duration: "2014–2015" },
+        { place: "YPF", duration: "2007–2011" }
+      ]
+    },
+    {
+      title: "Certifications",
+      items: [
+        { place: "SAP BW/4HANA", duration: "2018" },
+        { place: "SAP BW 7.5 on HANA", duration: "2018" },
+        { place: "SAP HANA", duration: "2015" },
+        { place: "Scrum Master", duration: "2020" },
+        { place: "Snowflake", duration: "2024" },
+        { place: "SAP SQL Data", duration: "2020" }
+      ]
+    },
+    {
+      title: "Technical Skills",
+      items: [
+        { place: "SAP BW/4HANA", duration: "Expert" },
+        { place: "SAP BW 7.5 on HANA", duration: "Expert" },
+        { place: "SAP HANA", duration: "Advanced" },
+        { place: "SAP Analytics Cloud", duration: "Advanced" },
+        { place: "CDS Views", duration: "Advanced" },
+        { place: "SQL / ABAP / AMDP", duration: "Advanced" },
+        { place: "LSA++ Architecture", duration: "Expert" }
+      ]
+    }
+  ];
+
+  const container = document.getElementById("data-section");
+
+  dataSets.forEach(set => {
+    const button = document.createElement("div");
+    button.className = "data-button";
+    button.textContent = `${set.title}: ${set.items.length}`;
+
+    const content = document.createElement("div");
+    content.className = "data-content";
+
+    set.items.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "data-item";
+      div.textContent = `${item.place} — ${item.duration}`;
+      content.appendChild(div);
+    });
+
+    button.addEventListener("click", () => {
+      content.style.display = content.style.display === "none" ? "block" : "none";
+    });
+
+    container.appendChild(button);
+    container.appendChild(content);
+  });
 </script>
 
 </body>
