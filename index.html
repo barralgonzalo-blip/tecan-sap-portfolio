@@ -2,233 +2,250 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gonzalo – SAP BW & Datasphere for Tecan</title>
+<title>Gonzalo – SAP BW & Datasphere Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
   body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f5f7fa;
-    color: #333;
+    background: #0d1117;
+    color: #e6e6e6;
   }
-  nav {
-    background: #0a2540;
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
+
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background: #161b22;
+    height: 100vh;
+    position: fixed;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid #30363d;
   }
-  nav a {
-    color: #fff;
-    margin-right: 1.5rem;
+
+  .sidebar h2 {
+    color: #58a6ff;
+    margin-bottom: 20px;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 10px 0;
+    color: #c9d1d9;
     text-decoration: none;
-    font-weight: bold;
+    font-size: 15px;
   }
-  header {
-    padding: 3rem 2rem;
-    background: #e8f1ff;
+
+  .sidebar a:hover {
+    color: #58a6ff;
   }
-  header h1 {
+
+  /* Main content */
+  .main {
+    margin-left: 260px;
+    padding: 25px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #58a6ff;
+  }
+
+  /* KPI Cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .kpi-card {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #30363d;
+  }
+
+  .kpi-card h3 {
     margin: 0;
-    font-size: 2.4rem;
-    color: #0a2540;
+    font-size: 16px;
+    color: #8b949e;
   }
-  header p {
-    max-width: 700px;
-    line-height: 1.6;
+
+  .kpi-value {
+    font-size: 28px;
+    margin-top: 10px;
+    color: #58a6ff;
   }
-  section {
-    padding: 2rem;
-    max-width: 900px;
-    margin: auto;
+
+  .kpi-sub {
+    font-size: 14px;
+    color: #8b949e;
   }
-  h2 {
-    color: #0a2540;
-    margin-top: 2rem;
+
+  /* Fake charts */
+  .chart {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
   }
-  ul {
-    margin-left: 1.2rem;
+
+  .chart-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #58a6ff;
   }
-  .card {
-    background: white;
-    padding: 1.5rem;
+
+  .chart-bar {
+    height: 180px;
+    background: linear-gradient(90deg, #58a6ff33, #58a6ff11);
     border-radius: 8px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: relative;
   }
-  footer {
-    background: #0a2540;
-    color: white;
-    text-align: center;
-    padding: 1.5rem;
-    margin-top: 3rem;
+
+  .bar {
+    width: 12%;
+    background: #58a6ff;
+    position: absolute;
+    bottom: 0;
+    border-radius: 4px;
   }
-  footer a {
-    color: #9bd1ff;
-    text-decoration: none;
+
+  /* Example bar heights */
+  .b1 { left: 5%; height: 40%; }
+  .b2 { left: 20%; height: 60%; }
+  .b3 { left: 35%; height: 80%; }
+  .b4 { left: 50%; height: 55%; }
+  .b5 { left: 65%; height: 30%; }
+  .b6 { left: 80%; height: 75%; }
+
+  /* Cards for SAP content */
+  .card {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #30363d;
+    margin-bottom: 20px;
+  }
+
+  .card h3 {
+    margin-top: 0;
+    color: #58a6ff;
+  }
+
+  ul {
+    margin-left: 20px;
   }
 </style>
 </head>
 
 <body>
 
-<nav>
-  <a href="#value">Value</a>
-  <a href="#tecan">Tecan</a>
-  <a href="#work">Cómo trabajo</a>
-  <a href="#deliverables">Entregables</a>
-  <a href="#links">Links útiles</a>
+<div class="sidebar">
+  <h2>Dashboard</h2>
+  <a href="#kpis">KPIs</a>
+  <a href="#migration">ECC → S/4HANA</a>
+  <a href="#datasphere">Datasphere</a>
+  <a href="#bwbridge">BW Bridge</a>
+  <a href="#analytics">Analytics</a>
   <a href="#contact">Contacto</a>
-</nav>
+</div>
 
-<header>
-  <h1>Gonzalo – SAP BW & Datasphere Specialist</h1>
-  <p>
-    Ayudo a Tecan a acelerar su transformación hacia S/4HANA con arquitecturas de datos modernas,
-    escalables y gobernadas. Esta web resume cómo puedo apoyar su migración desde ECC y su adopción de SAP Datasphere.
-  </p>
-</header>
+<div class="main">
 
-<section id="value">
-  <h2>Mi propuesta de valor</h2>
-  <div class="card">
-    <h3>Continuidad ECC → S/4HANA</h3>
+  <!-- KPI SECTION -->
+  <h2 class="section-title" id="kpis">KPIs Principales</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <h3>Extractores Analizados</h3>
+      <div class="kpi-value">128</div>
+      <div class="kpi-sub">BW → S/4HANA</div>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Modelos Semánticos</h3>
+      <div class="kpi-value">42</div>
+      <div class="kpi-sub">Datasphere</div>
+    </div>
+
+    <div class="kpi-card">
+      <h3>KPIs Gobernados</h3>
+      <div class="kpi-value">67</div>
+      <div class="kpi-sub">Catálogo corporativo</div>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Dashboards SAC</h3>
+      <div class="kpi-value">18</div>
+      <div class="kpi-sub">Operaciones / Calidad</div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart">
+    <div class="chart-title">Tickets / Procesos Migrados (Simulación)</div>
+    <div class="chart-bar">
+      <div class="bar b1"></div>
+      <div class="bar b2"></div>
+      <div class="bar b3"></div>
+      <div class="bar b4"></div>
+      <div class="bar b5"></div>
+      <div class="bar b6"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT SECTIONS -->
+  <div class="card" id="migration">
+    <h3>Migración ECC → S/4HANA</h3>
     <ul>
-      <li>Reconstrucción y optimización de extractores</li>
-      <li>Rediseño de ADSOs e InfoProviders</li>
-      <li>Continuidad del reporting durante la migración</li>
-      <li>Gestión de históricos y lógica delta</li>
+      <li>Inventario completo de extractores BW</li>
+      <li>Rediseño de ADSOs para S/4</li>
+      <li>Continuidad del reporting durante la transición</li>
+      <li>Gestión de históricos y deltas</li>
     </ul>
   </div>
 
-  <div class="card">
-    <h3>Modernización BW + Datasphere</h3>
+  <div class="card" id="datasphere">
+    <h3>Arquitectura SAP Datasphere</h3>
     <ul>
-      <li>Uso de BW Bridge para preservar inversiones</li>
-      <li>Modelos semánticos en Datasphere</li>
-      <li>Arquitectura híbrida durante la transición</li>
-      <li>Integración con SAP Analytics Cloud</li>
-    </ul>
-  </div>
-</section>
-
-<section id="tecan">
-  <h2>Qué puede lograr Tecan</h2>
-
-  <div class="card">
-    <h3>Migración fluida ECC → S/4HANA</h3>
-    <ul>
-      <li>Inventario de objetos BW</li>
-      <li>Estrategia de conversión vs rediseño</li>
-      <li>Datos maestros armonizados</li>
-      <li>Reporting híbrido durante la transición</li>
+      <li>Espacios por dominio</li>
+      <li>Modelos semánticos para negocio</li>
+      <li>Federación y virtualización</li>
+      <li>Integración con SAC</li>
     </ul>
   </div>
 
-  <div class="card">
-    <h3>Cloud Data Warehousing moderno</h3>
-    <ul>
-      <li>Espacios por dominio en Datasphere</li>
-      <li>Capa semántica para negocio</li>
-      <li>Virtualización y federación</li>
-      <li>Dashboards en SAC</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>BW Bridge</h3>
+  <div class="card" id="bwbridge">
+    <h3>SAP BW Bridge</h3>
     <ul>
       <li>Migración segura de objetos BW</li>
-      <li>Preservación de extractores y deltas</li>
+      <li>Preservación de lógica delta</li>
       <li>Reducción de riesgo</li>
       <li>Hoja de ruta para desmantelar BW</li>
     </ul>
   </div>
-</section>
 
-<section id="work">
-  <h2>Cómo trabajo</h2>
-
-  <div class="card">
-    <h3>Assessment</h3>
-    <p>Evaluación del landscape BW, extractores y necesidades de reporting.</p>
-  </div>
-
-  <div class="card">
-    <h3>Estrategia de migración</h3>
-    <p>Definición de conversión, rediseño y uso de BW Bridge.</p>
-  </div>
-
-  <div class="card">
-    <h3>Implementación</h3>
-    <p>Construcción de espacios, flujos y modelos semánticos en Datasphere.</p>
-  </div>
-
-  <div class="card">
-    <h3>Gobernanza</h3>
-    <p>Definición de linaje, KPIs y modelos de acceso.</p>
-  </div>
-
-  <div class="card">
-    <h3>Enablement</h3>
-    <p>Dashboards en SAC y capacitación para usuarios de negocio.</p>
-  </div>
-</section>
-
-<section id="deliverables">
-  <h2>Entregables</h2>
-
-  <div class="card">
-    <h3>Arquitectura & Roadmap</h3>
+  <div class="card" id="analytics">
+    <h3>Analytics & KPIs</h3>
     <ul>
-      <li>Roadmap BW → Datasphere</li>
-      <li>Plan de integración BW Bridge</li>
-      <li>Documentación de arquitectura</li>
+      <li>Dashboards SAC para operaciones</li>
+      <li>KPIs gobernados y catálogo corporativo</li>
+      <li>Monitorización y performance</li>
+      <li>Fundación para IA y predicción</li>
     </ul>
   </div>
 
-  <div class="card">
-    <h3>Capa semántica & gobernanza</h3>
-    <ul>
-      <li>Modelos semánticos</li>
-      <li>Catálogo de KPIs</li>
-      <li>Accesos y privacidad</li>
-    </ul>
+  <div class="card" id="contact">
+    <h3>Contacto</h3>
+    <p>Email: tu.email@dominio.com</p>
   </div>
 
-  <div class="card">
-    <h3>Analytics & Enablement</h3>
-    <ul>
-      <li>Dashboards SAC</li>
-      <li>Materiales de formación</li>
-      <li>Monitorización y optimización</li>
-    </ul>
-  </div>
-</section>
-
-<section id="links">
-  <h2>Links útiles</h2>
-
-  <div class="card">
-    <ul>
-      <li><a href="https://www.sap.com/products/datasphere.html" target="_blank">SAP Datasphere</a></li>
-      <li><a href="https://help.sap.com/docs/bw-bridge" target="_blank">SAP BW Bridge</a></li>
-      <li><a href="https://help.sap.com/docs/SAP_ANALYTICS_CLOUD" target="_blank">SAP Analytics Cloud</a></li>
-      <li><a href="https://community.sap.com" target="_blank">SAP Community</a></li>
-    </ul>
-  </div>
-</section>
-
-<section id="contact">
-  <h2>Contacto</h2>
-  <div class="card">
-    <p>Si quieres hablar sobre cómo puedo apoyar la transformación SAP de Tecan:</p>
-    <p><strong>Email:</strong> tu.email@dominio.com</p>
-  </div>
-</section>
-
-<footer>
-  © 2026 Gonzalo — SAP BW & Datasphere Specialist
-</footer>
+</div>
 
 </body>
 </html>
