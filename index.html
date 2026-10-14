@@ -85,7 +85,6 @@
       <div class="contact-pill">barralgonzalo@hotmail.com • linkedin.com/in/gonzalobarral</div>
     </header>
 
-    <!-- KPIs (top) -->
     <section class="kpi-grid" aria-label="Key metrics">
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
@@ -124,7 +123,6 @@
       </div>
     </section>
 
-    <!-- Intro / Story -->
     <main class="card">
       <h3 class="section-title">Certifications &amp; learning</h3>
       <p style="margin:0 0 12px;color:var(--muted)">All credentials shown as interactive flash cards. Use the chips to filter groups. Click a card to open details to the right.</p>
@@ -166,7 +164,6 @@
   </div>
 
   <script>
-    // Data from your certs (cleaned and categorized)
     const timelineData = {
       groups: [
         { id: 'sapCerts', content: 'SAP Certifications', color: '#0a66c2' },
@@ -190,7 +187,6 @@
       ]
     };
 
-    // Helpers to render flashcards
     function buildGroupHtml(groupId, items) {
       const color = timelineData.groups.find(g => g.id === groupId)?.color || '#999';
       const html = [];
@@ -212,7 +208,6 @@
 
     function renderFlashCards(filterGroup='all'){
       const viz = document.getElementById('visualization');
-      // group items
       const groupsHtml = [];
       timelineData.groups.forEach(g=>{
         const items = timelineData.items.filter(i=>i.group===g.id);
@@ -222,7 +217,6 @@
       });
       viz.innerHTML = '<div class="groups">'+groupsHtml.join('\n')+'</div>';
 
-      // attach click handlers
       viz.querySelectorAll('.flash').forEach(el=>{
         el.addEventListener('click', ()=>{
           const id = el.dataset.id;
@@ -255,7 +249,6 @@
       document.getElementById('summary-box').textContent = summary;
     }
 
-    // chip handlers
     document.addEventListener('click', function(ev){
       const chip = ev.target.closest('.chip');
       if(!chip) return;
