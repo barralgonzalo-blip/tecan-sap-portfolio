@@ -38,14 +38,18 @@
     .page { max-width:1180px; margin:0 auto; padding:32px 20px 60px; }
     .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
     .brand { display:flex; flex-direction:column; gap:4px; }
-    .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; }
+    /* restored previous letter style for brand */
+    .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; font-weight:800; }
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:600; }
 
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card { padding:16px 14px; border-radius:14px; background:linear-gradient(180deg,#fff 0%,#fbfdff 100%); border:1px solid var(--line); box-shadow:0 10px 28px rgba(17,24,39,0.04); display:flex; flex-direction:column; gap:8px; }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
     .kpi-value { font-size:clamp(1.6rem,2vw,2.2rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
-    .kpi-plan { color:var(--muted); font-size:12px; }
+    .kpi-values { display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+    .kpi-values .actual { color:var(--success); font-weight:700; }
+    .kpi-values .plan { color:var(--warning); font-weight:700; }
+    .kpi-values .deviation { font-weight:700; }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
     .chart-card { background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:16px; box-shadow:0 14px 30px rgba(17,24,39,0.03); padding:16px; }
@@ -80,7 +84,8 @@
     .cards { display:grid; grid-template-columns:repeat(1,1fr); gap:10px; }
     .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease; }
     .flash:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(10,43,66,0.06); }
-    .flash .icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; }
+    /* restored icon letter style */
+    .flash .icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:18px; }
     .flash .meta { display:flex; flex-direction:column; }
     .flash .title { font-weight:700; color:var(--tecan-dark); font-size:13px; }
     .flash .sub { color:var(--muted); font-size:12px; }
@@ -109,42 +114,42 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17+</div>
-        <div class="kpi-plan">Actual: <span id="actual-years">17</span> • Plan: <span id="plan-years">23</span></div>
+        <div class="kpi-values"><div class="actual" id="actual-years">17</div><div class="plan" id="plan-years">23</div><div class="deviation" id="dev-years">—</div></div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-plan">Actual: <span id="actual-total">—</span> • Plan: <span id="plan-total">19</span></div>
+        <div class="kpi-values"><div class="actual" id="actual-total">—</div><div class="plan" id="plan-total">19</div><div class="deviation" id="dev-total">—</div></div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-plan">Actual: <span id="actual-sapcerts">—</span> • Plan: <span id="plan-sapcerts">5</span></div>
+        <div class="kpi-values"><div class="actual" id="actual-sapcerts">—</div><div class="plan" id="plan-sapcerts">5</div><div class="deviation" id="dev-sapcerts">—</div></div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-plan">Actual: <span id="actual-sapcourses">—</span> • Plan: <span id="plan-sapcourses">10</span></div>
+        <div class="kpi-values"><div class="actual" id="actual-sapcourses">—</div><div class="plan" id="plan-sapcourses">10</div><div class="deviation" id="dev-sapcourses">—</div></div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-plan">Actual: <span id="actual-data">—</span> • Plan: <span id="plan-data">4</span></div>
+        <div class="kpi-values"><div class="actual" id="actual-data">—</div><div class="plan" id="plan-data">4</div><div class="deviation" id="dev-data">—</div></div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-plan">Actual: <span id="actual-active">—</span> • Plan: <span id="plan-active">—</span></div>
+        <div class="kpi-values"><div class="actual" id="actual-active">—</div><div class="plan" id="plan-active">19</div><div class="deviation" id="dev-active">—</div></div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -533,6 +538,59 @@
         trendChart.data.datasets[0].data = trendTotals.values;
         trendChart.update();
       }
+
+      // update KPI deviations
+      updateDeviations();
+    }
+
+    function updateDeviations() {
+      // Years
+      const actualYears = parseInt(document.getElementById('actual-years').textContent, 10) || 0;
+      const planYears = planValues.years || 0;
+      const diffYears = actualYears - planYears;
+      const devYearsEl = document.getElementById('dev-years');
+      if (diffYears >= 0) {
+        devYearsEl.textContent = `+${diffYears} ahead`;
+        devYearsEl.style.color = '#18a957';
+      } else {
+        devYearsEl.textContent = `${Math.abs(diffYears)} to plan`;
+        devYearsEl.style.color = '#f59e0b';
+      }
+
+      // SAP certs
+      const actualSap = parseInt(document.getElementById('actual-sapcerts').textContent, 10) || 0;
+      const planSap = planValues.sapCerts || 0;
+      const diffSap = actualSap - planSap;
+      const devSapEl = document.getElementById('dev-sapcerts');
+      if (diffSap >= 0) { devSapEl.textContent = `+${diffSap} ahead`; devSapEl.style.color = '#18a957'; } else { devSapEl.textContent = `${Math.abs(diffSap)} to plan`; devSapEl.style.color = '#f59e0b'; }
+
+      // SAP courses
+      const actualCourses = parseInt(document.getElementById('actual-sapcourses').textContent, 10) || 0;
+      const planCourses = planValues.sapCourses || 0;
+      const diffCourses = actualCourses - planCourses;
+      const devCoursesEl = document.getElementById('dev-sapcourses');
+      if (diffCourses >= 0) { devCoursesEl.textContent = `+${diffCourses} ahead`; devCoursesEl.style.color = '#18a957'; } else { devCoursesEl.textContent = `${Math.abs(diffCourses)} to plan`; devCoursesEl.style.color = '#f59e0b'; }
+
+      // Data Agile
+      const actualData = parseInt(document.getElementById('actual-data').textContent, 10) || 0;
+      const planData = planValues.dataAgile || 0;
+      const diffData = actualData - planData;
+      const devDataEl = document.getElementById('dev-data');
+      if (diffData >= 0) { devDataEl.textContent = `+${diffData} ahead`; devDataEl.style.color = '#18a957'; } else { devDataEl.textContent = `${Math.abs(diffData)} to plan`; devDataEl.style.color = '#f59e0b'; }
+
+      // Total
+      const actualTotal = parseInt(document.getElementById('actual-total').textContent, 10) || 0;
+      const planTotal = planValues.total || 0;
+      const diffTotal = actualTotal - planTotal;
+      const devTotalEl = document.getElementById('dev-total');
+      if (diffTotal >= 0) { devTotalEl.textContent = `+${diffTotal} ahead`; devTotalEl.style.color = '#18a957'; } else { devTotalEl.textContent = `${Math.abs(diffTotal)} to plan`; devTotalEl.style.color = '#f59e0b'; }
+
+      // Active
+      const actualActive = parseInt(document.getElementById('actual-active').textContent, 10) || 0;
+      const planActive = planValues.active || 0;
+      const diffActive = actualActive - planActive;
+      const devActiveEl = document.getElementById('dev-active');
+      if (diffActive >= 0) { devActiveEl.textContent = `+${diffActive} ahead`; devActiveEl.style.color = '#18a957'; } else { devActiveEl.textContent = `${Math.abs(diffActive)} to plan`; devActiveEl.style.color = '#f59e0b'; }
     }
 
     function buildGroupHtml(groupId, items) {
@@ -590,6 +648,9 @@
       const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
       const actualInGroup = timelineData.items.filter(i => i.group === item.group).length;
       const planInGroup = getGroupPlanValue(item.group);
+      const diff = actualInGroup - planInGroup;
+      const diffText = diff >= 0 ? `+${diff} ahead` : `${Math.abs(diff)} to plan`;
+      const diffColor = diff >= 0 ? '#18a957' : '#f59e0b';
       panel.innerHTML = `
         <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
         <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
@@ -599,7 +660,11 @@
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.issuer}</span>
         </div>
-        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">Actual: ${actualInGroup} • Plan: ${planInGroup}</div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
+          <div>Actual: ${actualInGroup}</div>
+          <div style="color:var(--warning);">Plan: ${planInGroup}</div>
+          <div style="color:${diffColor};">Deviation: ${diffText}</div>
+        </div>
       `;
     }
 
@@ -624,6 +689,9 @@
       document.getElementById('actual-years').textContent = '17';
 
       document.getElementById('summary-box').textContent = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
+
+      // deviations
+      updateDeviations();
     }
 
     document.addEventListener('click', function (ev) {
