@@ -52,9 +52,9 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      gap:6px;
+      gap:4px; /* reduced gap to tighten vertical spacing */
       text-align:center;
-      min-height:330px;
+      min-height:300px; /* slightly reduced to keep cards compact */
     }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
     .kpi-value {
@@ -63,13 +63,14 @@
       color:var(--tecan-blue);
       line-height:1;
       letter-spacing:-0.04em;
+      margin-bottom:4px; /* small spacing under the value */
     }
-    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; align-items:center; justify-content:center; min-height:24px; }
+    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; align-items:center; justify-content:center; min-height:0; }
     .kpi-sub .vs { display:inline-flex; align-items:center; justify-content:center; font-weight:700; color:var(--muted); }
     .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
     .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:2px; }
     .kpi-percent {
-      min-height:22px;
+      /* keep footer aligned to bottom while removing forced height */
       font-size:0.95rem;
       line-height:1.1;
       color:var(--tecan-dark);
@@ -86,7 +87,7 @@
       color:var(--muted);
       font-size:11px;
       line-height:1.4;
-      min-height:38px;
+      min-height:0; /* let meta size to its content to avoid extra white space */
       display:flex;
       align-items:flex-end;
       justify-content:center;
