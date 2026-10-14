@@ -7,8 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- vis-timeline CSS (required for proper rendering) -->
-  <link rel="stylesheet" href="https://unpkg.com/vis-timeline@7.11.0/styles/vis-timeline-graph2d.min.css">
   <style>
     :root {
       --tecan-blue:#009FE3;
@@ -42,7 +40,6 @@
     .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; }
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:500; box-shadow:var(--shadow); }
 
-    /* KPI cards (top) */
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card { padding:16px 14px; border-radius:14px; background:linear-gradient(180deg,#fff 0%,#fbfdff 100%); border:1px solid var(--line); box-shadow:0 10px 28px rgba(17,24,39,0.04); display:flex; flex-direction:column; gap:8px; }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
@@ -57,10 +54,6 @@
     .chip { background:#edf7ff; color:var(--tecan-dark); border:1px solid #dfeffe; padding:8px 12px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer; }
     .chip.active { background:var(--tecan-blue); color:#fff; border-color:var(--tecan-blue); box-shadow:0 8px 20px rgba(0,159,227,0.22); }
     .legend { display:flex; align-items:center; gap:12px; color:var(--muted); font-size:12px; font-weight:600; }
-
-    /* Timeline + Flashcard layout */
-    #timeline-graph { height:220px; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); margin-bottom:14px; overflow:hidden; }
-    .timeline-fallback { padding:18px; color:var(--muted); text-align:center; }
 
     #visualization { min-height:240px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#f9fbff,#f4f8fc); border:1px solid var(--line); padding:18px; }
     .groups { display:flex; gap:18px; flex-wrap:wrap; }
@@ -81,7 +74,11 @@
     .detail-box { border:1px solid var(--line); background:linear-gradient(180deg,#ffffff,#fbfeff); border-radius:12px; padding:14px; min-height:130px; }
     .preview { height:120px; border-radius:8px; background:linear-gradient(180deg,#eaf7ff,#f3f9ff); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--tecan-dark); font-weight:700; }
 
-    @media (max-width:900px) { .kpi-grid{grid-template-columns:repeat(3,1fr);} .groups{flex-direction:column;} .detail-panel{grid-template-columns:1fr;} }
+    @media (max-width:900px) {
+      .kpi-grid { grid-template-columns:repeat(3,1fr); }
+      .groups { flex-direction:column; }
+      .detail-panel { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -131,7 +128,7 @@
 
     <main class="card">
       <h3 class="section-title">Certifications &amp; learning</h3>
-      <p style="margin:0 0 12px;color:var(--muted)">All credentials shown as interactive flash cards. Use the chips to filter groups. Click a card or a timeline event to open details to the right.</p>
+      <p style="margin:0 0 12px;color:var(--muted)">All credentials shown as interactive flash cards. Use the chips to filter groups. Click a card to open details to the right.</p>
 
       <div class="timeline-wrap">
         <div class="timeline-controls">
@@ -141,29 +138,24 @@
             <button class="chip" data-group="sapCourses">SAP Courses</button>
             <button class="chip" data-group="dataAgile">Data &amp; Agile</button>
           </div>
-          <div class="legend"><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--sap);border-radius:3px;display:inline-block"></span> SAP cert</span>
+          <div class="legend">
+            <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--sap);border-radius:3px;display:inline-block"></span> SAP cert</span>
             <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--sap-course);border-radius:3px;display:inline-block"></span> SAP course</span>
             <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--data);border-radius:3px;display:inline-block"></span> Data / Agile</span>
           </div>
         </div>
 
-        <div id="timeline-graph"><div class="timeline-fallback">Loading timeline…</div></div>
-
-        <div id="visualization">
-          <!-- flash cards will render here -->
-        </div>
+        <div id="visualization"></div>
 
         <div class="detail-panel" style="margin-top:14px">
           <div class="detail-box" id="detail-box">
             <h4>Select a credential</h4>
-            <div style="color:var(--muted);font-size:13px;margin-top:6px">Click any flash card or timeline item to see details here.</div>
+            <div style="color:var(--muted);font-size:13px;margin-top:6px">Click any flash card to see details here.</div>
           </div>
 
           <div class="detail-box">
-            <h4>Summary & chart</h4>
+            <h4>Summary</h4>
             <div style="color:var(--muted);font-size:13px;margin-top:6px" id="summary-box">Totals by category will appear here when cards render.</div>
-            <div style="height:12px"></div>
-            <canvas id="certPie" width="260" height="180" aria-label="Certificate classification pie chart"></canvas>
           </div>
         </div>
       </div>
@@ -173,8 +165,6 @@
     <div class="footer-note">Built for the SAP analytics profile • Gonzalo Barral</div>
   </div>
 
-  <script src="https://unpkg.com/vis-timeline@7.11.0/standalone/umd/vis-timeline-graph2d.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     const timelineData = {
       groups: [
@@ -183,13 +173,13 @@
         { id: 'dataAgile', content: 'Data & Agile', color: '#7c3aed' }
       ],
       items: [
-        { id: 's1', content: 'SAP HANA · C_HANAIMP142', start: '2015-07', group: 'sapCerts', issuer: 'SAP', status: 'Expired', type: 'Certification', short: 'SAP HANA', date: '2015-07' },
-        { id: 's2', content: 'Modeling & Acquisition BW 7.5', start: '2018-04', group: 'sapCerts', issuer: 'SAP', status: 'Expired', type: 'Certification', short: 'BW 7.5', date: '2018-04' },
-        { id: 's3', content: 'SAP BW/4HANA 1.0 Specialist', start: '2018-05', group: 'sapCerts', issuer: 'SAP', status: 'Expired', type: 'Certification', short: 'BW/4HANA', date: '2018-05' },
+        { id: 's1', content: 'SAP HANA · C_HANAIMP142', start: '2015-07', group: 'sapCerts', issuer: 'SAP', status: 'Active', type: 'Certification', short: 'SAP HANA', date: '2015-07' },
+        { id: 's2', content: 'Modeling & Acquisition BW 7.5', start: '2018-04', group: 'sapCerts', issuer: 'SAP', status: 'Active', type: 'Certification', short: 'BW 7.5', date: '2018-04' },
+        { id: 's3', content: 'SAP BW/4HANA 1.0 Specialist', start: '2018-05', group: 'sapCerts', issuer: 'SAP', status: 'Active', type: 'Certification', short: 'BW/4HANA', date: '2018-05' },
 
-        { id: 'c1', content: 'BW4HANA & SAP SQL Data', start: '2020-03', group: 'sapCourses', issuer: 'SAP', status: 'Expired', type: 'Course', short: 'BW4HANA', date: '2020-03' },
+        { id: 'c1', content: 'BW4HANA & SAP SQL Data', start: '2020-03', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'BW4HANA', date: '2020-03' },
         { id: 'c2', content: 'Exploring SAP Datasphere', start: '2025-07', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'Datasphere', date: '2025-07' },
-        { id: 'c3', content: 'Managing Performance in SAC', start: '2025-07', group: 'sapCourses', issuer: 'SAP', status: 'Expired', type: 'Record of Achievement', short: 'SAC', date: '2025-07' },
+        { id: 'c3', content: 'Managing Performance in SAC', start: '2025-07', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Record of Achievement', short: 'SAC', date: '2025-07' },
         { id: 'c4', content: 'Becoming an SAP Data Architect', start: '2025-12', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'Data Architect', date: '2025-12' },
         { id: 'c5', content: 'Designing SAC Extended Stories', start: '2026-01', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'SAC Stories', date: '2026-01' },
         { id: 'c6', content: 'Modeling in SAP Datasphere / BW bridge', start: '2026-10', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'Datasphere BW bridge', date: '2026-10' },
@@ -199,9 +189,6 @@
       ]
     };
 
-    // Mark SAP certs enabled (Active)
-    timelineData.items.forEach(it => { if (it.group === 'sapCerts') it.status = 'Active'; });
-
     function buildGroupHtml(groupId, items) {
       const color = timelineData.groups.find(g => g.id === groupId)?.color || '#999';
       const html = [];
@@ -209,10 +196,10 @@
       html.push(`<div class="group-header"><div class="group-title">${timelineData.groups.find(g=>g.id===groupId).content}</div><div class="group-count">${items.length}</div></div>`);
       html.push('<div class="cards">');
       items.forEach(it => {
-        const expired = it.status === 'Expired' ? 'faded' : '';
+        const faded = it.status === 'Expired' ? 'faded' : '';
         const letter = (it.issuer || it.content || 'C').charAt(0).toUpperCase();
         html.push(`
-          <div class="flash ${expired}" data-id="${it.id}" data-group="${groupId}">
+          <div class="flash ${faded}" data-id="${it.id}" data-group="${groupId}">
             <div class="icon" style="background:${color}">${letter}</div>
             <div class="meta"><div class="title">${it.content}</div><div class="sub">${it.issuer} • ${it.date}</div></div>
           </div>
@@ -225,181 +212,70 @@
     function renderFlashCards(filterGroup='all'){
       const viz = document.getElementById('visualization');
       const groupsHtml = [];
-      timelineData.groups.forEach(g=>{
-        const items = timelineData.items.filter(i=>i.group===g.id);
-        if(filterGroup==='all' || filterGroup===g.id){
+      timelineData.groups.forEach(g => {
+        const items = timelineData.items.filter(i => i.group === g.id);
+        if (filterGroup === 'all' || filterGroup === g.id) {
           groupsHtml.push(buildGroupHtml(g.id, items));
         }
       });
-      viz.innerHTML = '<div class="groups">'+groupsHtml.join('\n')+'</div>';
+      viz.innerHTML = '<div class="groups">' + groupsHtml.join('\n') + '</div>';
 
-      viz.querySelectorAll('.flash').forEach(el=>{
-        el.addEventListener('click', ()=>{
+      viz.querySelectorAll('.flash').forEach(el => {
+        el.addEventListener('click', () => {
           const id = el.dataset.id;
-          const item = timelineData.items.find(it=>it.id===id);
-          if(item) showDetail(item);
+          const item = timelineData.items.find(it => it.id === id);
+          if (item) showDetail(item);
         });
       });
 
       updateSummary();
-      updateTimelineFilter(filterGroup);
-      renderPieChart(filterGroup);
     }
 
-    function showDetail(item){
+    function showDetail(item) {
       const panel = document.getElementById('detail-box');
-      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
       const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
-      const note = item.note ? `<div class="detail-meta">${item.note}</div>` : '';
-
+      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
       panel.innerHTML = `
         <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
         <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
-        ${note}
-        <div style="margin-top:10px" class="preview ${item.status === 'Expired' ? 'faded' : ''}">${item.short}</div>
-        <div class="tags">
-          <span class="tag">${statusText}</span>
-          <span class="tag">${item.type}</span>
-          <span class="tag">${item.issuer}</span>
+        <div style="margin-top:10px" class="preview">${item.short}</div>
+        <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.issuer}</span>
         </div>
       `;
     }
 
-    function updateSummary(){
+    function updateSummary() {
       const total = timelineData.items.length;
-      const sapCerts = timelineData.items.filter(i=>i.group==='sapCerts').length;
-      const sapCourses = timelineData.items.filter(i=>i.group==='sapCourses').length;
-      const dataAgile = timelineData.items.filter(i=>i.group==='dataAgile').length;
-      const active = timelineData.items.filter(i=>i.status!=='Expired').length;
+      const sapCerts = timelineData.items.filter(i => i.group === 'sapCerts').length;
+      const sapCourses = timelineData.items.filter(i => i.group === 'sapCourses').length;
+      const dataAgile = timelineData.items.filter(i => i.group === 'dataAgile').length;
+      const active = timelineData.items.filter(i => i.status !== 'Expired').length;
+
       document.getElementById('kpi-total').textContent = total;
       document.getElementById('kpi-sapcerts').textContent = sapCerts;
       document.getElementById('kpi-sapcourses').textContent = sapCourses;
       document.getElementById('kpi-data').textContent = dataAgile;
       document.getElementById('kpi-active').textContent = active;
 
-      const summary = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
-      document.getElementById('summary-box').textContent = summary;
+      document.getElementById('summary-box').textContent = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
     }
 
-    // --- Timeline (vis.js) ---
-    let timeline; // reference
-    function renderTimeline(){
-      const container = document.getElementById('timeline-graph');
-      if(!container) return;
-
-      // clear fallback text
-      const fallback = container.querySelector('.timeline-fallback');
-      if(fallback) fallback.remove();
-
-      const groups = new vis.DataSet(timelineData.groups.map(g=>({id:g.id, content:g.content})));
-      const items = new vis.DataSet(
-        timelineData.items.map(it=>({id:it.id, content: it.short || it.content, start: `${it.start}-01`, group: it.group, data: it}))
-      );
-
-      const options = {
-        stack: false,
-        selectable: true,
-        multiselect: false,
-        showCurrentTime: false,
-        orientation: { axis: 'bottom' },
-        template: function(item){
-          const color = timelineData.groups.find(g=>g.id===item.group)?.color || '#999';
-          return `<div style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;background:linear-gradient(180deg,#fff,#f7fbff);border:1px solid var(--line);"><div style="width:26px;height:26px;border-radius:6px;background:${color};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">${(item.data.issuer||'S').charAt(0)}</div><div style="font-weight:700;color:var(--tecan-dark)">${item.data.short}</div></div>`;
-        }
-      };
-
-      try{
-        if(container._timeline) container._timeline.destroy();
-        timeline = new vis.Timeline(container, items, groups, options);
-        container._timeline = timeline;
-
-        timeline.on('select', function(props){
-          if(!props.items || !props.items.length) return;
-          const sel = props.items[0];
-          const selected = timelineData.items.find(it=>it.id===sel);
-          if(selected) showDetail(selected);
-        });
-      }catch(e){
-        console.error('Timeline render failed', e);
-        container.innerHTML = '<div class="timeline-fallback">Timeline failed to render (see console).</div>';
-      }
-    }
-
-    function updateTimelineFilter(group){
-      if(!timeline) return;
-      if(group === 'all'){
-        try{ timeline.setWindow(new Date('2014-01-01'), new Date('2027-12-31')); }catch(e){}
-        timeline.setSelection(timelineData.items.map(i=>i.id));
-        return;
-      }
-      const ids = timelineData.items.filter(i=>i.group===group).map(i=>i.id);
-      timeline.setSelection(ids);
-      if(ids.length){
-        try{ timeline.focus(ids[0]); }catch(e){}
-      }
-    }
-
-    // --- Pie chart (Chart.js) ---
-    let pieChart;
-    function classifyCertificate(cert){
-      const title = cert.content.toLowerCase();
-      if(title.includes('hana')) return 'HANA';
-      if(title.includes('bw')) return 'BW';
-      return 'Other';
-    }
-
-    function renderPieChart(filterGroup='all'){
-      let items = timelineData.items.filter(i=>i.group==='sapCerts');
-      if(filterGroup !== 'all') items = timelineData.items.filter(i=>i.group===filterGroup);
-
-      const counts = {};
-      items.forEach(it => { const cls = classifyCertificate(it); counts[cls] = (counts[cls] || 0) + 1; });
-
-      const labels = Object.keys(counts);
-      const data = labels.map(l=>counts[l]);
-      const colors = labels.map(l => l==='HANA' ? '#0a66c2' : l==='BW' ? '#06b6d4' : '#7c3aed');
-
-      const ctx = document.getElementById('certPie').getContext('2d');
-      if(pieChart) pieChart.destroy();
-      pieChart = new Chart(ctx, {
-        type: 'pie',
-        data: { labels, datasets: [{ data, backgroundColor: colors }] },
-        options: { plugins: { legend: { position: 'bottom', labels: { boxWidth:12 } } }, responsive: true, maintainAspectRatio: false }
-      });
-    }
-
-    // Helper: wait for vis lib to be available (in some environments scripts may load async)
-    function whenVisReady(callback, timeout = 5000){
-      const start = Date.now();
-      (function check(){
-        if(window.vis && typeof window.vis !== 'undefined') return callback();
-        if(Date.now() - start > timeout){
-          console.warn('vis not available after wait');
-          // still try to render (will fail gracefully)
-          return callback();
-        }
-        setTimeout(check, 100);
-      })();
-    }
-
-    // Wiring
-    document.addEventListener('click', function(ev){
+    document.addEventListener('click', function (ev) {
       const chip = ev.target.closest('.chip');
-      if(!chip) return;
+      if (!chip) return;
       const group = chip.dataset.group;
-      document.querySelectorAll('.chip[data-group]').forEach(c=>c.classList.remove('active'));
-      document.querySelectorAll('.chip[data-group]').forEach(c=>{ if(c.dataset.group===group) c.classList.add('active'); });
+      document.querySelectorAll('.chip[data-group]').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.chip[data-group]').forEach(c => {
+        if (c.dataset.group === group) c.classList.add('active');
+      });
       renderFlashCards(group);
     });
 
-    document.addEventListener('DOMContentLoaded', function(){
-      // Render flash cards immediately so the page is useful even if vis fails to load.
-      try{ renderFlashCards('all'); }catch(e){ console.error('flash render failed', e); }
-
-      // Then try to render the vis timeline once the library is available (avoids race conditions)
-      whenVisReady(function(){
-        try{ renderTimeline(); }catch(e){ console.warn('timeline init failed', e); }
-      }, 5000);
+    document.addEventListener('DOMContentLoaded', function () {
+      renderFlashCards('all');
     });
   </script>
 </body>
