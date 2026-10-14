@@ -34,29 +34,13 @@
       color:var(--text);
     }
 
-    .page {
-      max-width:1180px;
-      margin:0 auto;
-      padding:32px 20px 60px;
-    }
-
-    .topbar {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-bottom:20px;
-    }
-
+    .page { max-width:1180px; margin:0 auto; padding:32px 20px 60px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
     .brand { display:flex; flex-direction:column; gap:4px; }
     .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; }
-    .brand small { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:11px; }
-
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:500; box-shadow:var(--shadow); }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
-
     .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:rgba(0,159,227,0.08); color:var(--tecan-blue); font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:14px; }
 
     .title-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px; }
@@ -72,8 +56,10 @@
     .legend-item { display:inline-flex; align-items:center; gap:8px; }
     .dot { width:12px; height:12px; border-radius:4px; display:inline-block; }
 
-    /* Flashcard layout */
-    #visualization { min-height:260px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#f9fbff,#f4f8fc); border:1px solid var(--line); padding:18px; }
+    /* Timeline + Flashcard layout */
+    #timeline-graph { height:220px; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); margin-bottom:14px; overflow:hidden; }
+
+    #visualization { min-height:240px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#f9fbff,#f4f8fc); border:1px solid var(--line); padding:18px; }
     .groups { display:flex; gap:18px; flex-wrap:wrap; }
     .group { flex:1 1 300px; min-width:260px; background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:14px; padding:12px; }
     .group-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
@@ -88,7 +74,7 @@
     .flash .sub { color:var(--muted); font-size:12px; }
     .flash.faded { opacity:var(--expired); filter:grayscale(0.25); }
 
-    .detail-panel { margin-top:16px; display:grid; grid-template-columns:1fr 280px; gap:18px; }
+    .detail-panel { margin-top:16px; display:grid; grid-template-columns:1fr 320px; gap:18px; }
     .detail-box { border:1px solid var(--line); background:linear-gradient(180deg,#ffffff,#fbfeff); border-radius:16px; padding:18px; min-height:160px; }
     .detail-box h3 { margin:0 0 6px; font-size:1.1rem; letter-spacing:-0.03em; }
     .detail-meta { color:var(--muted); font-size:13px; margin-bottom:12px; }
@@ -115,7 +101,7 @@
       <div class="title-row">
         <h2>Certifications &amp; learning</h2>
       </div>
-      <p class="lead">All credentials shown as interactive flash cards. Use the chips to filter groups. Click a card to open details.</p>
+      <p class="lead">All credentials shown as interactive flash cards. Use the chips to filter groups. Click a card to open details. Timeline and a small chart are shown for quick insights.</p>
 
       <div class="controls">
         <div class="chip active" data-group="all">All</div>
@@ -130,22 +116,30 @@
         </div>
       </div>
 
+      <!-- Timeline graph -->
+      <div id="timeline-graph"></div>
+
+      <!-- Flash cards -->
       <div id="visualization"></div>
 
       <div class="detail-panel">
         <div class="detail-box" id="detail-box">
           <h3>Select a credential</h3>
-          <div class="detail-meta">Click any card to see the issuer, type and status.</div>
+          <div class="detail-meta">Click any card or timeline item to see the issuer, type and status.</div>
           <div class="preview">SAP • Data • Analytics</div>
         </div>
 
         <aside class="mini-card detail-box">
-          <h4>Quick filters</h4>
+          <h4>Quick filters & chart</h4>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
             <button class="chip" data-group="sapCerts">SAP certs</button>
             <button class="chip" data-group="sapCourses">SAP courses</button>
             <button class="chip" data-group="dataAgile">Data</button>
             <button class="chip" data-group="all">All</button>
+          </div>
+
+          <div style="margin-top:14px">
+            <canvas id="certPie" width="280" height="180" aria-label="Certificate classification pie chart"></canvas>
           </div>
         </aside>
       </div>
@@ -153,6 +147,10 @@
 
     <div class="footer-note">Built for the SAP analytics profile • Gonzalo Barral</div>
   </div>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/vis-timeline@7.11.0/standalone/umd/vis-timeline-graph2d.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
     const timelineData = {
@@ -162,10 +160,12 @@
         { id: 'dataAgile', content: 'Data & Agile', color: '#7c3aed' }
       ],
       items: [
+        // SAP certs (marked as enabled below)
         { id: 's1', content: 'SAP HANA · C_HANAIMP142', start: '2015-07', group: 'sapCerts', issuer: 'SAP', status: 'Expired', type: 'Certification', short: 'SAP HANA', date: '2015-07' },
         { id: 's2', content: 'Modeling & Acquisition BW 7.5', start: '2018-04', group: 'sapCerts', issuer: 'SAP', status: 'Expired', type: 'Certification', short: 'BW 7.5', date: '2018-04' },
         { id: 's3', content: 'SAP BW/4HANA 1.0 Specialist', start: '2018-05', group: 'sapCerts', issuer: 'SAP', status: 'Expired', type: 'Certification', short: 'BW/4HANA', date: '2018-05' },
 
+        // Courses
         { id: 'c1', content: 'BW4HANA & SAP SQL Data', start: '2020-03', group: 'sapCourses', issuer: 'SAP', status: 'Expired', type: 'Course', short: 'BW4HANA', date: '2020-03' },
         { id: 'c2', content: 'Exploring SAP Datasphere', start: '2025-07', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'Datasphere', date: '2025-07' },
         { id: 'c3', content: 'Managing Performance in SAC', start: '2025-07', group: 'sapCourses', issuer: 'SAP', status: 'Expired', type: 'Record of Achievement', short: 'SAC', date: '2025-07' },
@@ -173,11 +173,18 @@
         { id: 'c5', content: 'Designing SAC Extended Stories', start: '2026-01', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'SAC Stories', date: '2026-01' },
         { id: 'c6', content: 'Modeling in SAP Datasphere / BW bridge', start: '2026-10', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'Datasphere BW bridge', date: '2026-10' },
 
+        // Data & Agile
         { id: 'd1', content: 'Databricks for Data Engineering', start: '2025-02', group: 'dataAgile', issuer: 'Databricks', status: 'Active', type: 'Course', short: 'Databricks', date: '2025-02' },
         { id: 'd2', content: 'Certified ScrumMaster (CSM)', start: '2025-01', group: 'dataAgile', issuer: 'Scrum Alliance', status: 'Active', type: 'Certification', short: 'CSM', date: '2025-01' }
       ]
     };
 
+    // Make all SAP certification items 'enabled' (Active) as requested
+    timelineData.items.forEach(it => {
+      if (it.group === 'sapCerts') it.status = 'Active';
+    });
+
+    // Build flash cards HTML
     function buildGroupHtml(groupId, items) {
       const color = timelineData.groups.find(g => g.id === groupId)?.color || '#999';
       const html = [];
@@ -217,7 +224,11 @@
         });
       });
 
-      updateTotals();
+      // update timeline selection to reflect filter
+      updateTimelineFilter(filterGroup);
+
+      // update pie chart when filter changes
+      renderPieChart(filterGroup);
     }
 
     function showDetail(item){
@@ -239,13 +250,96 @@
       `;
     }
 
-    function updateTotals(){
-      // keep counts in the mini quick filters (group-count badges are updated when cards render)
-      document.querySelectorAll('.group-count').forEach((el,idx)=>{
-        // already set when building html
+    // --- Timeline (vis.js) ---
+    let timeline; // reference
+    function renderTimeline(){
+      const container = document.getElementById('timeline-graph');
+      const groups = new vis.DataSet(timelineData.groups.map(g=>({id:g.id, content:g.content})));
+      const items = new vis.DataSet(
+        timelineData.items.map(it=>({id:it.id, content: it.short || it.content, start: `${it.start}-01`, group: it.group, data: it}))
+      );
+
+      const options = {
+        stack: false,
+        selectable: true,
+        multiselect: false,
+        showCurrentTime: false,
+        orientation: { axis: 'bottom' },
+        template: function(item){
+          const color = timelineData.groups.find(g=>g.id===item.group)?.color || '#999';
+          const faded = item.data && item.data.status === 'Expired' ? 'faded' : '';
+          return `<div style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;background:linear-gradient(180deg,#fff,#f7fbff);border:1px solid var(--line);"><div style="width:26px;height:26px;border-radius:6px;background:${color};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">${(item.data.issuer||'S').charAt(0)}</div><div style="font-weight:700;color:var(--tecan-dark)">${item.data.short}</div></div>`;
+        }
+      };
+
+      if(container._timeline) container._timeline.destroy();
+      timeline = new vis.Timeline(container, items, groups, options);
+      container._timeline = timeline;
+
+      timeline.on('select', function(props){
+        if(!props.items || !props.items.length) return;
+        const sel = props.items[0];
+        const selected = timelineData.items.find(it=>it.id===sel);
+        if(selected) showDetail(selected);
       });
     }
 
+    function updateTimelineFilter(group){
+      if(!timeline) return;
+      if(group === 'all'){
+        timeline.setWindow(new Date('2014-01-01'), new Date('2027-12-31'));
+        timeline.setSelection(timelineData.items.map(i=>i.id));
+        return;
+      }
+      const ids = timelineData.items.filter(i=>i.group===group).map(i=>i.id);
+      timeline.setSelection(ids);
+      if(ids.length){
+        const first = ids[0];
+        timeline.focus(first);
+      }
+    }
+
+    // --- Pie chart (Chart.js) ---
+    let pieChart;
+    function classifyCertificate(cert){
+      const title = cert.content.toLowerCase();
+      if(title.includes('hana')) return 'HANA';
+      if(title.includes('bw')) return 'BW';
+      return 'Other';
+    }
+
+    function renderPieChart(filterGroup='all'){
+      // use only sapCerts if filter is sapCerts or all (but chart should reflect all SAP certs)
+      let items = timelineData.items.filter(i=>i.group==='sapCerts');
+      if(filterGroup !== 'all') items = timelineData.items.filter(i=>i.group===filterGroup);
+
+      const counts = {};
+      items.forEach(it => {
+        const cls = classifyCertificate(it);
+        counts[cls] = (counts[cls] || 0) + 1;
+      });
+
+      const labels = Object.keys(counts);
+      const data = labels.map(l=>counts[l]);
+      const colors = labels.map(l => l==='HANA' ? '#0a66c2' : l==='BW' ? '#06b6d4' : '#7c3aed');
+
+      const ctx = document.getElementById('certPie').getContext('2d');
+      if(pieChart) pieChart.destroy();
+      pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels,
+          datasets: [{ data, backgroundColor: colors }]
+        },
+        options: {
+          plugins: { legend: { position: 'bottom', labels: { boxWidth:12 } } },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    // --- Wiring: chips and initial render ---
     document.addEventListener('click', function(ev){
       const chip = ev.target.closest('.chip');
       if(!chip) return;
@@ -256,6 +350,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function(){
+      renderTimeline();
       renderFlashCards('all');
     });
   </script>
