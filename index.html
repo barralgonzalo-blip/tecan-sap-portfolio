@@ -42,6 +42,7 @@
     .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; font-weight:800; }
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:600; }
 
+    /* KPI grid and cards - simplified ACT/PLAN presentation */
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card {
       padding:16px 14px;
@@ -51,20 +52,17 @@
       box-shadow:0 10px 28px rgba(17,24,39,0.04);
       display:flex;
       flex-direction:column;
-      align-items:flex-start;
-      gap:10px;
-      text-align:left;
+      align-items:center; /* center the stacked KPI */
+      gap:8px;
+      text-align:center;
     }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
-    .kpi-value { font-size:clamp(1.8rem,2vw,2.4rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
-    .kpi-values { display:flex; flex-direction:column; gap:6px; margin-top:0; align-items:flex-start; }
-    .kpi-values .actual { display:none; }
-    .kpi-values .plan { color:var(--warning); font-weight:700; }
-    .kpi-values .deviation { font-weight:700; }
-    .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
-    .kpi-edit { display:inline-flex; gap:8px; align-items:center; }
-    .kpi-edit button { background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700 }
-    .kpi-edit input { width:64px;padding:4px;border-radius:6px;border:1px solid var(--line) }
+    .kpi-value { font-size:clamp(1.8rem,2.8vw,2.8rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
+    /* smaller secondary KPI texts */
+    .kpi-sub { font-size:0.95rem; color:var(--muted); }
+    .kpi-ratio { font-size:0.95rem; color:var(--muted); font-weight:700; }
+
+    .kpi-meta { margin-top:4px; color:var(--muted); font-size:11px; line-height:1.4; }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
     .chart-card { background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:16px; box-shadow:0 14px 30px rgba(17,24,39,0.03); padding:16px; }
@@ -126,81 +124,57 @@
     </header>
 
     <section class="kpi-grid" aria-label="Key metrics">
+      <!-- Years -->
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
-        <div class="kpi-value" id="kpi-years">17+</div>
-        <div class="kpi-values">
-          <div class="actual" id="actual-years">17</div>
-          <div class="kpi-edit">Plan: <span class="plan" id="plan-years">23</span>
-            <button data-key="years" class="edit-plan">Edit</button>
-          </div>
-          <div class="deviation" id="dev-years">—</div>
-        </div>
+        <div class="kpi-value" id="kpi-years">17y</div>
+        <div class="kpi-sub" id="sub-years">17y ACT • 23y PLAN</div>
+        <div class="kpi-ratio" id="ratio-years">17 / 23</div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
+      <!-- Total credentials -->
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-values">
-          <div class="actual" id="actual-total">—</div>
-          <div class="kpi-edit">Plan: <span class="plan" id="plan-total">19</span>
-            <button data-key="total" class="edit-plan">Edit</button>
-          </div>
-          <div class="deviation" id="dev-total">—</div>
-        </div>
+        <div class="kpi-sub" id="sub-total">— ACT • 19 PLAN</div>
+        <div class="kpi-ratio" id="ratio-total">— / 19</div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
+      <!-- SAP certs -->
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-values">
-          <div class="actual" id="actual-sapcerts">—</div>
-          <div class="kpi-edit">Plan: <span class="plan" id="plan-sapcerts">5</span>
-            <button data-key="sapCerts" class="edit-plan">Edit</button>
-          </div>
-          <div class="deviation" id="dev-sapcerts">—</div>
-        </div>
+        <div class="kpi-sub" id="sub-sapcerts">— ACT • 5 PLAN</div>
+        <div class="kpi-ratio" id="ratio-sapcerts">— / 5</div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
+      <!-- SAP courses -->
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-values">
-          <div class="actual" id="actual-sapcourses">—</div>
-          <div class="kpi-edit">Plan: <span class="plan" id="plan-sapcourses">10</span>
-            <button data-key="sapCourses" class="edit-plan">Edit</button>
-          </div>
-          <div class="deviation" id="dev-sapcourses">—</div>
-        </div>
+        <div class="kpi-sub" id="sub-sapcourses">— ACT • 10 PLAN</div>
+        <div class="kpi-ratio" id="ratio-sapcourses">— / 10</div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
+      <!-- Data & Agile -->
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-values">
-          <div class="actual" id="actual-data">—</div>
-          <div class="kpi-edit">Plan: <span class="plan" id="plan-data">4</span>
-            <button data-key="dataAgile" class="edit-plan">Edit</button>
-          </div>
-          <div class="deviation" id="dev-data">—</div>
-        </div>
+        <div class="kpi-sub" id="sub-data">— ACT • 4 PLAN</div>
+        <div class="kpi-ratio" id="ratio-data">— / 4</div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
+      <!-- Active -->
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-values">
-          <div class="actual" id="actual-active">—</div>
-          <div class="kpi-edit">Plan: <span class="plan" id="plan-active">19</span>
-            <button data-key="active" class="edit-plan">Edit</button>
-          </div>
-          <div class="deviation" id="dev-active">—</div>
-        </div>
+        <div class="kpi-sub" id="sub-active">— ACT • 19 PLAN</div>
+        <div class="kpi-ratio" id="ratio-active">— / 19</div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -445,17 +419,8 @@
       document.getElementById('chart-status-total').textContent = statusTotals.active;
       document.getElementById('chart-trend-total').textContent = trendTotals.labels.length || 0;
 
-      document.getElementById('actual-sapcerts').textContent = categoryValues[0];
-      document.getElementById('actual-sapcourses').textContent = categoryValues[1];
-      document.getElementById('actual-data').textContent = categoryValues[2];
-      document.getElementById('actual-total').textContent = items.length;
-      document.getElementById('actual-active').textContent = statusTotals.active;
-      document.getElementById('actual-years').textContent = '17';
-
-      const commonBarOptions = { responsive:true, maintainAspectRatio:false, plugins:{ tooltip:{ enabled:true } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } };
-
       if (!categoryChart) {
-        categoryChart = new Chart(document.getElementById('categoryChart'), { type:'bar', data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'] }, { label:'Plan', data:planCategoryValues, backgroundColor:['rgba(10,102,194,0.2)','rgba(6,182,212,0.2)','rgba(124,58,237,0.2)'] } ] }, options:commonBarOptions });
+        categoryChart = new Chart(document.getElementById('categoryChart'), { type:'bar', data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'] }, { label:'Plan', data:planCategoryValues, backgroundColor:['rgba(10,102,194,0.2)','rgba(6,182,212,0.2)','rgba(124,58,237,0.2)'] } ] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ tooltip:{ enabled:true } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
       } else {
         categoryChart.data.datasets[0].data = categoryValues; categoryChart.data.datasets[1].data = planCategoryValues; categoryChart.update();
       }
@@ -468,77 +433,7 @@
         trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.08)', fill:true, tension:0.35 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
       } else { trendChart.data.labels = trendTotals.labels; trendChart.data.datasets[0].data = trendTotals.values; trendChart.update(); }
 
-      updateDeviations();
-    }
-
-    function getGroupPlanValue(group) { if (group === 'sapCerts') return planValues.sapCerts; if (group === 'sapCourses') return planValues.sapCourses; if (group === 'dataAgile') return planValues.dataAgile; return 0; }
-
-    function showDetail(item) {
-      const panel = document.getElementById('detail-box');
-      const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
-      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
-      const actualInGroup = timelineData.items.filter(i => i.group === item.group).length;
-      const planInGroup = getGroupPlanValue(item.group);
-      const diff = actualInGroup - planInGroup;
-      const diffText = diff >= 0 ? `+${diff} ahead` : `${Math.abs(diff)} to plan`;
-      const diffColor = diff >= 0 ? '#18a957' : '#f59e0b';
-      panel.innerHTML = `
-        <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
-        <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
-        <div style="margin-top:10px" class="preview">${item.short}</div>
-        <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
-        </div>
-        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
-          <div>Actual: ${actualInGroup}</div>
-          <div style="color:var(--warning);">Plan: ${planInGroup}</div>
-          <div style="color:${diffColor};">Deviation: ${diffText}</div>
-        </div>
-      `;
-    }
-
-    function updateDeviations() {
-      const actualYears = parseInt(document.getElementById('actual-years').textContent, 10) || 0;
-      const planYears = planValues.years || 0;
-      const diffYears = actualYears - planYears;
-      const devYearsEl = document.getElementById('dev-years');
-      if (diffYears >= 0) { devYearsEl.textContent = `+${diffYears} ahead`; devYearsEl.style.color = '#18a957'; } else { devYearsEl.textContent = `${Math.abs(diffYears)} to plan`; devYearsEl.style.color = '#f59e0b'; }
-
-      const actualSap = parseInt(document.getElementById('actual-sapcerts').textContent, 10) || 0;
-      const planSap = planValues.sapCerts || 0;
-      const diffSap = actualSap - planSap;
-      const devSapEl = document.getElementById('dev-sapcerts');
-      if (diffSap >= 0) { devSapEl.textContent = `+${diffSap} ahead`; devSapEl.style.color = '#18a957'; } else { devSapEl.textContent = `${Math.abs(diffSap)} to plan`; devSapEl.style.color = '#f59e0b'; }
-
-      const actualCourses = parseInt(document.getElementById('actual-sapcourses').textContent, 10) || 0;
-      const planCourses = planValues.sapCourses || 0;
-      const diffCourses = actualCourses - planCourses;
-      const devCoursesEl = document.getElementById('dev-sapcourses');
-      if (diffCourses >= 0) { devCoursesEl.textContent = `+${diffCourses} ahead`; devCoursesEl.style.color = '#18a957'; } else { devCoursesEl.textContent = `${Math.abs(diffCourses)} to plan`; devCoursesEl.style.color = '#f59e0b'; }
-
-      const actualData = parseInt(document.getElementById('actual-data').textContent, 10) || 0;
-      const planData = planValues.dataAgile || 0;
-      const diffData = actualData - planData;
-      const devDataEl = document.getElementById('dev-data');
-      if (diffData >= 0) { devDataEl.textContent = `+${diffData} ahead`; devDataEl.style.color = '#18a957'; } else { devDataEl.textContent = `${Math.abs(diffData)} to plan`; devDataEl.style.color = '#f59e0b'; }
-
-      const actualTotal = parseInt(document.getElementById('actual-total').textContent, 10) || 0;
-      const planTotal = planValues.total || 0;
-      const diffTotal = actualTotal - planTotal;
-      const devTotalEl = document.getElementById('dev-total');
-      if (diffTotal >= 0) { devTotalEl.textContent = `+${diffTotal} ahead`; devTotalEl.style.color = '#18a957'; } else { devTotalEl.textContent = `${Math.abs(diffTotal)} to plan`; devTotalEl.style.color = '#f59e0b'; }
-
-      const actualActive = parseInt(document.getElementById('actual-active').textContent, 10) || 0;
-      const planActive = planValues.active || 0;
-      const diffActive = actualActive - planActive;
-      const devActiveEl = document.getElementById('dev-active');
-      if (diffActive >= 0) { devActiveEl.textContent = `+${diffActive} ahead`; devActiveEl.style.color = '#18a957'; } else { devActiveEl.textContent = `${Math.abs(diffActive)} to plan`; devActiveEl.style.color = '#f59e0b'; }
-
-      document.querySelectorAll('.plan').forEach(el => {
-        const id = el.id.replace('plan-', '');
-        if (planValues[id] !== undefined) el.textContent = planValues[id];
-      });
+      // no per-card editor anymore; KPI text is updated by updateSummary
     }
 
     function buildGroupHtml(groupId, items) {
@@ -590,67 +485,65 @@
       const dataAgile = timelineData.items.filter(i => i.group === 'dataAgile').length;
       const active = timelineData.items.filter(i => i.status !== 'Expired').length;
 
-      document.getElementById('kpi-total').textContent = total;
-      document.getElementById('kpi-sapcerts').textContent = sapCerts;
-      document.getElementById('kpi-sapcourses').textContent = sapCourses;
-      document.getElementById('kpi-data').textContent = dataAgile;
-      document.getElementById('kpi-active').textContent = active;
+      // Years is a fixed ACT value in this portfolio
+      const years = 17;
 
-      document.getElementById('actual-total').textContent = total;
-      document.getElementById('actual-sapcerts').textContent = sapCerts;
-      document.getElementById('actual-sapcourses').textContent = sapCourses;
-      document.getElementById('actual-data').textContent = dataAgile;
-      document.getElementById('actual-active').textContent = active;
-      document.getElementById('actual-years').textContent = '17';
+      // Update the primary visible KPI (ACT) and the smaller PLAN/ratio texts
+      document.getElementById('kpi-years').textContent = years + 'y';
+      document.getElementById('sub-years').textContent = `${years}y ACT • ${planValues.years}y PLAN`;
+      document.getElementById('ratio-years').textContent = `${years} / ${planValues.years}`;
+
+      document.getElementById('kpi-total').textContent = total;
+      document.getElementById('sub-total').textContent = `${total} ACT • ${planValues.total} PLAN`;
+      document.getElementById('ratio-total').textContent = `${total} / ${planValues.total}`;
+
+      document.getElementById('kpi-sapcerts').textContent = sapCerts;
+      document.getElementById('sub-sapcerts').textContent = `${sapCerts} ACT • ${planValues.sapCerts} PLAN`;
+      document.getElementById('ratio-sapcerts').textContent = `${sapCerts} / ${planValues.sapCerts}`;
+
+      document.getElementById('kpi-sapcourses').textContent = sapCourses;
+      document.getElementById('sub-sapcourses').textContent = `${sapCourses} ACT • ${planValues.sapCourses} PLAN`;
+      document.getElementById('ratio-sapcourses').textContent = `${sapCourses} / ${planValues.sapCourses}`;
+
+      document.getElementById('kpi-data').textContent = dataAgile;
+      document.getElementById('sub-data').textContent = `${dataAgile} ACT • ${planValues.dataAgile} PLAN`;
+      document.getElementById('ratio-data').textContent = `${dataAgile} / ${planValues.dataAgile}`;
+
+      document.getElementById('kpi-active').textContent = active;
+      document.getElementById('sub-active').textContent = `${active} ACT • ${planValues.active} PLAN`;
+      document.getElementById('ratio-active').textContent = `${active} / ${planValues.active}`;
 
       document.getElementById('summary-box').textContent = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
-      updateDeviations();
     }
 
-    function startPlanEditor(key, parentEl) {
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = '0';
-      input.value = planValues[key] || 0;
-      input.style.marginLeft = '8px';
+    function getGroupPlanValue(group) { if (group === 'sapCerts') return planValues.sapCerts; if (group === 'sapCourses') return planValues.sapCourses; if (group === 'dataAgile') return planValues.dataAgile; return 0; }
 
-      const save = document.createElement('button');
-      save.textContent = 'Save';
-      save.style.marginLeft = '8px';
-      save.onclick = () => {
-        const val = parseInt(input.value, 10) || 0;
-        planValues[key] = val;
-        savePlanToStorage();
-        const span = document.getElementById('plan-' + key);
-        if (span) span.textContent = val;
-        renderCharts(document.querySelector('.chip.active')?.dataset.group || 'all');
-        parentEl.removeChild(editorWrap);
-      };
-
-      const cancel = document.createElement('button');
-      cancel.textContent = 'Cancel';
-      cancel.style.marginLeft = '6px';
-      cancel.onclick = () => { parentEl.removeChild(editorWrap); };
-
-      const editorWrap = document.createElement('span');
-      editorWrap.style.display = 'inline-flex';
-      editorWrap.style.alignItems = 'center';
-      editorWrap.appendChild(input);
-      editorWrap.appendChild(save);
-      editorWrap.appendChild(cancel);
-
-      parentEl.appendChild(editorWrap);
-      input.focus();
+    function showDetail(item) {
+      const panel = document.getElementById('detail-box');
+      const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
+      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
+      const actualInGroup = timelineData.items.filter(i => i.group === item.group).length;
+      const planInGroup = getGroupPlanValue(item.group);
+      const diff = actualInGroup - planInGroup;
+      const diffText = diff >= 0 ? `+${diff} ahead` : `${Math.abs(diff)} to plan`;
+      const diffColor = diff >= 0 ? '#18a957' : '#f59e0b';
+      panel.innerHTML = `
+        <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
+        <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
+        <div style="margin-top:10px" class="preview">${item.short}</div>
+        <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
+          <div>Actual: ${actualInGroup}</div>
+          <div style="color:var(--warning);">Plan: ${planInGroup}</div>
+          <div style="color:${diffColor};">Deviation: ${diffText}</div>
+        </div>
+      `;
     }
 
     document.addEventListener('click', function (ev) {
-      const edit = ev.target.closest('.edit-plan');
-      if (edit) {
-        const key = edit.dataset.key;
-        startPlanEditor(key, edit.parentElement);
-        return;
-      }
-
       const chip = ev.target.closest('.chip');
       if (!chip) return;
       const group = chip.dataset.group;
@@ -662,12 +555,6 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       loadPlanFromStorage();
-      document.getElementById('plan-years').textContent = planValues.years;
-      document.getElementById('plan-sapcerts').textContent = planValues.sapCerts;
-      document.getElementById('plan-sapcourses').textContent = planValues.sapCourses;
-      document.getElementById('plan-data').textContent = planValues.dataAgile;
-      document.getElementById('plan-total').textContent = planValues.total;
-      document.getElementById('plan-active').textContent = planValues.active;
 
       renderCareerFitChart();
       renderFlashCards('all');
