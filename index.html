@@ -38,11 +38,9 @@
     .page { max-width:1180px; margin:0 auto; padding:32px 20px 60px; }
     .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
     .brand { display:flex; flex-direction:column; gap:4px; }
-    /* restored previous letter style for brand */
     .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; font-weight:800; }
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:12px; font-weight:600; }
 
-    /* KPI grid and cards - ACT / PLAN presentation with colored PLAN number */
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card {
       padding:16px 14px;
@@ -64,14 +62,12 @@
       line-height:1;
       letter-spacing:-0.04em;
     }
-    /* smaller secondary KPI texts */
-    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; }
-    .kpi-sub .vs { color:var(--muted); font-weight:700; }
+    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; align-items:center; justify-content:center; min-height:24px; }
+    .kpi-sub .vs { display:inline-flex; align-items:center; justify-content:center; font-weight:700; color:var(--muted); }
     .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
-    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:6px; }
-    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; display:flex; align-items:center; gap:8px; }
+    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:2px; }
+    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; }
     .kpi-note { font-size:0.82rem; color:var(--muted); font-weight:700; }
-
     .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
@@ -107,7 +103,6 @@
     .cards { display:grid; grid-template-columns:repeat(1,1fr); gap:10px; }
     .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease; }
     .flash:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(10,43,66,0.06); }
-    /* restored icon letter style */
     .flash-icon-wrap { position:relative; width:44px; height:44px; flex-shrink:0; }
     .flash .icon { position:absolute; inset:0; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:18px; }
     .measure-symbol {
@@ -128,7 +123,6 @@
       font-weight:800;
       line-height:1;
     }
-    /* card number to help identify each flash card individually */
     .card-number { display:inline-flex; align-items:center; justify-content:center; background:#eef6fb; color:var(--tecan-dark); font-weight:800; font-size:12px; padding:4px 8px; border-radius:999px; margin-bottom:6px; }
     .flash .meta { display:flex; flex-direction:column; }
     .flash .title { font-weight:700; color:var(--tecan-dark); font-size:13px; }
@@ -158,48 +152,48 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17y</div>
-        <div class="kpi-sub" id="sub-years"><div class="vs">vs 23y <span class="plan-label">PLAN</span></div></div>
-        <div class="kpi-percent" id="percent-years">74% <span class="kpi-note">Shared</span></div>
+        <div class="kpi-sub" id="sub-years"></div>
+        <div class="kpi-percent" id="percent-years"></div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-sub" id="sub-total"><div class="vs">vs 19 <span class="plan-label">PLAN</span></div></div>
-        <div class="kpi-percent" id="percent-total">—</div>
+        <div class="kpi-sub" id="sub-total"></div>
+        <div class="kpi-percent" id="percent-total"></div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-sub" id="sub-sapcerts"><div class="vs">vs 5 <span class="plan-label">PLAN</span></div></div>
-        <div class="kpi-percent" id="percent-sapcerts">—</div>
+        <div class="kpi-sub" id="sub-sapcerts"></div>
+        <div class="kpi-percent" id="percent-sapcerts"></div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-sub" id="sub-sapcourses"><div class="vs">vs 10 <span class="plan-label">PLAN</span></div></div>
-        <div class="kpi-percent" id="percent-sapcourses">—</div>
+        <div class="kpi-sub" id="sub-sapcourses"></div>
+        <div class="kpi-percent" id="percent-sapcourses"></div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-sub" id="sub-data"><div class="vs">vs 4 <span class="plan-label">PLAN</span></div></div>
-        <div class="kpi-percent" id="percent-data">—</div>
+        <div class="kpi-sub" id="sub-data"></div>
+        <div class="kpi-percent" id="percent-data"></div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-sub" id="sub-active"><div class="vs">vs 19 <span class="plan-label">PLAN</span></div></div>
-        <div class="kpi-percent" id="percent-active">—</div>
+        <div class="kpi-sub" id="sub-active"></div>
+        <div class="kpi-percent" id="percent-active"></div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -311,7 +305,6 @@
   </div>
 
   <script>
-    // defaults; these will be overridden by saved localStorage values if present
     const defaultPlanValues = {
       years: 23,
       sapCerts: 5,
@@ -321,12 +314,10 @@
       active: 19
     };
 
-    // Optional small labels for KPI percent values (e.g., 'Shared')
     const kpiLabels = { years: 'Shared' };
 
     let planValues = Object.assign({}, defaultPlanValues);
 
-    // load saved plan values from localStorage
     function loadPlanFromStorage() {
       try {
         const saved = localStorage.getItem('portfolio_plan_values');
@@ -418,7 +409,6 @@
       const avgSelf = myProfile.reduce((s, v) => s + v, 0) / myProfile.length;
       const avgExpected = expected.reduce((s, v) => s + v, 0) / expected.length;
       let coveragePct = Math.round((avgSelf / avgExpected) * 100);
-      // cap coverage at 100%
       coveragePct = Math.min(100, coveragePct);
       document.getElementById('fit-total-score').textContent = `${coveragePct}%`;
       document.getElementById('coverageNumeric').textContent = `${coveragePct}%`;
@@ -526,11 +516,8 @@
       const sapCourses = timelineData.items.filter(i => i.group === 'sapCourses').length;
       const dataAgile = timelineData.items.filter(i => i.group === 'dataAgile').length;
       const active = timelineData.items.filter(i => i.status !== 'Expired').length;
-
-      // Years is a fixed ACT value in this portfolio
       const years = 17;
 
-      // utility to format ACT/PLAN lines and percent capped at 100%
       function setKpi(actValue, planValue, idsPrefix, suffixY=false) {
         const kpiEl = document.getElementById('kpi-' + idsPrefix);
         const subEl = document.getElementById('sub-' + idsPrefix);
@@ -542,21 +529,16 @@
         if (kpiEl) kpiEl.textContent = actDisplay;
 
         if (subEl) {
-          // show only "vs <plan> PLAN" to avoid repeating the act value
           subEl.innerHTML = `<div class="vs">vs ${planDisplay} <span class="plan-label">PLAN</span></div>`;
         }
 
         let pct = 0;
-        if (planValue && planValue > 0) {
-          pct = Math.round((actValue / planValue) * 100);
-        }
-        // cap at 100
+        if (planValue && planValue > 0) pct = Math.round((actValue / planValue) * 100);
         pct = Math.min(100, pct);
 
         const label = kpiLabels[idsPrefix] || '';
         if (pctEl) {
-          // place percent and small label together on the same line
-          pctEl.innerHTML = isNaN(pct) ? '—' : `${pct}%` + (label ? ` <span class="kpi-note">${label}</span>` : '');
+          pctEl.innerHTML = isNaN(pct) ? '—' : `${pct}%${label ? ` <span class="kpi-note">${label}</span>` : ''}`;
         }
       }
 
