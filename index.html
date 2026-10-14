@@ -42,7 +42,7 @@
     .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; font-weight:800; }
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:600; }
 
-    /* KPI grid and cards - simplified ACT/PLAN presentation */
+    /* KPI grid and cards - ACT / PLAN presentation with colored PLAN number */
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card {
       padding:16px 14px;
@@ -53,7 +53,7 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:5px;
+      gap:6px;
       text-align:center;
     }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
@@ -65,19 +65,12 @@
       letter-spacing:-0.04em;
     }
     /* smaller secondary KPI texts */
-    .kpi-sub {
-      font-size:0.78rem;
-      line-height:1.25;
-      color:var(--muted);
-      letter-spacing:-0.01em;
-    }
-    .kpi-ratio {
-      font-size:0.76rem;
-      line-height:1.2;
-      color:var(--muted);
-      font-weight:700;
-      letter-spacing:-0.01em;
-    }
+    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); }
+    .kpi-sub .act { color:var(--tecan-blue); font-weight:800; }
+    .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
+    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:6px; }
+    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; }
+
     .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
@@ -143,48 +136,48 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17y</div>
-        <div class="kpi-sub" id="sub-years">17y ACT • 23y PLAN</div>
-        <div class="kpi-ratio" id="ratio-years">17 / 23</div>
+        <div class="kpi-sub" id="sub-years"><span class="act">17y</span> ACT • <span class="plan-number">23y</span><span class="plan-label"> PLAN</span></div>
+        <div class="kpi-percent" id="percent-years">74%</div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-sub" id="sub-total">— ACT • 19 PLAN</div>
-        <div class="kpi-ratio" id="ratio-total">— / 19</div>
+        <div class="kpi-sub" id="sub-total">— ACT • <span class="plan-number">19</span><span class="plan-label"> PLAN</span></div>
+        <div class="kpi-percent" id="percent-total">—%</div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-sub" id="sub-sapcerts">— ACT • 5 PLAN</div>
-        <div class="kpi-ratio" id="ratio-sapcerts">— / 5</div>
+        <div class="kpi-sub" id="sub-sapcerts">— ACT • <span class="plan-number">5</span><span class="plan-label"> PLAN</span></div>
+        <div class="kpi-percent" id="percent-sapcerts">—%</div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-sub" id="sub-sapcourses">— ACT • 10 PLAN</div>
-        <div class="kpi-ratio" id="ratio-sapcourses">— / 10</div>
+        <div class="kpi-sub" id="sub-sapcourses">— ACT • <span class="plan-number">10</span><span class="plan-label"> PLAN</span></div>
+        <div class="kpi-percent" id="percent-sapcourses">—%</div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-sub" id="sub-data">— ACT • 4 PLAN</div>
-        <div class="kpi-ratio" id="ratio-data">— / 4</div>
+        <div class="kpi-sub" id="sub-data">— ACT • <span class="plan-number">4</span><span class="plan-label"> PLAN</span></div>
+        <div class="kpi-percent" id="percent-data">—%</div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-sub" id="sub-active">— ACT • 19 PLAN</div>
-        <div class="kpi-ratio" id="ratio-active">— / 19</div>
+        <div class="kpi-sub" id="sub-active">— ACT • <span class="plan-number">19</span><span class="plan-label"> PLAN</span></div>
+        <div class="kpi-percent" id="percent-active">—%</div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -399,7 +392,9 @@
       const myProfile = roleFitData.map(item => item.me);
       const avgSelf = myProfile.reduce((s, v) => s + v, 0) / myProfile.length;
       const avgExpected = expected.reduce((s, v) => s + v, 0) / expected.length;
-      const coveragePct = Math.round((avgSelf / avgExpected) * 100);
+      let coveragePct = Math.round((avgSelf / avgExpected) * 100);
+      // cap coverage at 100%
+      coveragePct = Math.min(100, coveragePct);
       document.getElementById('fit-total-score').textContent = `${coveragePct}%`;
       document.getElementById('coverageNumeric').textContent = `${coveragePct}%`;
 
@@ -442,6 +437,8 @@
       if (!trendChart) {
         trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.08)', fill:true, tension:0.35 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
       } else { trendChart.data.labels = trendTotals.labels; trendChart.data.datasets[0].data = trendTotals.values; trendChart.update(); }
+
+      updateSummary();
     }
 
     function buildGroupHtml(groupId, items) {
@@ -492,33 +489,43 @@
       const sapCourses = timelineData.items.filter(i => i.group === 'sapCourses').length;
       const dataAgile = timelineData.items.filter(i => i.group === 'dataAgile').length;
       const active = timelineData.items.filter(i => i.status !== 'Expired').length;
+
+      // Years is a fixed ACT value in this portfolio
       const years = 17;
 
-      document.getElementById('kpi-years').textContent = years + 'y';
-      document.getElementById('sub-years').textContent = `${years}y ACT • ${planValues.years}y PLAN`;
-      document.getElementById('ratio-years').textContent = `${years} / ${planValues.years}`;
+      // utility to format ACT/PLAN lines and percent capped at 100%
+      function setKpi(actValue, planValue, idsPrefix, suffixY=false) {
+        const kpiEl = document.getElementById('kpi-' + idsPrefix);
+        const subEl = document.getElementById('sub-' + idsPrefix);
+        const pctEl = document.getElementById('percent-' + idsPrefix);
 
-      document.getElementById('kpi-total').textContent = total;
-      document.getElementById('sub-total').textContent = `${total} ACT • ${planValues.total} PLAN`;
-      document.getElementById('ratio-total').textContent = `${total} / ${planValues.total}`;
+        const actDisplay = suffixY ? `${actValue}y` : `${actValue}`;
+        const planDisplay = suffixY ? `${planValue}y` : `${planValue}`;
 
-      document.getElementById('kpi-sapcerts').textContent = sapCerts;
-      document.getElementById('sub-sapcerts').textContent = `${sapCerts} ACT • ${planValues.sapCerts} PLAN`;
-      document.getElementById('ratio-sapcerts').textContent = `${sapCerts} / ${planValues.sapCerts}`;
+        if (kpiEl) kpiEl.textContent = actDisplay;
 
-      document.getElementById('kpi-sapcourses').textContent = sapCourses;
-      document.getElementById('sub-sapcourses').textContent = `${sapCourses} ACT • ${planValues.sapCourses} PLAN`;
-      document.getElementById('ratio-sapcourses').textContent = `${sapCourses} / ${planValues.sapCourses}`;
+        if (subEl) {
+          subEl.innerHTML = `<span class="act">${actDisplay}</span> ACT • <span class="plan-number">${planDisplay}</span><span class="plan-label"> PLAN</span>`;
+        }
 
-      document.getElementById('kpi-data').textContent = dataAgile;
-      document.getElementById('sub-data').textContent = `${dataAgile} ACT • ${planValues.dataAgile} PLAN`;
-      document.getElementById('ratio-data').textContent = `${dataAgile} / ${planValues.dataAgile}`;
+        let pct = 0;
+        if (planValue && planValue > 0) {
+          pct = Math.round((actValue / planValue) * 100);
+        }
+        // cap at 100
+        pct = Math.min(100, pct);
+        if (pctEl) pctEl.textContent = isNaN(pct) ? '—' : `${pct}%`;
+      }
 
-      document.getElementById('kpi-active').textContent = active;
-      document.getElementById('sub-active').textContent = `${active} ACT • ${planValues.active} PLAN`;
-      document.getElementById('ratio-active').textContent = `${active} / ${planValues.active}`;
+      setKpi(years, planValues.years, 'years', true);
+      setKpi(total, planValues.total, 'total', false);
+      setKpi(sapCerts, planValues.sapCerts, 'sapcerts', false);
+      setKpi(sapCourses, planValues.sapCourses, 'sapcourses', false);
+      setKpi(dataAgile, planValues.dataAgile, 'data', false);
+      setKpi(active, planValues.active, 'active', false);
 
-      document.getElementById('summary-box').textContent = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
+      const coverageText = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
+      document.getElementById('summary-box').textContent = coverageText;
     }
 
     function getGroupPlanValue(group) { if (group === 'sapCerts') return planValues.sapCerts; if (group === 'sapCourses') return planValues.sapCourses; if (group === 'dataAgile') return planValues.dataAgile; return 0; }
