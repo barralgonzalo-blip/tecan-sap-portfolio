@@ -50,6 +50,9 @@
     .kpi-values .actual { color:var(--success); font-weight:700; }
     .kpi-values .plan { color:var(--warning); font-weight:700; }
     .kpi-values .deviation { font-weight:700; }
+    .kpi-edit { display:inline-flex; gap:8px; align-items:center; }
+    .kpi-edit button { background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700 }
+    .kpi-edit input { width:64px;padding:4px;border-radius:6px;border:1px solid var(--line) }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
     .chart-card { background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:16px; box-shadow:0 14px 30px rgba(17,24,39,0.03); padding:16px; }
@@ -114,42 +117,72 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17+</div>
-        <div class="kpi-values"><div class="actual" id="actual-years">17</div><div class="plan" id="plan-years">23</div><div class="deviation" id="dev-years">—</div></div>
+        <div class="kpi-values"><div class="actual" id="actual-years">17</div>
+          <div class="kpi-edit">Plan: <span class="plan" id="plan-years">23</span>
+            <button data-key="years" class="edit-plan">Edit</button>
+          </div>
+          <div class="deviation" id="dev-years">—</div>
+        </div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-total">—</div><div class="plan" id="plan-total">19</div><div class="deviation" id="dev-total">—</div></div>
+        <div class="kpi-values"><div class="actual" id="actual-total">—</div>
+          <div class="kpi-edit">Plan: <span class="plan" id="plan-total">19</span>
+            <button data-key="total" class="edit-plan">Edit</button>
+          </div>
+          <div class="deviation" id="dev-total">—</div>
+        </div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-sapcerts">—</div><div class="plan" id="plan-sapcerts">5</div><div class="deviation" id="dev-sapcerts">—</div></div>
+        <div class="kpi-values"><div class="actual" id="actual-sapcerts">—</div>
+          <div class="kpi-edit">Plan: <span class="plan" id="plan-sapcerts">5</span>
+            <button data-key="sapCerts" class="edit-plan">Edit</button>
+          </div>
+          <div class="deviation" id="dev-sapcerts">—</div>
+        </div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-sapcourses">—</div><div class="plan" id="plan-sapcourses">10</div><div class="deviation" id="dev-sapcourses">—</div></div>
+        <div class="kpi-values"><div class="actual" id="actual-sapcourses">—</div>
+          <div class="kpi-edit">Plan: <span class="plan" id="plan-sapcourses">10</span>
+            <button data-key="sapCourses" class="edit-plan">Edit</button>
+          </div>
+          <div class="deviation" id="dev-sapcourses">—</div>
+        </div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-data">—</div><div class="plan" id="plan-data">4</div><div class="deviation" id="dev-data">—</div></div>
+        <div class="kpi-values"><div class="actual" id="actual-data">—</div>
+          <div class="kpi-edit">Plan: <span class="plan" id="plan-data">4</span>
+            <button data-key="dataAgile" class="edit-plan">Edit</button>
+          </div>
+          <div class="deviation" id="dev-data">—</div>
+        </div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-active">—</div><div class="plan" id="plan-active">19</div><div class="deviation" id="dev-active">—</div></div>
+        <div class="kpi-values"><div class="actual" id="actual-active">—</div>
+          <div class="kpi-edit">Plan: <span class="plan" id="plan-active">19</span>
+            <button data-key="active" class="edit-plan">Edit</button>
+          </div>
+          <div class="deviation" id="dev-active">—</div>
+        </div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -261,7 +294,8 @@
   </div>
 
   <script>
-    const planValues = {
+    // defaults; these will be overridden by saved localStorage values if present
+    const defaultPlanValues = {
       years: 23,
       sapCerts: 5,
       sapCourses: 10,
@@ -269,6 +303,25 @@
       total: 19,
       active: 19
     };
+
+    let planValues = Object.assign({}, defaultPlanValues);
+
+    // load saved plan values from localStorage
+    function loadPlanFromStorage() {
+      try {
+        const saved = localStorage.getItem('portfolio_plan_values');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          planValues = Object.assign({}, planValues, parsed);
+        }
+      } catch (e) { console.warn('Could not load plan values', e); }
+    }
+
+    function savePlanToStorage() {
+      try {
+        localStorage.setItem('portfolio_plan_values', JSON.stringify(planValues));
+      } catch (e) { console.warn('Could not save plan values', e); }
+    }
 
     const timelineData = {
       groups: [
@@ -316,16 +369,8 @@
     }
 
     function getCategoryTotals(items) {
-      const totals = {
-        sapCerts: 0,
-        sapCourses: 0,
-        dataAgile: 0
-      };
-
-      items.forEach(item => {
-        if (totals[item.group] !== undefined) totals[item.group] += 1;
-      });
-
+      const totals = { sapCerts: 0, sapCourses: 0, dataAgile: 0 };
+      items.forEach(item => { if (totals[item.group] !== undefined) totals[item.group] += 1; });
       return [totals.sapCerts, totals.sapCourses, totals.dataAgile];
     }
 
@@ -337,86 +382,32 @@
 
     function getTrendTotals(items) {
       const counts = {};
-
       items.forEach(item => {
         const year = item.start ? item.start.slice(0, 4) : null;
-        if (!year) return;
-        counts[year] = (counts[year] || 0) + 1;
+        if (!year) return; counts[year] = (counts[year] || 0) + 1;
       });
-
       const sortedYears = Object.keys(counts).sort();
-      return {
-        labels: sortedYears,
-        values: sortedYears.map(year => counts[year])
-      };
+      return { labels: sortedYears, values: sortedYears.map(year => counts[year]) };
     }
 
     function renderCareerFitChart() {
       const labels = roleFitData.map(item => item.label);
       const expected = roleFitData.map(item => item.expected);
       const myProfile = roleFitData.map(item => item.me);
-      const avgSelf = myProfile.reduce((sum, value) => sum + value, 0) / myProfile.length;
-      const avgExpected = expected.reduce((sum, value) => sum + value, 0) / expected.length;
+      const avgSelf = myProfile.reduce((s, v) => s + v, 0) / myProfile.length;
+      const avgExpected = expected.reduce((s, v) => s + v, 0) / expected.length;
       const coveragePct = Math.round((avgSelf / avgExpected) * 100);
-
       document.getElementById('fit-total-score').textContent = `${coveragePct}%`;
       document.getElementById('coverageNumeric').textContent = `${coveragePct}%`;
 
       if (!careerFitChart) {
         careerFitChart = new Chart(document.getElementById('careerFitChart'), {
           type: 'radar',
-          data: {
-            labels,
-            datasets: [
-              {
-                label: 'Tecan expectation',
-                data: expected,
-                borderColor: '#009FE3',
-                backgroundColor: 'rgba(0,159,227,0.15)',
-                pointBackgroundColor: '#009FE3',
-                pointRadius: 3
-              },
-              {
-                label: 'My profile',
-                data: myProfile,
-                borderColor: '#18a957',
-                backgroundColor: 'rgba(24,169,87,0.15)',
-                pointBackgroundColor: '#18a957',
-                pointRadius: 3
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: {
-                  boxWidth: 12,
-                  usePointStyle: true
-                }
-              }
-            },
-            scales: {
-              r: {
-                min: 0,
-                max: 10,
-                ticks: { stepSize: 2 },
-                pointLabels: {
-                  font: {
-                    size: 10
-                  }
-                }
-              }
-            }
-          }
+          data: { labels, datasets: [ { label: 'Tecan expectation', data: expected, borderColor: '#009FE3', backgroundColor: 'rgba(0,159,227,0.15)', pointBackgroundColor: '#009FE3', pointRadius: 3 }, { label: 'My profile', data: myProfile, borderColor: '#18a957', backgroundColor: 'rgba(24,169,87,0.15)', pointBackgroundColor: '#18a957', pointRadius: 3 } ] },
+          options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, usePointStyle:true } } }, scales:{ r:{ min:0, max:10, ticks:{ stepSize:2 }, pointLabels:{ font:{ size:10 } } } } }
         });
       } else {
-        careerFitChart.data.labels = labels;
-        careerFitChart.data.datasets[0].data = expected;
-        careerFitChart.data.datasets[1].data = myProfile;
-        careerFitChart.update();
+        careerFitChart.data.labels = labels; careerFitChart.data.datasets[0].data = expected; careerFitChart.data.datasets[1].data = myProfile; careerFitChart.update();
       }
     }
 
@@ -439,108 +430,52 @@
       document.getElementById('actual-active').textContent = statusTotals.active;
       document.getElementById('actual-years').textContent = '17';
 
-      const commonBarOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          tooltip: { enabled: true }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { precision: 0 }
-          }
-        }
-      };
+      const commonBarOptions = { responsive:true, maintainAspectRatio:false, plugins:{ tooltip:{ enabled:true } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } };
 
       if (!categoryChart) {
-        categoryChart = new Chart(document.getElementById('categoryChart'), {
-          type: 'bar',
-          data: {
-            labels,
-            datasets: [
-              {
-                label: 'Actual',
-                data: categoryValues,
-                backgroundColor: ['#0a66c2', '#06b6d4', '#7c3aed'],
-                borderRadius: 8
-              },
-              {
-                label: 'Plan',
-                data: planCategoryValues,
-                backgroundColor: ['rgba(10,102,194,0.18)', 'rgba(6,182,212,0.18)', 'rgba(124,58,237,0.18)'],
-                borderRadius: 8
-              }
-            ]
-          },
-          options: commonBarOptions
-        });
+        categoryChart = new Chart(document.getElementById('categoryChart'), { type:'bar', data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'], borderRadius:8 }, { label:'Plan', data:planCategoryValues, backgroundColor:['rgba(255,160,64,0.18)','rgba(255,160,64,0.12)','rgba(255,160,64,0.08)'], borderRadius:8 } ] }, options:commonBarOptions });
       } else {
-        categoryChart.data.datasets[0].data = categoryValues;
-        categoryChart.data.datasets[1].data = planCategoryValues;
-        categoryChart.update();
+        categoryChart.data.datasets[0].data = categoryValues; categoryChart.data.datasets[1].data = planCategoryValues; categoryChart.update();
       }
 
       if (!statusChart) {
-        statusChart = new Chart(document.getElementById('statusChart'), {
-          type: 'doughnut',
-          data: {
-            labels: ['Active', 'Expired'],
-            datasets: [{
-              data: [statusTotals.active, statusTotals.expired],
-              backgroundColor: ['#009FE3', '#dfe8f1']
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '60%',
-            plugins: {
-              legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 10 } }
-            }
-          }
-        });
-      } else {
-        statusChart.data.datasets[0].data = [statusTotals.active, statusTotals.expired];
-        statusChart.update();
-      }
+        statusChart = new Chart(document.getElementById('statusChart'), { type:'doughnut', data:{ labels:['Active','Expired'], datasets:[{ data:[statusTotals.active, statusTotals.expired], backgroundColor:['#009FE3','#dfe8f1'] }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, boxWidth:10 } } } } });
+      } else { statusChart.data.datasets[0].data = [statusTotals.active, statusTotals.expired]; statusChart.update(); }
 
       if (!trendChart) {
-        trendChart = new Chart(document.getElementById('trendChart'), {
-          type: 'line',
-          data: {
-            labels: trendTotals.labels,
-            datasets: [{
-              label: 'Credentials',
-              data: trendTotals.values,
-              borderColor: '#009FE3',
-              backgroundColor: 'rgba(0,159,227,0.12)',
-              fill: true,
-              tension: 0.35,
-              pointRadius: 4,
-              pointHoverRadius: 5
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: { precision: 0 }
-              }
-            }
-          }
-        });
-      } else {
-        trendChart.data.labels = trendTotals.labels;
-        trendChart.data.datasets[0].data = trendTotals.values;
-        trendChart.update();
-      }
+        trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.12)', fill:true, tension:0.35, pointRadius:4, pointHoverRadius:5 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
+      } else { trendChart.data.labels = trendTotals.labels; trendChart.data.datasets[0].data = trendTotals.values; trendChart.update(); }
 
       // update KPI deviations
       updateDeviations();
+    }
+
+    function getGroupPlanValue(group) { if (group === 'sapCerts') return planValues.sapCerts; if (group === 'sapCourses') return planValues.sapCourses; if (group === 'dataAgile') return planValues.dataAgile; return 0; }
+
+    function showDetail(item) {
+      const panel = document.getElementById('detail-box');
+      const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
+      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
+      const actualInGroup = timelineData.items.filter(i => i.group === item.group).length;
+      const planInGroup = getGroupPlanValue(item.group);
+      const diff = actualInGroup - planInGroup;
+      const diffText = diff >= 0 ? `+${diff} ahead` : `${Math.abs(diff)} to plan`;
+      const diffColor = diff >= 0 ? '#18a957' : '#f59e0b';
+      panel.innerHTML = `
+        <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
+        <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
+        <div style="margin-top:10px" class="preview">${item.short}</div>
+        <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.issuer}</span>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
+          <div>Actual: ${actualInGroup}</div>
+          <div style="color:var(--warning);">Plan: ${planInGroup}</div>
+          <div style="color:${diffColor};">Deviation: ${diffText}</div>
+        </div>
+      `;
     }
 
     function updateDeviations() {
@@ -549,13 +484,7 @@
       const planYears = planValues.years || 0;
       const diffYears = actualYears - planYears;
       const devYearsEl = document.getElementById('dev-years');
-      if (diffYears >= 0) {
-        devYearsEl.textContent = `+${diffYears} ahead`;
-        devYearsEl.style.color = '#18a957';
-      } else {
-        devYearsEl.textContent = `${Math.abs(diffYears)} to plan`;
-        devYearsEl.style.color = '#f59e0b';
-      }
+      if (diffYears >= 0) { devYearsEl.textContent = `+${diffYears} ahead`; devYearsEl.style.color = '#18a957'; } else { devYearsEl.textContent = `${Math.abs(diffYears)} to plan`; devYearsEl.style.color = '#f59e0b'; }
 
       // SAP certs
       const actualSap = parseInt(document.getElementById('actual-sapcerts').textContent, 10) || 0;
@@ -591,6 +520,12 @@
       const diffActive = actualActive - planActive;
       const devActiveEl = document.getElementById('dev-active');
       if (diffActive >= 0) { devActiveEl.textContent = `+${diffActive} ahead`; devActiveEl.style.color = '#18a957'; } else { devActiveEl.textContent = `${Math.abs(diffActive)} to plan`; devActiveEl.style.color = '#f59e0b'; }
+
+      // Update plan spans (in case planValues changed externally)
+      document.querySelectorAll('.plan').forEach(el => {
+        const id = el.id.replace('plan-', '');
+        if (planValues[id] !== undefined) el.textContent = planValues[id];
+      });
     }
 
     function buildGroupHtml(groupId, items) {
@@ -635,39 +570,6 @@
       updateSummary();
     }
 
-    function getGroupPlanValue(group) {
-      if (group === 'sapCerts') return planValues.sapCerts;
-      if (group === 'sapCourses') return planValues.sapCourses;
-      if (group === 'dataAgile') return planValues.dataAgile;
-      return 0;
-    }
-
-    function showDetail(item) {
-      const panel = document.getElementById('detail-box');
-      const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
-      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
-      const actualInGroup = timelineData.items.filter(i => i.group === item.group).length;
-      const planInGroup = getGroupPlanValue(item.group);
-      const diff = actualInGroup - planInGroup;
-      const diffText = diff >= 0 ? `+${diff} ahead` : `${Math.abs(diff)} to plan`;
-      const diffColor = diff >= 0 ? '#18a957' : '#f59e0b';
-      panel.innerHTML = `
-        <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
-        <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
-        <div style="margin-top:10px" class="preview">${item.short}</div>
-        <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.issuer}</span>
-        </div>
-        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
-          <div>Actual: ${actualInGroup}</div>
-          <div style="color:var(--warning);">Plan: ${planInGroup}</div>
-          <div style="color:${diffColor};">Deviation: ${diffText}</div>
-        </div>
-      `;
-    }
-
     function updateSummary() {
       const total = timelineData.items.length;
       const sapCerts = timelineData.items.filter(i => i.group === 'sapCerts').length;
@@ -694,19 +596,65 @@
       updateDeviations();
     }
 
+    function startPlanEditor(key, parentEl) {
+      // create inline editor
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.value = planValues[key] || 0;
+      input.style.marginLeft = '8px';
+
+      const save = document.createElement('button');
+      save.textContent = 'Save';
+      save.style.marginLeft = '8px';
+      save.onclick = () => {
+        const val = parseInt(input.value, 10) || 0;
+        planValues[key] = val;
+        savePlanToStorage();
+        // update UI
+        const span = document.getElementById('plan-' + key);
+        if (span) span.textContent = val;
+        renderCharts(document.querySelector('.chip.active')?.dataset.group || 'all');
+        // remove editor
+        parentEl.removeChild(editorWrap);
+      };
+
+      const cancel = document.createElement('button');
+      cancel.textContent = 'Cancel';
+      cancel.style.marginLeft = '6px';
+      cancel.onclick = () => { parentEl.removeChild(editorWrap); };
+
+      const editorWrap = document.createElement('span');
+      editorWrap.style.display = 'inline-flex';
+      editorWrap.style.alignItems = 'center';
+      editorWrap.appendChild(input);
+      editorWrap.appendChild(save);
+      editorWrap.appendChild(cancel);
+
+      parentEl.appendChild(editorWrap);
+      input.focus();
+    }
+
     document.addEventListener('click', function (ev) {
+      const edit = ev.target.closest('.edit-plan');
+      if (edit) {
+        const key = edit.dataset.key;
+        startPlanEditor(key, edit.parentElement);
+        return;
+      }
+
       const chip = ev.target.closest('.chip');
       if (!chip) return;
       const group = chip.dataset.group;
       document.querySelectorAll('.chip[data-group]').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.chip[data-group]').forEach(c => {
-        if (c.dataset.group === group) c.classList.add('active');
-      });
+      document.querySelectorAll('.chip[data-group]').forEach(c => { if (c.dataset.group === group) c.classList.add('active'); });
       renderFlashCards(group);
       renderCharts(group);
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+      loadPlanFromStorage();
+      // apply loaded plan into DOM
       document.getElementById('plan-years').textContent = planValues.years;
       document.getElementById('plan-sapcerts').textContent = planValues.sapCerts;
       document.getElementById('plan-sapcourses').textContent = planValues.sapCourses;
