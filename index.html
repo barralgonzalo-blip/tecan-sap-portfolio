@@ -45,7 +45,7 @@
     .kpi-card { padding:16px 14px; border-radius:14px; background:linear-gradient(180deg,#fff 0%,#fbfdff 100%); border:1px solid var(--line); box-shadow:0 10px 28px rgba(17,24,39,0.04); display:flex; flex-direction:column; gap:8px; }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
     .kpi-value { font-size:clamp(1.6rem,2vw,2.2rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
-    .kpi-meta { color:var(--muted); font-size:12px; line-height:1.4; }
+    .kpi-plan { color:var(--muted); font-size:12px; }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
     .chart-card { background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:16px; box-shadow:0 14px 30px rgba(17,24,39,0.03); padding:16px; }
@@ -109,36 +109,42 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17+</div>
+        <div class="kpi-plan">Actual: <span id="actual-years">17</span> • Plan: <span id="plan-years">23</span></div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
+        <div class="kpi-plan">Actual: <span id="actual-total">—</span> • Plan: <span id="plan-total">19</span></div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
+        <div class="kpi-plan">Actual: <span id="actual-sapcerts">—</span> • Plan: <span id="plan-sapcerts">5</span></div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
+        <div class="kpi-plan">Actual: <span id="actual-sapcourses">—</span> • Plan: <span id="plan-sapcourses">10</span></div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
+        <div class="kpi-plan">Actual: <span id="actual-data">—</span> • Plan: <span id="plan-data">4</span></div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
+        <div class="kpi-plan">Actual: <span id="actual-active">—</span> • Plan: <span id="plan-active">—</span></div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -171,7 +177,7 @@
             <div class="legend-pill"><span class="legend-dot" style="background:#18a957"></span> My profile</div>
           </div>
           <p style="margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.6;">
-            This is a conservative estimate based on a mix of SAP BW/4HANA, HANA, SAC, Datasphere, ETL/data integration, and governance experience visible in the portfolio.
+            This is a conservative estimate based on SAP BW/4HANA, HANA, SAC, DataSphere, ETL/data integration, and governance experience visible in the portfolio.
           </p>
         </div>
       </div>
@@ -250,6 +256,15 @@
   </div>
 
   <script>
+    const planValues = {
+      years: 23,
+      sapCerts: 5,
+      sapCourses: 10,
+      dataAgile: 4,
+      total: 19,
+      active: 19
+    };
+
     const timelineData = {
       groups: [
         { id: 'sapCerts', content: 'SAP Certifications', color: '#0a66c2' },
@@ -406,16 +421,23 @@
       const categoryValues = getCategoryTotals(items);
       const statusTotals = getStatusTotals(items);
       const trendTotals = getTrendTotals(items);
+      const planCategoryValues = [planValues.sapCerts, planValues.sapCourses, planValues.dataAgile];
 
-      document.getElementById('chart-category-total').textContent = items.length;
+      document.getElementById('chart-category-total').textContent = items.length + ' / ' + planValues.total;
       document.getElementById('chart-status-total').textContent = statusTotals.active;
       document.getElementById('chart-trend-total').textContent = trendTotals.labels.length || 0;
+
+      document.getElementById('actual-sapcerts').textContent = categoryValues[0];
+      document.getElementById('actual-sapcourses').textContent = categoryValues[1];
+      document.getElementById('actual-data').textContent = categoryValues[2];
+      document.getElementById('actual-total').textContent = items.length;
+      document.getElementById('actual-active').textContent = statusTotals.active;
+      document.getElementById('actual-years').textContent = '17';
 
       const commonBarOptions = {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: false },
           tooltip: { enabled: true }
         },
         scales: {
@@ -431,17 +453,26 @@
           type: 'bar',
           data: {
             labels,
-            datasets: [{
-              label: 'Credentials',
-              data: categoryValues,
-              backgroundColor: ['#0a66c2', '#06b6d4', '#7c3aed'],
-              borderRadius: 8
-            }]
+            datasets: [
+              {
+                label: 'Actual',
+                data: categoryValues,
+                backgroundColor: ['#0a66c2', '#06b6d4', '#7c3aed'],
+                borderRadius: 8
+              },
+              {
+                label: 'Plan',
+                data: planCategoryValues,
+                backgroundColor: ['rgba(10,102,194,0.18)', 'rgba(6,182,212,0.18)', 'rgba(124,58,237,0.18)'],
+                borderRadius: 8
+              }
+            ]
           },
           options: commonBarOptions
         });
       } else {
         categoryChart.data.datasets[0].data = categoryValues;
+        categoryChart.data.datasets[1].data = planCategoryValues;
         categoryChart.update();
       }
 
@@ -546,10 +577,19 @@
       updateSummary();
     }
 
+    function getGroupPlanValue(group) {
+      if (group === 'sapCerts') return planValues.sapCerts;
+      if (group === 'sapCourses') return planValues.sapCourses;
+      if (group === 'dataAgile') return planValues.dataAgile;
+      return 0;
+    }
+
     function showDetail(item) {
       const panel = document.getElementById('detail-box');
       const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
       const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
+      const actualInGroup = timelineData.items.filter(i => i.group === item.group).length;
+      const planInGroup = getGroupPlanValue(item.group);
       panel.innerHTML = `
         <h4 style="margin:0 0 6px;color:${color};">${item.content}</h4>
         <div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div>
@@ -559,6 +599,7 @@
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.issuer}</span>
         </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">Actual: ${actualInGroup} • Plan: ${planInGroup}</div>
       `;
     }
 
@@ -574,6 +615,13 @@
       document.getElementById('kpi-sapcourses').textContent = sapCourses;
       document.getElementById('kpi-data').textContent = dataAgile;
       document.getElementById('kpi-active').textContent = active;
+
+      document.getElementById('actual-total').textContent = total;
+      document.getElementById('actual-sapcerts').textContent = sapCerts;
+      document.getElementById('actual-sapcourses').textContent = sapCourses;
+      document.getElementById('actual-data').textContent = dataAgile;
+      document.getElementById('actual-active').textContent = active;
+      document.getElementById('actual-years').textContent = '17';
 
       document.getElementById('summary-box').textContent = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
     }
@@ -591,6 +639,13 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('plan-years').textContent = planValues.years;
+      document.getElementById('plan-sapcerts').textContent = planValues.sapCerts;
+      document.getElementById('plan-sapcourses').textContent = planValues.sapCourses;
+      document.getElementById('plan-data').textContent = planValues.dataAgile;
+      document.getElementById('plan-total').textContent = planValues.total;
+      document.getElementById('plan-active').textContent = planValues.active;
+
       renderCareerFitChart();
       renderFlashCards('all');
       renderCharts('all');
