@@ -8,96 +8,60 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --tecan-blue: #009FE3;
-      --tecan-dark: #0a2b42;
-      --bg-soft: #f5f8fc;
-      --card: #ffffff;
-      --text: #17212b;
-      --muted: #5e6977;
-      --line: #e4ebf3;
-      --success: #18a957;
-      --warning: #f59e0b;
-      --shadow: 0 18px 40px rgba(17, 24, 39, 0.08);
-    }
+    :root { --tecan-blue:#009FE3; --tecan-dark:#0a2b42; --bg-soft:#f5f8fc; --card:#ffffff; --text:#17212b; --muted:#5e6977; --line:#e4ebf3; --success:#18a957; --warning:#f59e0b; --shadow:0 18px 40px rgba(17,24,39,0.08); }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:'Inter',Arial,sans-serif;background:linear-gradient(180deg,#f5f8fb 0%,#edf5fb 100%);color:var(--text)}
+    .container{max-width:1200px;margin:0 auto;padding:32px 20px 48px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+    .brand{display:flex;flex-direction:column;gap:4px}
+    .brand h1{margin:0;font-size:clamp(1.5rem,2vw,2.3rem);color:var(--tecan-blue);letter-spacing:-0.04em}
+    .brand small{color:var(--muted);font-weight:500;letter-spacing:0.06em;text-transform:uppercase}
+    .contact-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(255,255,255,0.7);border-radius:999px;padding:9px 14px;color:var(--muted);font-size:13px;font-weight:600}
+    .hero{display:grid;grid-template-columns:1.5fr 0.9fr;gap:18px;margin-bottom:18px}
+    .hero-main,.hero-side,.card,.timeline-card,.project-card,.contact-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+    .hero-main{padding:26px 24px;display:flex;flex-direction:column;gap:18px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(0,159,227,0.08);color:var(--tecan-blue);font-size:12px;font-weight:700;text-transform:uppercase}
+    .hero-main h2{margin:0;font-size:clamp(2rem,4vw,3.2rem);line-height:1.08}
+    .hero-main p{margin:0;color:var(--muted);font-size:1.02rem;line-height:1.7}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .primary-btn,.secondary-btn{appearance:none;border:0;cursor:pointer;border-radius:10px;padding:12px 18px;font-weight:700;font-size:14px;transition:transform .15s}
+    .primary-btn{background:var(--tecan-blue);color:#fff;box-shadow:0 10px 24px rgba(0,159,227,0.25)}
+    .secondary-btn{background:#eef7ff;color:var(--tecan-dark);border:1px solid #d7ecff}
+    .kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:12px;margin:18px 0 20px}
+    @media (max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,minmax(150px,1fr))}} @media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,minmax(150px,1fr))}.hero{grid-template-columns:1fr}}
+    .kpi-card{padding:16px 14px;border-radius:14px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);border:1px solid var(--line);box-shadow:0 10px 28px rgba(17,24,39,0.04);display:flex;flex-direction:column;gap:10px;min-height:148px;cursor:pointer}
+    .kpi-label{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase}
+    .kpi-value{font-size:clamp(1.6rem,2vw,2.2rem);font-weight:800;color:var(--tecan-blue)}
+    .kpi-meta{color:var(--muted);font-size:12px}
+    .sparkline{width:100%;height:32px;margin-top:auto}
+    .main-grid{display:grid;grid-template-columns:1.35fr 0.95fr;gap:18px;margin-top:8px}
+    .card{padding:24px 22px}
+    .section-title{margin:0 0 12px;font-size:1.1rem;color:var(--tecan-dark)}
+    .two-col{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+    .info-box{background:linear-gradient(180deg,#fff 0%,#f7fbff 100%);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+    .stack-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .pill{display:inline-flex;align-items:center;background:#edf7ff;color:var(--tecan-dark);border:1px solid #dfeffe;padding:8px 10px;border-radius:999px;font-size:12px;font-weight:600}
+    .timeline-card,.project-card,.contact-card{padding:20px 18px}
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .footer-note{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: 'Inter', Arial, sans-serif; background: linear-gradient(180deg, #f5f8fb 0%, #edf5fb 100%); color: var(--text); }
-    .container { max-width: 1200px; margin: 0 auto; padding: 32px 20px 48px; }
-    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
-    .brand { display: flex; flex-direction: column; gap: 4px; }
-    .brand h1 { margin: 0; font-size: clamp(1.5rem, 2vw, 2.3rem); color: var(--tecan-blue); letter-spacing: -0.04em; }
-    .brand small { color: var(--muted); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
-    .contact-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: rgba(255,255,255,0.7); border-radius: 999px; padding: 9px 14px; color: var(--muted); font-size: 13px; font-weight: 600; }
-    .hero { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 18px; margin-bottom: 18px; }
-    .hero-main, .hero-side, .card, .timeline-card, .project-card, .contact-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
-    .hero-main { padding: 26px 24px; display: flex; flex-direction: column; gap: 18px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 8px 12px; border-radius: 999px; background: rgba(0,159,227,0.08); color: var(--tecan-blue); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-    .hero-main h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08; letter-spacing: -0.06em; max-width: 720px; }
-    .hero-main p { margin: 0; color: var(--muted); font-size: 1.02rem; line-height: 1.7; max-width: 760px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .primary-btn, .secondary-btn { appearance: none; border: 0; cursor: pointer; border-radius: 10px; padding: 12px 18px; font-weight: 700; font-size: 14px; transition: transform 0.15s ease; }
-    .primary-btn { background: var(--tecan-blue); color: #fff; box-shadow: 0 10px 24px rgba(0,159,227,0.25); }
-    .secondary-btn { background: #eef7ff; color: var(--tecan-dark); border: 1px solid #d7ecff; }
-    .primary-btn:hover, .secondary-btn:hover { transform: translateY(-1px); }
-    .hero-side { display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; background: linear-gradient(180deg, #ffffff 0%, #f5fbff 100%); }
-    .hero-side .mini-title { margin: 0 0 8px; color: var(--tecan-blue); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; font-size: 12px; }
-    .hero-side ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 2; font-size: 14px; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(6, minmax(150px, 1fr)); gap: 12px; margin: 18px 0 20px; }
-    @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3, minmax(150px, 1fr)); } }
-    @media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2, minmax(150px, 1fr)); } .hero { grid-template-columns: 1fr; } }
-    .kpi-card { padding: 16px 14px; border-radius: 14px; background: linear-gradient(180deg, #fff 0%, #fbfdff 100%); border: 1px solid var(--line); box-shadow: 0 10px 28px rgba(17,24,39,0.04); display: flex; flex-direction: column; gap: 10px; min-height: 148px; cursor: pointer; }
-    .kpi-label { color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
-    .kpi-value { font-size: clamp(1.6rem, 2vw, 2.2rem); font-weight: 800; color: var(--tecan-blue); line-height: 1; }
-    .kpi-meta { color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .sparkline { width: 100%; height: 32px; margin-top: auto; }
-    .main-grid { display: grid; grid-template-columns: 1.35fr 0.95fr; gap: 18px; margin-top: 8px; }
-    .card { padding: 24px 22px; }
-    .section-title { margin: 0 0 12px; font-size: 1.1rem; color: var(--tecan-dark); letter-spacing: -0.02em; }
-    .two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-    .info-box { background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%); border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px; }
-    .info-box h4 { margin: 0 0 8px; color: var(--tecan-blue); font-size: 0.96rem; }
-    .info-box p, .info-box ul { margin: 0; color: var(--muted); line-height: 1.65; font-size: 14px; }
-    .info-box ul { padding-left: 18px; }
-    .stack-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .pill { display: inline-flex; align-items: center; background: #edf7ff; color: var(--tecan-dark); border: 1px solid #dfeffe; padding: 8px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-    .timeline-card, .project-card, .contact-card { padding: 20px 18px; }
-    .timeline-list { display: grid; gap: 12px; margin-top: 10px; }
-    .timeline-item { display: grid; grid-template-columns: 125px 1fr; gap: 10px; align-items: start; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-    .timeline-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .year { color: var(--tecan-blue); font-weight: 800; font-size: 13px; padding-top: 2px; }
-    .timeline-item strong { display: block; margin-bottom: 4px; font-size: 14px; }
-    .timeline-item span { color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .project-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
-    .project-card { background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%); }
-    .project-card .title { font-weight: 800; color: var(--tecan-blue); margin-bottom: 8px; }
-    .project-card .result { color: var(--success); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
-    .project-card p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
-    .contact-card { background: linear-gradient(180deg, #fff 0%, #f6fbff 100%); }
-    .contact-card p { margin: 6px 0 0; color: var(--muted); line-height: 1.7; }
-    .footer-note { margin-top: 18px; text-align: center; color: var(--muted); font-size: 13px; }
-
-    /* Heatmap styles */
-    .heatmap { display: grid; grid-template-columns: repeat(10, 28px); gap: 6px; }
-    .heatcell { width: 28px; height: 28px; border-radius: 6px; display:flex;align-items:center;justify-content:center; font-size:11px; color:#fff; cursor:default; }
-    .heat-0 { background:#f1f5f9; color:#6b7280; }
-    .heat-1 { background:#dbeafe; }
-    .heat-2 { background:#99ccf6; }
-    .heat-3 { background:#2ea3f0; }
-    .heat-4 { background:#0077b6; }
-    .heat-legend { display:flex;gap:8px;align-items:center;margin-top:10px;font-size:13px;color:var(--muted); }
-
-    @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } .project-grid { grid-template-columns: 1fr; } .two-col { grid-template-columns: 1fr; } }
+    /* Widgets styles */
+    .widgets { display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin: 12px 0 20px; }
+    .gauge { display:flex; gap:12px; align-items:center; padding:14px; border-radius:12px; background:linear-gradient(180deg,#fff,#fcfdff); border:1px solid var(--line); }
+    .gauge .visual { width:110px; height:110px; display:flex; align-items:center; justify-content:center; position:relative }
+    .gauge svg { transform: rotate(-135deg); }
+    .gauge .label { font-size:13px; color:var(--muted) }
+    .gauge .value { font-weight:800; color:var(--tecan-blue); font-size:20px }
+    .speed { display:flex; flex-direction:column; gap:6px }
+    .speed-bar { height:14px; border-radius:8px; background:linear-gradient(90deg,#e6f3ff,#d9f0ff); position:relative; overflow:hidden; border:1px solid var(--line) }
+    .speed-fill { height:100%; background: linear-gradient(90deg,#00a5ff,#006bb3); width:0%; border-radius:8px; transition:width 800ms cubic-bezier(.2,.9,.2,1) }
+    .speed-labels { display:flex; justify-content:space-between; font-size:12px; color:var(--muted); }
+    @media (max-width:900px){ .widgets{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
   <div class="container">
     <header class="topbar">
-      <div class="brand">
-        <small>SAP Analytics & Data Story</small>
-        <h1>Gonzalo Barral</h1>
-      </div>
+      <div class="brand"><small>SAP Analytics & Data Story</small><h1>Gonzalo Barral</h1></div>
       <div class="contact-pill">barralgonzalo@hotmail.com • linkedin.com/in/gonzalobarral</div>
     </header>
 
@@ -105,67 +69,65 @@
       <div class="hero-main">
         <div class="eyebrow">BI / SAP Analytics</div>
         <h2>I build trusted SAP data foundations that turn operational data into business decisions.</h2>
-        <p>
-          Senior SAP BW/4HANA and Analytics Consultant (17+ years). I design scalable SAP data models, orchestrate ETL, and build SAC stories that deliver measurable business impact — faster reporting, higher data trust, and maintainable analytics.
-        </p>
-        <div class="hero-actions">
-          <button class="primary-btn" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">View SAP story</button>
-          <button class="secondary-btn" onclick="window.print()">Print summary</button>
-        </div>
+        <p>Senior SAP BW/4HANA and Analytics Consultant (17+ years). I design scalable SAP data models, orchestrate ETL, and build SAC stories that deliver measurable business impact — faster reporting, higher data trust, and maintainable analytics.</p>
+        <div class="hero-actions"><button class="primary-btn" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">View SAP story</button><button class="secondary-btn" onclick="window.print()">Print summary</button></div>
       </div>
-
-      <aside class="hero-side">
-        <h3 class="mini-title">Why this matters</h3>
-        <ul>
-          <li>Trusted SAP data models (LSA++, CDS)</li>
-          <li>Reliable ETL and monitoring</li>
-          <li>Performance-focused reporting</li>
-          <li>Business-facing KPI design</li>
-        </ul>
-      </aside>
+      <aside class="hero-side"><h3 class="mini-title">Why this matters</h3><ul><li>Trusted SAP data models (LSA++, CDS)</li><li>Reliable ETL and monitoring</li><li>Performance-focused reporting</li><li>Business-facing KPI design</li></ul></aside>
     </section>
 
     <section class="kpi-grid" aria-label="Key performance indicators">
-      <div class="kpi-card" data-id="years">
-        <div class="kpi-label">Years experience</div>
-        <div class="kpi-value">17+</div>
-        <div class="kpi-meta">End-to-end SAP analytics and BW/4HANA delivery</div>
-        <svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,24 14,22 28,20 42,15 56,10 70,8 84,5 98,3 120,0" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="kpi-card" data-id="years"><div class="kpi-label">Years experience</div><div class="kpi-value">17+</div><div class="kpi-meta">End-to-end SAP analytics and BW/4HANA delivery</div><svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,24 14,22 28,20 42,15 56,10 70,8 84,5 98,3 120,0"/></svg></div>
+      <div class="kpi-card" data-id="certs"><div class="kpi-label">Certifications</div><div class="kpi-value">3</div><div class="kpi-meta">SAP BW/4HANA 1.0 • SAP BW on HANA 7.5 • SAP HANA</div><svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,28 16,24 28,20 42,17 56,15 70,12 84,10 100,8 120,4"/></svg></div>
+      <div class="kpi-card" data-id="projects"><div class="kpi-label">Projects delivered</div><div class="kpi-value">12+</div><div class="kpi-meta">Integration, migration, analytics</div><svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,30 18,28 34,22 52,18 68,15 84,6 100,5 120,2"/></svg></div>
+      <div class="kpi-card" data-id="models"><div class="kpi-label">SAP models (examples)</div><div class="kpi-value">Finance • Sales • MM</div><div class="kpi-meta">Finance: ACDOCA/ACDOCP • Sales: SD • Procurement: MM • HR: PA/HR</div><svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,26 18,24 34,20 50,18 68,12 86,7 102,5 120,2"/></svg></div>
+      <div class="kpi-card" data-id="quality"><div class="kpi-label">Data quality (prod)</div><div class="kpi-value">95%</div><div class="kpi-meta">Validation & monitoring for trusted reporting</div><svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#18a957" stroke-width="2.3" points="0,22 16,20 30,17 48,14 62,12 80,8 96,6 120,4"/></svg></div>
+      <div class="kpi-card" data-id="query"><div class="kpi-label">Avg query time</div><div class="kpi-value">3.0s</div><div class="kpi-meta">Measured across key SAC stories and Analysis for Office</div><svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,20 14,18 28,16 42,12 56,10 68,8 84,5 100,4 120,2"/></svg></div>
+    </section>
+
+    <!-- New widgets section: value gauges and speed-limit style bars -->
+    <section class="widgets" aria-label="Candidate value widgets">
+      <div class="card">
+        <h3 class="section-title">Candidate value widgets</h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <div class="gauge" id="gauge-years">
+            <div class="visual" aria-hidden="true"><svg width="110" height="110" viewBox="0 0 100 100"><defs><linearGradient id="g1" x1="0%" x2="100%"><stop offset="0%" stop-color="#00a5ff"/><stop offset="100%" stop-color="#006bb3"/></linearGradient></defs><circle cx="50" cy="50" r="40" stroke="#eef6fb" stroke-width="14" fill="none"/><circle id="arc-years" cx="50" cy="50" r="40" stroke="url(#g1)" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="0 251.2"/></svg></div>
+            <div style="flex:1"><div class="label">Years experience (ratio)</div><div class="value" id="val-years">17/20</div><div class="kpi-meta" style="margin-top:6px">Shows seniority relative to 20-year benchmark</div></div>
+          </div>
+
+          <div class="gauge" id="gauge-projects">
+            <div class="visual" aria-hidden="true"><svg width="110" height="110" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="#f5f9fc" stroke-width="14" fill="none"/><circle id="arc-projects" cx="50" cy="50" r="40" stroke="#18a957" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="0 251.2"/></svg></div>
+            <div style="flex:1"><div class="label">Projects delivered (ratio)</div><div class="value" id="val-projects">12/15</div><div class="kpi-meta" style="margin-top:6px">Relative to an expected portfolio of 15 projects</div></div>
+          </div>
+
+          <div class="gauge" id="gauge-certs">
+            <div class="visual" aria-hidden="true"><svg width="110" height="110" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="#f5f9fc" stroke-width="14" fill="none"/><circle id="arc-certs" cx="50" cy="50" r="40" stroke="#f59e0b" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="0 251.2"/></svg></div>
+            <div style="flex:1"><div class="label">Certifications (ratio)</div><div class="value" id="val-certs">3/5</div><div class="kpi-meta" style="margin-top:6px">Core SAP certifications achieved</div></div>
+          </div>
+
+          <div style="flex-basis:100%"></div>
+
+          <div class="gauge" style="width:100%">
+            <div style="flex:1">
+              <div class="label">Overall candidate speed (speed-limit)</div>
+              <div class="speed">
+                <div class="speed-bar" aria-hidden="true"><div id="speed-fill" class="speed-fill" style="width:0%"></div></div>
+                <div class="speed-labels"><span>Entry</span><span>Lead</span></div>
+                <div class="kpi-meta" style="margin-top:6px">This composite metric combines experience, projects, and certifications to position the candidate near the role's expected maximum.</div>
+              </div>
+            </div>
+            <div style="width:110px;text-align:center;padding-left:12px"><div class="label">Composite</div><div class="value" id="val-composite">—</div></div>
+          </div>
+        </div>
       </div>
 
-      <div class="kpi-card" data-id="certs">
-        <div class="kpi-label">Certifications</div>
-        <div class="kpi-value">3</div>
-        <div class="kpi-meta">SAP BW/4HANA 1.0 • SAP BW on HANA 7.5 • SAP HANA</div>
-        <svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,28 16,24 28,20 42,17 56,15 70,12 84,10 100,8 120,4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-
-      <div class="kpi-card" data-id="projects">
-        <div class="kpi-label">Projects delivered</div>
-        <div class="kpi-value">12+</div>
-        <div class="kpi-meta">Integration, migration, analytics</div>
-        <svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,30 18,28 34,22 52,18 68,15 84,6 100,5 120,2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-
-      <div class="kpi-card" data-id="models">
-        <div class="kpi-label">SAP models (examples)</div>
-        <div class="kpi-value">Finance • Sales • MM</div>
-        <div class="kpi-meta">Finance models based on ACDOCA/ACDOCP, Sales (SD), Procurement (MM), HR</div>
-        <svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,26 18,24 34,20 50,18 68,12 86,7 102,5 120,2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-
-      <div class="kpi-card" data-id="quality">
-        <div class="kpi-label">Data quality (prod)</div>
-        <div class="kpi-value">95%</div>
-        <div class="kpi-meta">Validation & monitoring for trusted reporting</div>
-        <svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#18a957" stroke-width="2.3" points="0,22 16,20 30,17 48,14 62,12 80,8 96,6 120,4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-
-      <div class="kpi-card" data-id="query">
-        <div class="kpi-label">Avg query time</div>
-        <div class="kpi-value">3.0s</div>
-        <div class="kpi-meta">Measured across key SAC stories and Analysis for Office</div>
-        <svg class="sparkline" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#009FE3" stroke-width="2.3" points="0,20 14,18 28,16 42,12 56,10 68,8 84,5 100,4 120,2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="card">
+        <h3 class="section-title">Interpretation widgets</h3>
+        <p class="kpi-meta">Quick heuristics to present during interview. Use these to explain strengths with numbers and comparisons.</p>
+        <div style="margin-top:12px;display:grid;gap:10px">
+          <div class="info-box"><h4>Seniority ratio</h4><p>Years experience / 20-year benchmark. Gonzalo: 17/20 = 85% (near senior limit).</p></div>
+          <div class="info-box"><h4>Delivery ratio</h4><p>Projects delivered / expected portfolio (12/15 = 80%).</p></div>
+          <div class="info-box"><h4>Cert validation</h4><p>Core SAP certifications: 3 — indicates focused SAP stack expertise.</p></div>
+        </div>
       </div>
     </section>
 
@@ -173,254 +135,82 @@
       <section class="card">
         <h3 class="section-title">Why I’m a strong fit for a SAP analytics role</h3>
         <div class="two-col">
-          <div class="info-box">
-            <h4>Data architecture</h4>
-            <p>I design scalable SAP data layers, from source extraction to reporting models, ensuring business reporting is reliable, traceable, and maintainable.</p>
-          </div>
-          <div class="info-box">
-            <h4>Reporting performance</h4>
-            <p>I optimize analytical design using CDS views, AMDP, Query design, and proper LSA++ logic, reducing latency and improving usability.</p>
-          </div>
-          <div class="info-box">
-            <h4>Business understanding</h4>
-            <p>I translate business requirements into KPI logic, report design, and data structures that support decisions across finance, sales, logistics, HR, and operations.</p>
-          </div>
-          <div class="info-box">
-            <h4>End-to-end ownership</h4>
-            <p>I’ve worked across requirements gathering, modeling, ETL logic, testing, validation, and user adoption of analytics solutions.</p>
-          </div>
+          <div class="info-box"><h4>Data architecture</h4><p>I design scalable SAP data layers, from source extraction to reporting models, ensuring business reporting is reliable, traceable, and maintainable.</p></div>
+          <div class="info-box"><h4>Reporting performance</h4><p>I optimize analytical design using CDS views, AMDP, Query design, and proper LSA++ logic, reducing latency and improving usability.</p></div>
+          <div class="info-box"><h4>Business understanding</h4><p>I translate business requirements into KPI logic, report design, and data structures that support decisions across finance, sales, logistics, HR, and operations.</p></div>
+          <div class="info-box"><h4>End-to-end ownership</h4><p>I’ve worked across requirements gathering, modeling, ETL logic, testing, validation, and user adoption of analytics solutions.</p></div>
         </div>
 
-        <div style="margin-top: 18px;">
-          <h3 class="section-title">SAP capability stack</h3>
-          <div class="stack-list">
-            <span class="pill">SAP BW/4HANA</span>
-            <span class="pill">SAP HANA</span>
-            <span class="pill">SAP SAC</span>
-            <span class="pill">CDS Views</span>
-            <span class="pill">AMDP</span>
-            <span class="pill">ABAP</span>
-            <span class="pill">SQL</span>
-            <span class="pill">LSA++</span>
-            <span class="pill">BusinessObjects</span>
-            <span class="pill">Analysis for Office</span>
-            <span class="pill">S/4HANA Embedded Analytics</span>
-          </div>
-        </div>
+        <div style="margin-top: 18px;"><h3 class="section-title">SAP capability stack</h3><div class="stack-list"><span class="pill">SAP BW/4HANA</span><span class="pill">SAP HANA</span><span class="pill">SAP SAC</span><span class="pill">CDS Views</span><span class="pill">AMDP</span><span class="pill">ABAP</span><span class="pill">SQL</span><span class="pill">LSA++</span><span class="pill">BusinessObjects</span><span class="pill">Analysis for Office</span><span class="pill">S/4HANA Embedded Analytics</span></div></div>
       </section>
 
       <aside>
-        <div class="timeline-card">
-          <h3 class="section-title">Career timeline</h3>
-          <div class="timeline-list">
-            <div class="timeline-item">
-              <div class="year">2007–2011</div>
-              <div>
-                <strong>YPF – SAP BW Consultant</strong>
-                <span>Enterprise reporting and data model migration with strong operational support.</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2011–2015</div>
-              <div>
-                <strong>Capgemini / Telecom / TUI Travel</strong>
-                <span>BW architecture, migration, reporting, and HANA-based analytics in international environments.</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2015–2019</div>
-              <div>
-                <strong>Carrefour / Servihabitat / Bayer</strong>
-                <span>Business reporting, BW modeling, data objects, and advanced analytical implementation.</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2019–2024</div>
-              <div>
-                <strong>Bacardi / Cchellenic</strong>
-                <span>BW4HANA, S/4HANA, CDS, AMDP, FI/SD/MM models, and analytical optimization.</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2024–Present</div>
-              <div>
-                <strong>Ruby Group – SAP BW/4HANA & SAC</strong>
-                <span>Design and delivery of BW/4HANA reporting, finance and commercial analytics, SAC stories, and modern data-driven solutions.</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="timeline-card"><h3 class="section-title">Career timeline</h3><div class="timeline-list"><div class="timeline-item"><div class="year">2007–2011</div><div><strong>YPF – SAP BW Consultant</strong><span>Enterprise reporting and data model migration with strong operational support.</span></div></div><div class="timeline-item"><div class="year">2011–2015</div><div><strong>Capgemini / Telecom / TUI Travel</strong><span>BW architecture, migration, reporting, and HANA-based analytics in international environments.</span></div></div><div class="timeline-item"><div class="year">2015–2019</div><div><strong>Carrefour / Servihabitat / Bayer</strong><span>Business reporting, BW modeling, data objects, and advanced analytical implementation.</span></div></div><div class="timeline-item"><div class="year">2019–2024</div><div><strong>Bacardi / Cchellenic</strong><span>BW4HANA, S/4HANA, CDS, AMDP, FI/SD/MM models, and analytical optimization.</span></div></div><div class="timeline-item"><div class="year">2024–Present</div><div><strong>Ruby Group – SAP BW/4HANA & SAC</strong><span>Design and delivery of BW/4HANA reporting, finance and commercial analytics, SAC stories, and modern data-driven solutions.</span></div></div></div></div>
       </aside>
     </main>
 
-    <section class="card" style="margin-top: 20px;">
-      <h3 class="section-title">Project evidence and business impact</h3>
-      <div class="project-grid">
-        <div class="project-card">
-          <div class="title">Tecan Integration</div>
-          <div class="result">35% faster report delivery</div>
-          <p>Improved reporting flow and relevancy by aligning analytics design with integration requirements and business consumption patterns.</p>
-        </div>
+    <section class="card" style="margin-top: 20px;"><h3 class="section-title">Project evidence and business impact</h3><div class="project-grid"><div class="project-card"><div class="title">Tecan Integration</div><div class="result">35% faster report delivery</div><p>Improved reporting flow and relevancy by aligning analytics design with integration requirements and business consumption patterns.</p></div><div class="project-card"><div class="title">BW Migration</div><div class="result">6 models consolidated into 1 LSA++ structure</div><p>Reduced complexity and improved maintainability by simplifying the reporting architecture and standardizing the SAP model approach.</p></div><div class="project-card"><div class="title">Analytics Rollout</div><div class="result">Faster decision latency</div><p>Delivered analytical solutions designed to support operational decision-making with cleaner models and stronger data trust.</p></div></div></section>
 
-        <div class="project-card">
-          <div class="title">BW Migration</div>
-          <div class="result">6 models consolidated into 1 LSA++ structure</div>
-          <p>Reduced complexity and improved maintainability by simplifying the reporting architecture and standardizing the SAP model approach.</p>
-        </div>
+    <section class="card" style="margin-top: 20px;"><h3 class="section-title">How I create value in SAP environments</h3><div class="two-col"><div class="info-box"><h4>1. Data quality and control</h4><p>I build validation layers and logical data structures that keep reporting consistent and reliable, which is essential in any SAP data platform.</p></div><div class="info-box"><h4>2. Performance and scalability</h4><p>I reduce query complexity and improve model efficiency through better SAP design, indexing strategy, and optimized extraction/transformation logic.</p></div><div class="info-box"><h4>3. Business-facing analytics</h4><p>I connect technical architecture to reporting outcomes, making sure KPI logic is understandable and usable by business users.</p></div><div class="info-box"><h4>4. Governance and maintainability</h4><p>I design data models that are easier to support, extend, and adapt as business requirements evolve across the organization.</p></div></div></section>
 
-        <div class="project-card">
-          <div class="title">Analytics Rollout</div>
-          <div class="result">Faster decision latency</div>
-          <p>Delivered analytical solutions designed to support operational decision-making with cleaner models and stronger data trust.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="card" style="margin-top: 20px;">
-      <h3 class="section-title">How I create value in SAP environments</h3>
-      <div class="two-col">
-        <div class="info-box">
-          <h4>1. Data quality and control</h4>
-          <p>I build validation layers and logical data structures that keep reporting consistent and reliable, which is essential in any SAP data platform.</p>
-        </div>
-        <div class="info-box">
-          <h4>2. Performance and scalability</h4>
-          <p>I reduce query complexity and improve model efficiency through better SAP design, indexing strategy, and optimized extraction/transformation logic.</p>
-        </div>
-        <div class="info-box">
-          <h4>3. Business-facing analytics</h4>
-          <p>I connect technical architecture to reporting outcomes, making sure KPI logic is understandable and usable by business users.</p>
-        </div>
-        <div class="info-box">
-          <h4>4. Governance and maintainability</h4>
-          <p>I design data models that are easier to support, extend, and adapt as business requirements evolve across the organization.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact-card" style="margin-top: 20px;">
-      <h3 class="section-title" style="margin-bottom: 6px;">SAP analytics profile summary</h3>
-      <p>
-        I combine deep SAP BW/4HANA and HANA experience with business understanding, reporting design, and performance optimization. I can lead or support data modeling, extraction logic, semantic layer design, and business KPI delivery — with a strong focus on trusted data and clear analytics outcomes.
-      </p>
-      <p>
-        Contact: barralgonzalo@hotmail.com<br />
-        LinkedIn: linkedin.com/in/gonzalobarral
-      </p>
-    </section>
+    <section class="contact-card" style="margin-top: 20px;"><h3 class="section-title" style="margin-bottom: 6px;">SAP analytics profile summary</h3><p>I combine deep SAP BW/4HANA and HANA experience with business understanding, reporting design, and performance optimization. I can lead or support data modeling, extraction logic, semantic layer design, and business KPI delivery — with a strong focus on trusted data and clear analytics outcomes.</p><p>Contact: barralgonzalo@hotmail.com<br/>LinkedIn: linkedin.com/in/gonzalobarral</p></section>
 
     <div class="footer-note">Built for SAP analytics and BI roles • Gonzalo Barral</div>
   </div>
 
   <!-- Modal overlay for details (includes a heatmap for years) -->
-  <div id="overlay" class="overlay" style="display:none; position:fixed; inset:0; background:rgba(2,6,23,0.6); align-items:center; justify-content:center; padding:20px; z-index:80;">
-    <div class="modal" id="modal" style="width:100%; max-width:980px; background:var(--card); border-radius:12px; padding:16px; border:1px solid var(--line); max-height:90vh; overflow:auto;">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-        <div>
-          <h2 id="modalTitle" style="margin:0; color:var(--tecan-blue);"></h2>
-          <div id="modalSub" style="color:var(--muted); font-size:13px; margin-top:6px;"></div>
-        </div>
-        <div><button onclick="closeModal()" style="background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700;">Close ✕</button></div>
-      </div>
-      <div id="modalBody" style="margin-top:14px; color:var(--muted);"></div>
-    </div>
-  </div>
+  <div id="overlay" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center;padding:20px;z-index:80"><div class="modal" id="modal" style="width:100%;max-width:980px;background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--line);max-height:90vh;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><h2 id="modalTitle" style="margin:0;color:var(--tecan-blue)"></h2><div id="modalSub" style="color:var(--muted);font-size:13px;margin-top:6px"></div></div><div><button onclick="closeModal()" style="background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700">Close ✕</button></div></div><div id="modalBody" style="margin-top:14px;color:var(--muted)"></div></div></div>
 
   <script>
-    // Update data according to user changes
-    const profile = {
-      yearsExperience: 17,
-      certifications: [
-        'SAP BW/4HANA 1.0',
-        'SAP BW on HANA 7.5',
-        'SAP HANA'
-      ],
-      projectsDelivered: 12,
-      sapModelsExamples: [
-        {domain:'Finance',example:'ACDOCA-based models (FI/CO, ACDOCA/ACDOCP) with financial ledgers'},
-        {domain:'Sales',example:'SD-based models: billing and revenue flows'},
-        {domain:'Procurement',example:'MM models for purchasing & receipts'},
-        {domain:'HR',example:'PA/HR reporting objects and payroll slices'},
-      ],
-      dataQualityPct: 95,
-      avgQueryTime: 3.0
-    };
+    // profile data
+    const profile = { yearsExperience:17, certsCount:3, certs:['SAP BW/4HANA 1.0','SAP BW on HANA 7.5','SAP HANA'], projects:12, projectsTarget:15, dataQuality:95, avgQueryTime:3.0 };
 
-    // Attach click handlers to KPI cards
-    document.querySelectorAll('.kpi-card').forEach(card=>{
-      card.addEventListener('click',()=>{
-        const id = card.getAttribute('data-id');
-        openDetail(id);
-      });
-    });
-
-    function openDetail(id){
-      const titleEl = document.getElementById('modalTitle');
-      const subEl = document.getElementById('modalSub');
-      const body = document.getElementById('modalBody');
-      titleEl.textContent = '';
-      subEl.textContent = '';
-      body.innerHTML = '';
-
-      if(id === 'years'){
-        titleEl.textContent = 'Years experience — overview';
-        subEl.textContent = 'Year-by-year activity heatmap (roles and focus areas)';
-        // create heatmap
-        const years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
-        // intensity 0..4 based on role depth/importance (manual mapping from CV)
-        const intensity = [1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,4,4,4,4,4];
-        const roles = [
-          'YPF: BW Consultant','YPF: BW Consultant','Early BW roles','Early BW roles','YPF transition','Capgemini/Consulting','TUI/Carrefour work','Carrefour BW','Carrefour/Servihabitat','Servihabitat','Servihabitat/Chellenic start','Consulting & projects','Bayer & Bacardi','Cchellenic remote projects','Cchellenic','Cchellenic','Bacardi/Cchellenic','Ruby Group','Ruby Group','Ruby Group'
-        ];
-        // build grid
-        let html = '<div style="display:flex;flex-direction:column;gap:10px">';
-        html += '<div style="font-size:13px;color:var(--muted);">Heatmap: darker = more senior/responsible or more relevant SAP focus</div>';
-        html += '<div class="heatmap" style="margin-top:8px">';
-        for(let i=0;i<years.length;i++){
-          const lvl = intensity[i];
-          html += `<div class=\"heatcell heat-${lvl}\" title=\"${years[i]} — ${roles[i]}\">${String(years[i]).slice(-2)}</div>`;
-        }
-        html += '</div>';
-        html += '<div class="heat-legend"><span style="font-weight:700;color:var(--muted)">Legend:</span><span style="display:flex;gap:6px;align-items:center"><span class="heatcell heat-0" style="width:18px;height:18px;border-radius:4px"></span><span>Low activity</span></span><span style="display:flex;gap:6px;align-items:center"><span class="heatcell heat-2" style="width:18px;height:18px;border-radius:4px"></span><span>Medium</span></span><span style="display:flex;gap:6px;align-items:center"><span class="heatcell heat-4" style="width:18px;height:18px;border-radius:4px"></span><span>High / Senior focus</span></span></div>';
-        html += `<div style=\"margin-top:8px;color:var(--muted);font-size:13px\">Tip: hover the squares to see role & year.</div>`;
-        html += '</div>';
-        body.innerHTML = html;
-      } else if(id === 'certs'){
-        titleEl.textContent = 'Certifications';
-        subEl.textContent = 'Selected SAP certifications relevant to the role';
-        body.innerHTML = '<ul style="padding-left:18px;color:var(--muted)">' + profile.certifications.map(c=>`<li>${c}</li>`).join('') + '</ul>';
-      } else if(id === 'projects'){
-        titleEl.textContent = 'Projects delivered';
-        subEl.textContent = 'Summary of impact-focused projects';
-        body.innerHTML = '<div style="display:grid;gap:10px">' +
-          '<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>Tecan Integration</strong><div style="color:var(--muted);margin-top:6px">35% faster report delivery — alignment of data model and delivery layer</div></div>' +
-          '<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>BW Migration</strong><div style="color:var(--muted);margin-top:6px">Consolidated 6 models into 1 LSA++ structure</div></div>' +
-          '<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>Analytics Rollout</strong><div style="color:var(--muted);margin-top:6px">Improved decision latency and adoption</div></div>' +
-          '</div>';
-      } else if(id === 'models'){
-        titleEl.textContent = 'SAP models — examples by domain';
-        subEl.textContent = 'Verified from CV and adapted to TECAN context';
-        body.innerHTML = '<div style="display:grid;gap:10px">' + profile.sapModelsExamples.map(m=>`<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>${m.domain}</strong><div style="color:var(--muted);margin-top:6px">${m.example}</div></div>`).join('') + '</div>';
-      } else if(id === 'quality'){
-        titleEl.textContent = 'Data quality (production)';
-        subEl.textContent = '';
-        body.innerHTML = `<div style="color:var(--muted)">Current production validation rate: <strong>${profile.dataQualityPct}%</strong>. Talking points: completeness checks, rule-based validation, exception management, and monitoring alerts.</div>`;
-      } else if(id === 'query'){
-        titleEl.textContent = 'Avg query time';
-        subEl.textContent = '';
-        body.innerHTML = `<div style="color:var(--muted)">Average measured query time across key reports: <strong>${profile.avgQueryTime.toFixed(1)}s</strong>. Focus: this value highlights opportunity for tuning (CDS, AMDP, aggregates). Keep this number for honesty during interview.</div>`;
-      } else {
-        titleEl.textContent = 'Detail'; subEl.textContent = ''; body.innerHTML = '<div style="color:var(--muted)">No details available.</div>';
-      }
-
-      document.getElementById('overlay').style.display = 'flex';
+    // draw arc helper
+    function setArc(id, percent){
+      const circle = document.getElementById(id);
+      if(!circle) return;
+      const radius = circle.r.baseVal.value; const circ = 2 * Math.PI * radius; const offset = circ * (1 - percent/100);
+      circle.style.strokeDasharray = `${circ} ${circ}`;
+      circle.style.strokeDashoffset = offset;
     }
 
+    // compute composite score (simple weighted average)
+    function computeComposite(){
+      // weights: experience 40%, projects 30%, certs 20%, quality 10%
+      const exp = Math.min(profile.yearsExperience / 20, 1) * 100; const proj = Math.min(profile.projects / profile.projectsTarget, 1) * 100; const cert = Math.min(profile.certsCount / 5, 1) * 100; const qual = profile.dataQuality; const composite = Math.round((exp*0.4 + proj*0.3 + cert*0.2 + qual*0.1)); return {composite,exp,proj,cert};
+    }
+
+    // initialize gauges on load
+    window.addEventListener('load', ()=>{
+      // prepare svg circles
+      // arc-years, arc-projects, arc-certs exist
+      const {composite,exp,proj,cert} = computeComposite();
+      // set arcs
+      setArc('arc-years', Math.round(exp));
+      setArc('arc-projects', Math.round(proj));
+      setArc('arc-certs', Math.round(cert));
+      // set values
+      document.getElementById('val-years').textContent = `${profile.yearsExperience}/20`;
+      document.getElementById('val-projects').textContent = `${profile.projects}/${profile.projectsTarget}`;
+      document.getElementById('val-certs').textContent = `${profile.certsCount}/5`;
+      document.getElementById('val-composite').textContent = `${composite}%`;
+      // animate speed bar
+      const fill = document.getElementById('speed-fill'); fill.style.width = composite + '%';
+    });
+
+    // modal and heatmap as before
+    document.querySelectorAll('.kpi-card').forEach(card=>{ card.addEventListener('click', ()=>{ const id = card.getAttribute('data-id'); openDetail(id); }); });
+    function openDetail(id){ const titleEl = document.getElementById('modalTitle'); const subEl = document.getElementById('modalSub'); const body = document.getElementById('modalBody'); titleEl.textContent=''; subEl.textContent=''; body.innerHTML='';
+      if(id==='years'){ titleEl.textContent='Years experience — overview'; subEl.textContent='Year-by-year activity heatmap (roles and focus areas)'; const years=[2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026]; const intensity=[1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,4,4,4,4,4]; const roles=['YPF: BW Consultant','YPF: BW Consultant','Early BW roles','Early BW roles','YPF transition','Capgemini/Consulting','TUI/Carrefour work','Carrefour BW','Carrefour/Servihabitat','Servihabitat','Servihabitat/Chellenic start','Consulting & projects','Bayer & Bacardi','Cchellenic remote projects','Cchellenic','Cchellenic','Bacardi/Cchellenic','Ruby Group','Ruby Group','Ruby Group']; let html='<div style="display:flex;flex-direction:column;gap:10px">'; html += '<div style="font-size:13px;color:var(--muted);">Heatmap: darker = more senior/responsible or more relevant SAP focus</div>'; html += '<div class="heatmap" style="margin-top:8px">'; for(let i=0;i<years.length;i++){ const lvl=intensity[i]; html += `<div class=\"heatcell heat-${lvl}\" title=\"${years[i]} — ${roles[i]}\">${String(years[i]).slice(-2)}</div>`; } html += '</div>'; html += '<div class="heat-legend"><span style="font-weight:700;color:var(--muted)">Legend:</span><span style="display:flex;gap:6px;align-items:center"><span class="heatcell heat-0" style="width:18px;height:18px;border-radius:4px"></span><span>Low activity</span></span><span style="display:flex;gap:6px;align-items:center"><span class="heatcell heat-2" style="width:18px;height:18px;border-radius:4px"></span><span>Medium</span></span><span style="display:flex;gap:6px;align-items:center"><span class="heatcell heat-4" style="width:18px;height:18px;border-radius:4px"></span><span>High / Senior focus</span></span></div>'; html += `<div style=\"margin-top:8px;color:var(--muted);font-size:13px\">Tip: hover the squares to see role & year.</div>`; html += '</div>'; body.innerHTML = html; }
+      else if(id==='certs'){ titleEl.textContent='Certifications'; subEl.textContent='Selected SAP certifications relevant to the role'; body.innerHTML = '<ul style="padding-left:18px;color:var(--muted)">' + profile.certs.map(c=>`<li>${c}</li>`).join('') + '</ul>'; }
+      else if(id==='projects'){ titleEl.textContent='Projects delivered'; subEl.textContent='Summary of impact-focused projects'; body.innerHTML = '<div style="display:grid;gap:10px">' + '<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>Tecan Integration</strong><div style="color:var(--muted);margin-top:6px">35% faster report delivery — alignment of data model and delivery layer</div></div>' + '<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>BW Migration</strong><div style="color:var(--muted);margin-top:6px">Consolidated 6 models into 1 LSA++ structure</div></div>' + '<div style="padding:10px;border-radius:8px;border:1px solid var(--line)"><strong>Analytics Rollout</strong><div style="color:var(--muted);margin-top:6px">Improved decision latency and adoption</div></div>' + '</div>'; }
+      else if(id==='models'){ titleEl.textContent='SAP models — examples by domain'; subEl.textContent='Verified from CV and adapted to TECAN context'; body.innerHTML = '<div style="display:grid;gap:10px">' + profile.sapModelsExamples.map(m=>`<div style=\"padding:10px;border-radius:8px;border:1px solid var(--line)\"><strong>${m.domain}</strong><div style=\"color:var(--muted);margin-top:6px\">${m.example}</div></div>`).join('') + '</div>'; }
+      else if(id==='quality'){ titleEl.textContent='Data quality (production)'; subEl.textContent=''; body.innerHTML = `<div style="color:var(--muted)">Current production validation rate: <strong>${profile.dataQuality}%</strong>. Talking points: completeness checks, rule-based validation, exception management, and monitoring alerts.</div>`; }
+      else if(id==='query'){ titleEl.textContent='Avg query time'; subEl.textContent=''; body.innerHTML = `<div style="color:var(--muted)">Average measured query time across key reports: <strong>${profile.avgQueryTime.toFixed(1)}s</strong>. Focus: this value highlights opportunity for tuning (CDS, AMDP, aggregates). Keep this number for honesty during interview.</div>`; }
+      else{ titleEl.textContent='Detail'; subEl.textContent=''; body.innerHTML = '<div style="color:var(--muted)">No details available.</div>'; }
+      document.getElementById('overlay').style.display = 'flex'; }
     function closeModal(){ document.getElementById('overlay').style.display = 'none'; }
-
-    // Small accessibility: close modal on ESC
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
-
   </script>
 </body>
 </html>
