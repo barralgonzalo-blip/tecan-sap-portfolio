@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- vis-timeline CSS (required for proper rendering) -->
+  <link rel="stylesheet" href="https://unpkg.com/vis-timeline@7.11.0/styles/vis-timeline-graph2d.min.css">
   <style>
     :root {
       --tecan-blue:#009FE3;
@@ -58,6 +60,7 @@
 
     /* Timeline + Flashcard layout */
     #timeline-graph { height:220px; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); margin-bottom:14px; overflow:hidden; }
+    .timeline-fallback { padding:18px; color:var(--muted); text-align:center; }
 
     #visualization { min-height:240px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#f9fbff,#f4f8fc); border:1px solid var(--line); padding:18px; }
     .groups { display:flex; gap:18px; flex-wrap:wrap; }
@@ -144,7 +147,7 @@
           </div>
         </div>
 
-        <div id="timeline-graph"></div>
+        <div id="timeline-graph"><div class="timeline-fallback">Loading timeline…</div></div>
 
         <div id="visualization">
           <!-- flash cards will render here -->
@@ -282,6 +285,12 @@
     let timeline; // reference
     function renderTimeline(){
       const container = document.getElementById('timeline-graph');
+      if(!container) return;
+
+      // clear fallback text
+      const fallback = container.querySelector('.timeline-fallback');
+      if(fallback) fallback.remove();
+
       const groups = new vis.DataSet(timelineData.groups.map(g=>({id:g.id, content:g.content})));
       const items = new vis.DataSet(
         timelineData.items.map(it=>({id:it.id, content: it.short || it.content, start: `${it.start}-01`, group: it.group, data: it}))
@@ -299,16 +308,21 @@
         }
       };
 
-      if(container._timeline) container._timeline.destroy();
-      timeline = new vis.Timeline(container, items, groups, options);
-      container._timeline = timeline;
+      try{
+        if(container._timeline) container._timeline.destroy();
+        timeline = new vis.Timeline(container, items, groups, options);
+        container._timeline = timeline;
 
-      timeline.on('select', function(props){
-        if(!props.items || !props.items.length) return;
-        const sel = props.items[0];
-        const selected = timelineData.items.find(it=>it.id===sel);
-        if(selected) showDetail(selected);
-      });
+        timeline.on('select', function(props){
+          if(!props.items || !props.items.length) return;
+          const sel = props.items[0];
+          const selected = timelineData.items.find(it=>it.id===sel);
+          if(selected) showDetail(selected);
+        });
+      }catch(e){
+        console.error('Timeline render failed', e);
+        container.innerHTML = '<div class="timeline-fallback">Timeline failed to render (see console).</div>';
+      }
     }
 
     function updateTimelineFilter(group){
@@ -321,7 +335,7 @@
       const ids = timelineData.items.filter(i=>i.group===group).map(i=>i.id);
       timeline.setSelection(ids);
       if(ids.length){
-        timeline.focus(ids[0]);
+        try{ timeline.focus(ids[0]); }catch(e){}
       }
     }
 
@@ -354,6 +368,20 @@
       });
     }
 
+    // Helper: wait for vis lib to be available (in some environments scripts may load async)
+    function whenVisReady(callback, timeout = 5000){
+      const start = Date.now();
+      (function check(){
+        if(window.vis && typeof window.vis !== 'undefined') return callback();
+        if(Date.now() - start > timeout){
+          console.warn('vis not available after wait');
+          // still try to render (will fail gracefully)
+          return callback();
+        }
+        setTimeout(check, 100);
+      })();
+    }
+
     // Wiring
     document.addEventListener('click', function(ev){
       const chip = ev.target.closest('.chip');
@@ -365,8 +393,11 @@
     });
 
     document.addEventListener('DOMContentLoaded', function(){
-      renderTimeline();
-      renderFlashCards('all');
+      // Wait for vis to be ready, then render timeline + cards. This avoids race conditions where vis is not available yet.
+      whenVisReady(function(){
+        renderTimeline();
+        renderFlashCards('all');
+      }, 5000);
     });
   </script>
 </body>
