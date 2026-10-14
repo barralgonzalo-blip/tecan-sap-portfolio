@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/vis-timeline@7.11.0/styles/vis-timeline-graph2d.min.css" rel="stylesheet" />
   <style>
     :root {
       --tecan-blue:#009FE3;
@@ -35,734 +34,139 @@
       color:var(--text);
     }
 
-    .page {
-      max-width:1180px;
-      margin:0 auto;
-      padding:32px 20px 60px;
-    }
-
-    .topbar {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-bottom:20px;
-    }
-
-    .brand {
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-
-    .brand h1 {
-      margin:0;
-      font-size:clamp(1.6rem,2.4vw,2.5rem);
-      color:var(--tecan-blue);
-      letter-spacing:-0.04em;
-    }
-
-    .brand small {
-      color:var(--muted);
-      font-weight:600;
-      letter-spacing:0.06em;
-      text-transform:uppercase;
-      font-size:11px;
-    }
-
-    .contact-pill {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,0.7);
-      border-radius:999px;
-      padding:9px 14px;
-      color:var(--muted);
-      font-size:13px;
-      font-weight:500;
-      box-shadow:var(--shadow);
-    }
-
-    .hero {
-      display:grid;
-      grid-template-columns:1.5fr 0.9fr;
-      gap:18px;
-      margin-bottom:20px;
-    }
-
-    .hero-main,
-    .hero-side,
-    .card,
-    .timeline-card,
-    .project-card,
-    .contact-card {
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:18px;
-      box-shadow:var(--shadow);
-    }
-
-    .hero-main {
-      padding:26px 24px;
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
-
-    .eye {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(0,159,227,0.08);
-      color:var(--tecan-blue);
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:0.05em;
-      text-transform:uppercase;
-      width:max-content;
-    }
-
-    .hero-main h2 {
-      margin:0;
-      font-size:clamp(2rem,4vw,3.2rem);
-      line-height:1.08;
-      letter-spacing:-0.05em;
-    }
-
-    .hero-main p {
-      margin:0;
-      color:var(--muted);
-      font-size:1.02rem;
-      line-height:1.7;
-    }
-
-    .hero-actions {
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      appearance:none;
-      border:0;
-      cursor:pointer;
-      border-radius:10px;
-      padding:12px 18px;
-      font-weight:700;
-      font-size:14px;
-      transition:transform .15s ease;
-    }
-
-    .primary-btn {
-      background:var(--tecan-blue);
-      color:#fff;
-      box-shadow:0 10px 24px rgba(0,159,227,0.25);
-    }
-
-    .secondary-btn {
-      background:#eef7ff;
-      color:var(--tecan-dark);
-      border:1px solid #d7ecff;
-    }
-
-    .hero-side {
-      padding:22px 20px;
-    }
-
-    .mini-title {
-      margin:0 0 12px;
-      font-size:1rem;
-      color:var(--tecan-dark);
-    }
-
-    .hero-side ul {
-      margin:0;
-      padding-left:18px;
-      color:var(--muted);
-      line-height:1.9;
-    }
-
-    .kpi-grid {
-      display:grid;
-      grid-template-columns:repeat(6,minmax(150px,1fr));
-      gap:12px;
-      margin:18px 0 20px;
-    }
-
-    .kpi-card {
-      padding:16px 14px;
-      border-radius:14px;
-      background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);
-      border:1px solid var(--line);
-      box-shadow:0 10px 28px rgba(17,24,39,0.04);
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-height:140px;
-    }
-
-    .kpi-label {
-      color:var(--muted);
-      font-size:12px;
-      font-weight:600;
-      text-transform:uppercase;
-    }
-
-    .kpi-value {
-      font-size:clamp(1.6rem,2vw,2.2rem);
-      font-weight:800;
-      color:var(--tecan-blue);
-      line-height:1;
-    }
-
-    .kpi-meta {
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.5;
-    }
-
-    .card {
-      padding:24px 22px;
-    }
-
-    .section-title {
-      margin:0 0 12px;
-      font-size:1.1rem;
-      color:var(--tecan-dark);
-    }
-
-    .two-col {
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-      margin-top:16px;
-    }
-
-    .info-box {
-      background:linear-gradient(180deg,#fff 0%,#f7fbff 100%);
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:18px 16px;
-    }
-
-    .info-box h4 {
-      margin:0 0 8px;
-      font-size:0.96rem;
-    }
-
-    .info-box p {
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:0.95rem;
-    }
-
-    .pill-row {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:12px;
-    }
-
-    .pill {
-      display:inline-flex;
-      align-items:center;
-      background:#edf7ff;
-      color:var(--tecan-dark);
-      border:1px solid #dfeffe;
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:600;
-    }
-
-    .main-grid {
-      display:grid;
-      grid-template-columns:1.35fr 0.95fr;
-      gap:18px;
-      margin-top:20px;
-    }
-
-    .timeline-card,
-    .project-card,
-    .contact-card {
-      padding:20px 18px;
-    }
-
-    .timeline-list {
-      display:grid;
-      gap:12px;
-      margin-top:12px;
-    }
-
-    .timeline-item {
-      display:grid;
-      grid-template-columns:100px 1fr;
-      gap:10px;
-      align-items:start;
-      padding:8px 0;
-      border-bottom:1px solid var(--line);
-    }
-
-    .timeline-item:last-child { border-bottom:none; }
-
-    .year {
-      color:var(--tecan-blue);
-      font-weight:700;
-      font-size:13px;
-      padding-top:3px;
-    }
-
-    .timeline-item strong {
-      display:block;
-      margin-bottom:3px;
-      font-size:0.95rem;
-    }
-
-    .timeline-item span {
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    .project-grid {
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:12px;
-    }
-
-    .project-card {
-      padding:18px 16px;
-      background:linear-gradient(180deg,#ffffff,#fbfeff);
-    }
-
-    .project-card .title {
-      margin:0 0 8px;
-      font-size:1rem;
-      color:var(--tecan-dark);
-    }
-
-    .project-card p {
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:0.92rem;
-    }
-
-    .footer-note {
-      margin-top:20px;
-      text-align:center;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    .timeline-wrap {
-      margin-top:24px;
-    }
-
-    .timeline-controls {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-
-    .chip-group {
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .chip {
-      background:#edf7ff;
-      color:var(--tecan-dark);
-      border:1px solid #dfeffe;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-      transition:all 0.15s ease;
-    }
-
-    .chip:hover { transform:translateY(-1px); }
-    .chip.active {
-      background:var(--tecan-blue);
-      color:#fff;
-      border-color:var(--tecan-blue);
-      box-shadow:0 8px 20px rgba(0,159,227,0.22);
-    }
-
-    .legend {
-      display:flex;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:12px;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:600;
-    }
-
-    .legend-item {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .dot {
-      width:12px;
-      height:12px;
-      border-radius:4px;
-      display:inline-block;
-    }
-
-    #visualization {
-      height:380px;
-      border-radius:14px;
-      overflow:hidden;
-      background:linear-gradient(180deg,#f9fbff,#f4f8fc);
-      border:1px solid var(--line);
-    }
-
-    .detail-panel {
-      display:grid;
-      grid-template-columns:1.2fr 280px;
-      gap:18px;
-      margin-top:16px;
-    }
-
-    .detail-box {
-      border:1px solid var(--line);
-      background:linear-gradient(180deg,#ffffff,#fbfeff);
-      border-radius:16px;
-      padding:18px;
-      min-height:170px;
-    }
-
-    .detail-box h3 {
-      margin:0 0 6px;
-      font-size:1.08rem;
-      letter-spacing:-0.03em;
-    }
-
-    .detail-meta {
-      color:var(--muted);
-      font-size:13px;
-      margin-bottom:12px;
-    }
-
-    .preview {
-      height:150px;
-      border-radius:12px;
-      background:linear-gradient(180deg,#eaf7ff,#f3f9ff);
-      border:1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      color:var(--tecan-dark);
-      padding:12px;
-      font-weight:700;
-      letter-spacing:-0.02em;
-      font-size:1rem;
-    }
-
-    .preview.faded {
-      opacity:var(--expired);
-      filter:grayscale(0.3);
-    }
-
-    .tags {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:12px;
-    }
-
-    .tag {
-      display:inline-flex;
-      align-items:center;
-      border-radius:999px;
-      background:#edf7ff;
-      color:var(--tecan-dark);
-      font-size:12px;
-      font-weight:700;
-      padding:7px 10px;
-      border:1px solid #dfeffe;
-    }
-
-    .mini-card {
-      border:1px solid var(--line);
-      background:linear-gradient(180deg,#ffffff,#fbfeff);
-      border-radius:16px;
-      padding:16px;
-    }
-
-    .mini-card h4 {
-      margin:0 0 10px;
-      font-size:0.95rem;
-    }
-
-    .mini-grid {
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:8px;
-    }
-
-    .mini-grid .chip {
-      text-align:center;
-      justify-content:center;
-      display:flex;
-      align-items:center;
-      min-height:46px;
-      padding:8px 10px;
-    }
-
-    @media (max-width:1100px) {
-      .kpi-grid { grid-template-columns:repeat(3,minmax(150px,1fr)); }
-    }
-
-    @media (max-width:900px) {
-      .hero { grid-template-columns:1fr; }
-      .detail-panel { grid-template-columns:1fr; }
-      .main-grid { grid-template-columns:1fr; }
-      .project-grid { grid-template-columns:1fr; }
-      .kpi-grid { grid-template-columns:repeat(2,minmax(150px,1fr)); }
-      #visualization { height:320px; }
-    }
-
-    @media (max-width:700px) {
-      .kpi-grid { grid-template-columns:1fr; }
-      .two-col { grid-template-columns:1fr; }
-    }
+    .page { max-width:1180px; margin:0 auto; padding:32px 20px 60px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
+    .brand { display:flex; flex-direction:column; gap:4px; }
+    .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; }
+    .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:500; box-shadow:var(--shadow); }
+
+    /* KPI cards (top) */
+    .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
+    .kpi-card { padding:16px 14px; border-radius:14px; background:linear-gradient(180deg,#fff 0%,#fbfdff 100%); border:1px solid var(--line); box-shadow:0 10px 28px rgba(17,24,39,0.04); display:flex; flex-direction:column; gap:6px; min-height:120px; }
+    .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
+    .kpi-value { font-size:clamp(1.6rem,2vw,2.2rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
+    .kpi-meta { color:var(--muted); font-size:12px; line-height:1.4; }
+
+    .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
+    .section-title { margin:0 0 12px; font-size:1.1rem; color:var(--tecan-dark); }
+
+    .timeline-wrap { margin-top:24px; }
+    .timeline-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+    .chip { background:#edf7ff; color:var(--tecan-dark); border:1px solid #dfeffe; padding:8px 12px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer; }
+    .chip.active { background:var(--tecan-blue); color:#fff; border-color:var(--tecan-blue); box-shadow:0 8px 20px rgba(0,159,227,0.22); }
+    .legend { display:flex; align-items:center; gap:12px; color:var(--muted); font-size:12px; font-weight:600; }
+
+    /* Flashcards grid */
+    #visualization { min-height:240px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#f9fbff,#f4f8fc); border:1px solid var(--line); padding:18px; }
+    .groups { display:flex; gap:18px; flex-wrap:wrap; }
+    .group { flex:1 1 300px; min-width:260px; background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:14px; padding:12px; }
+    .group-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .group-title { font-weight:800; color:var(--tecan-dark); }
+    .group-count { background:var(--tecan-blue); color:#fff; padding:6px 10px; border-radius:999px; font-weight:700; }
+    .cards { display:grid; grid-template-columns:repeat(1,1fr); gap:10px; }
+    .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; }
+    .flash .icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; }
+    .flash .meta { display:flex; flex-direction:column; }
+    .flash .title { font-weight:700; color:var(--tecan-dark); font-size:13px; }
+    .flash .sub { color:var(--muted); font-size:12px; }
+    .flash.faded { opacity:var(--expired); filter:grayscale(0.25); }
+
+    .detail-panel { display:grid; grid-template-columns:1fr 260px; gap:18px; margin-top:14px; }
+    .detail-box { border:1px solid var(--line); background:linear-gradient(180deg,#ffffff,#fbfeff); border-radius:12px; padding:14px; min-height:130px; }
+    .preview { height:120px; border-radius:8px; background:linear-gradient(180deg,#eaf7ff,#f3f9ff); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--tecan-dark); padding:8px; font-weight:700; }
+
+    @media (max-width:900px) { .kpi-grid{grid-template-columns:repeat(3,1fr);} .groups{flex-direction:column;} .detail-panel{grid-template-columns:1fr;} }
   </style>
 </head>
 <body>
   <div class="page">
     <header class="topbar">
-      <div class="brand">
-        <small>SAP Analytics &amp; Data Story</small>
-        <h1>Gonzalo Barral</h1>
-      </div>
+      <div class="brand"><small>SAP Analytics &amp; Data Story</small><h1>Gonzalo Barral</h1></div>
       <div class="contact-pill">barralgonzalo@hotmail.com • linkedin.com/in/gonzalobarral</div>
     </header>
 
-    <section class="hero">
-      <div class="hero-main">
-        <div class="eye">BI / SAP Analytics</div>
-        <h2>I build trusted SAP data foundations that turn operational data into business decisions.</h2>
-        <p>
-          Senior SAP BW/4HANA and Analytics Consultant with 17+ years of experience delivering enterprise
-          BI, reporting, and data architecture solutions. I design scalable models, optimize reporting performance,
-          and build SAC stories that help finance, sales, logistics, HR, and banking teams act on reliable data.
-        </p>
-        <div class="hero-actions">
-          <button class="primary-btn" onclick="document.getElementById('timeline-section').scrollIntoView({behavior:'smooth'})">View timeline</button>
-          <button class="secondary-btn" onclick="window.open('https://www.linkedin.com/in/gonzalobarral', '_blank')">LinkedIn</button>
-        </div>
-      </div>
-
-      <aside class="hero-side">
-        <h3 class="mini-title">Why this matters</h3>
-        <ul>
-          <li>Trusted SAP data models and reporting foundations</li>
-          <li>Reliable ETL, transformations, and monitoring</li>
-          <li>Performance-focused SAC, BW, and HANA implementations</li>
-          <li>Business-first analytics for operational decision making</li>
-        </ul>
-      </aside>
-    </section>
-
+    <!-- KPIs (top) -->
     <section class="kpi-grid" aria-label="Key metrics">
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
-        <div class="kpi-value">17+</div>
+        <div class="kpi-value" id="kpi-years">17+</div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label">Certifications</div>
-        <div class="kpi-value">11</div>
-        <div class="kpi-meta">SAP, data, and agile credentials</div>
+        <div class="kpi-label">Total credentials</div>
+        <div class="kpi-value" id="kpi-total">—</div>
+        <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label">Industries</div>
-        <div class="kpi-value">Finance</div>
-        <div class="kpi-meta">Retail, banking, logistics, HR, manufacturing</div>
+        <div class="kpi-label">SAP certs</div>
+        <div class="kpi-value" id="kpi-sapcerts">—</div>
+        <div class="kpi-meta">Official SAP certifications</div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label">Core stack</div>
-        <div class="kpi-value">BW4HANA</div>
-        <div class="kpi-meta">HANA, SAC, S/4HANA, CDS and BW objects</div>
+        <div class="kpi-label">SAP courses</div>
+        <div class="kpi-value" id="kpi-sapcourses">—</div>
+        <div class="kpi-meta">SAP learning paths and records</div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label">Reporting</div>
-        <div class="kpi-value">SAC</div>
-        <div class="kpi-meta">Fiori, Analysis for Office, BusinessObjects</div>
+        <div class="kpi-label">Data &amp; Agile</div>
+        <div class="kpi-value" id="kpi-data">—</div>
+        <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label">Focus</div>
-        <div class="kpi-value">Models</div>
-        <div class="kpi-meta">FI/CO, MM, SD, HR, CRM, banking</div>
+        <div class="kpi-label">Active</div>
+        <div class="kpi-value" id="kpi-active">—</div>
+        <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
 
-    <main id="story" class="main-grid">
-      <section class="card">
-        <h3 class="section-title">Why I’m a strong fit for a SAP analytics role</h3>
-        <div class="two-col">
-          <div class="info-box">
-            <h4>Data architecture</h4>
-            <p>I design scalable SAP data layers from source extraction to reporting models, ensuring reliable, traceable data quality for business teams.</p>
+    <!-- Intro / Story -->
+    <main class="card">
+      <h3 class="section-title">Certifications &amp; learning</h3>
+      <p style="margin:0 0 12px;color:var(--muted)">All credentials shown as interactive flash cards. Use the chips to filter groups. Click a card to open details to the right.</p>
+
+      <div class="timeline-wrap">
+        <div class="timeline-controls">
+          <div>
+            <button class="chip active" data-group="all">All</button>
+            <button class="chip" data-group="sapCerts">SAP Certifications</button>
+            <button class="chip" data-group="sapCourses">SAP Courses</button>
+            <button class="chip" data-group="dataAgile">Data &amp; Agile</button>
           </div>
-          <div class="info-box">
-            <h4>Reporting performance</h4>
-            <p>I optimize analytical design with CDS, AMDP, LSA++, and query design to reduce latency and improve user experience across reporting tools.</p>
-          </div>
-          <div class="info-box">
-            <h4>Business understanding</h4>
-            <p>I translate functional needs into KPI logic, report design, and data structures that support finance, sales, and operational decisions.</p>
-          </div>
-          <div class="info-box">
-            <h4>End-to-end ownership</h4>
-            <p>I cover requirement gathering, modeling, ETL execution, testing, validation, and user adoption across enterprise analytics environments.</p>
+          <div class="legend"><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--sap);border-radius:3px;display:inline-block"></span> SAP cert</span>
+            <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--sap-course);border-radius:3px;display:inline-block"></span> SAP course</span>
+            <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:var(--data);border-radius:3px;display:inline-block"></span> Data / Agile</span>
           </div>
         </div>
 
-        <div style="margin-top:18px;">
-          <h3 class="section-title">SAP capability stack</h3>
-          <div class="pill-row">
-            <span class="pill">SAP BW/4HANA</span>
-            <span class="pill">SAP HANA</span>
-            <span class="pill">SAP Analytics Cloud</span>
-            <span class="pill">S/4HANA Embedded Analytics</span>
-            <span class="pill">CDS Views</span>
-            <span class="pill">ABAP</span>
-            <span class="pill">SQL</span>
-            <span class="pill">ETL / Data Modeling</span>
-          </div>
+        <div id="visualization">
+          <!-- flash cards will render here -->
         </div>
-      </section>
 
-      <aside>
-        <div class="timeline-card">
-          <h3 class="section-title">Career timeline</h3>
-          <div class="timeline-list">
-            <div class="timeline-item">
-              <div class="year">2007–2011</div>
-              <div>
-                <strong>YPF</strong>
-                <span>SAP BW Consultant — Accenture</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2011–2012</div>
-              <div>
-                <strong>Telecom / AFIP</strong>
-                <span>BW consultant, migration and reporting support</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2012–2015</div>
-              <div>
-                <strong>Banking / retail</strong>
-                <span>BW on HANA implementations and reporting</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2015–2024</div>
-              <div>
-                <strong>Consulting &amp; freelance</strong>
-                <span>Carrefour, Bayer, Bacardi, Cchellenic, Servihabitat</span>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="year">2024–now</div>
-              <div>
-                <strong>Ruby Group</strong>
-                <span>BW/4HANA and SAC for Finance &amp; Controlling</span>
-              </div>
-            </div>
+        <div class="detail-panel" style="margin-top:14px">
+          <div class="detail-box" id="detail-box">
+            <h4>Select a credential</h4>
+            <div style="color:var(--muted);font-size:13px;margin-top:6px">Click any flash card to see details here.</div>
+          </div>
+
+          <div class="detail-box">
+            <h4>Summary</h4>
+            <div style="color:var(--muted);font-size:13px;margin-top:6px" id="summary-box">Totals by category will appear here when cards render.</div>
           </div>
         </div>
-      </aside>
+      </div>
     </main>
 
-    <section class="card timeline-wrap" id="timeline-section">
-      <div class="timeline-controls">
-        <div class="chip-group">
-          <div class="chip active" data-group="all">All</div>
-          <div class="chip" data-group="sapCerts">SAP Certifications</div>
-          <div class="chip" data-group="sapCourses">SAP Courses</div>
-          <div class="chip" data-group="dataAgile">Data &amp; Agile</div>
-        </div>
-
-        <div class="legend">
-          <span class="legend-item"><span class="dot" style="background:var(--sap);"></span> SAP cert</span>
-          <span class="legend-item"><span class="dot" style="background:var(--sap-course);"></span> SAP course</span>
-          <span class="legend-item"><span class="dot" style="background:var(--data);"></span> Data / Agile</span>
-        </div>
-      </div>
-
-      <div id="visualization"></div>
-
-      <div class="detail-panel">
-        <div class="detail-box" id="detail-box">
-          <h3>Select a credential</h3>
-          <div class="detail-meta">Click any item on the timeline to see the issuer, type, status, and date.</div>
-          <div class="preview">SAP • Data • Analytics</div>
-        </div>
-
-        <aside class="mini-card">
-          <h4>Quick filters</h4>
-          <div class="mini-grid">
-            <button class="chip" data-group="sapCerts">SAP certs</button>
-            <button class="chip" data-group="sapCourses">SAP courses</button>
-            <button class="chip" data-group="dataAgile">Data</button>
-            <button class="chip" data-group="all">All</button>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="card" style="margin-top:20px;">
-      <h3 class="section-title">Project evidence and business impact</h3>
-      <div class="project-grid">
-        <div class="project-card">
-          <div class="title">Ruby Group</div>
-          <p>Developed BW/4HANA reporting for Finance and Controlling. Built new ACDOCA-based models and SAC stories using BW and S/4HANA data sources.</p>
-        </div>
-        <div class="project-card">
-          <div class="title">Cchellenic</div>
-          <p>Built FI/SD/MM models, ETL logic, ABAP/AMDP routines, CDS views, and UAT support for enterprise reporting with operational analytics.</p>
-        </div>
-        <div class="project-card">
-          <div class="title">Carrefour / TUI / Bayer</div>
-          <p>Delivered KPI-driven reporting, authorization management, and advanced BW on HANA models across international business reporting environments.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact-card" style="margin-top:20px;">
-      <h3 class="section-title" style="margin-bottom:6px;">SAP analytics profile summary</h3>
-      <p style="margin:0;color:var(--muted);line-height:1.8;">
-        I combine deep SAP BW/4HANA, HANA, and SAC expertise with exposure to finance, sales, logistics, HR, and banking reporting use cases. My focus is building strong SAP data foundations that unlock decision-ready analytics for business teams.
-      </p>
-    </section>
-
-    <div class="footer-note">Built for SAP analytics and BI roles • Gonzalo Barral</div>
+    <div style="height:28px"></div>
+    <div class="footer-note">Built for the SAP analytics profile • Gonzalo Barral</div>
   </div>
 
-  <script src="https://unpkg.com/vis-timeline@7.11.0/standalone/umd/vis-timeline-graph2d.min.js"></script>
   <script>
+    // Data from your certs (cleaned and categorized)
     const timelineData = {
       groups: [
         { id: 'sapCerts', content: 'SAP Certifications', color: '#0a66c2' },
@@ -786,99 +190,83 @@
       ]
     };
 
-    function renderTimelineItem(item) {
-      const color = item.group === 'sapCerts' ? '#0a66c2' : item.group === 'sapCourses' ? '#06b6d4' : '#7c3aed';
-      const letter = (item.issuer || item.content || 'C').charAt(0).toUpperCase();
-      const faded = item.status === 'Expired' ? 'faded' : '';
-      return `
-        <div class="item-badge ${faded}" style="display:inline-flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fbff);border:1px solid rgba(10,43,66,0.06);min-width:180px;max-width:260px;">
-          <div style="width:34px;height:34px;border-radius:8px;background:${color};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;">${letter}</div>
-          <div style="font-size:12px;font-weight:700;color:#0d2235;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:175px;">${item.content}</div>
-        </div>
-      `;
-    }
-
-    function updateDetailPanel(item) {
-      const panel = document.getElementById('detail-box');
-      const statusText = item.status === 'Expired' ? 'Expired / legacy credential' : 'Active credential';
-      const color = item.group === 'sapCerts' ? 'var(--sap)' : item.group === 'sapCourses' ? 'var(--sap-course)' : 'var(--data)';
-      const note = item.note ? `<div class="detail-meta">${item.note}</div>` : '';
-
-      panel.innerHTML = `
-        <h3 style="color:${color};">${item.content}</h3>
-        <div class="detail-meta">${item.issuer} • ${item.type} • ${item.date}</div>
-        ${note}
-        <div class="preview ${item.status === 'Expired' ? 'faded' : ''}">${item.short}</div>
-        <div class="tags">
-          <span class="tag">${statusText}</span>
-          <span class="tag">${item.type}</span>
-          <span class="tag">${item.issuer}</span>
-        </div>
-      `;
-    }
-
-    function renderCertificateTimeline() {
-      const container = document.getElementById('visualization');
-      const groups = new vis.DataSet(timelineData.groups);
-      const items = new vis.DataSet(
-        timelineData.items.map(item => ({
-          id: item.id,
-          content: item.content,
-          start: `${item.start}-01`,
-          group: item.group,
-          data: item
-        }))
-      );
-
-      const options = {
-        stack: false,
-        selectable: true,
-        multiselect: false,
-        showCurrentTime: true,
-        orientation: { axis: 'top' },
-        zoomMin: 1000 * 60 * 60 * 24 * 30,
-        template: (item) => renderTimelineItem(item.data || item)
-      };
-
-      if (container._timeline) {
-        container._timeline.destroy();
-      }
-
-      const timeline = new vis.Timeline(container, items, groups, options);
-      container._timeline = timeline;
-      timeline.fit();
-
-      timeline.on('select', function (props) {
-        if (!props.items || !props.items.length) return;
-        const selected = items.get(props.items[0]);
-        if (selected && selected.data) updateDetailPanel(selected.data);
+    // Helpers to render flashcards
+    function buildGroupHtml(groupId, items) {
+      const color = timelineData.groups.find(g => g.id === groupId)?.color || '#999';
+      const html = [];
+      html.push(`<div class="group" data-group="${groupId}">`);
+      html.push(`<div class="group-header"><div class="group-title">${timelineData.groups.find(g=>g.id===groupId).content}</div><div class="group-count">${items.length}</div></div>`);
+      html.push('<div class="cards">');
+      items.forEach(it => {
+        const expired = it.status === 'Expired' ? 'faded' : '';
+        html.push(`
+          <div class="flash ${expired}" data-id="${it.id}" data-group="${groupId}">
+            <div class="icon" style="background:${color}">${(it.issuer||it.content||'C').charAt(0)}</div>
+            <div class="meta"><div class="title">${it.content}</div><div class="sub">${it.issuer} • ${it.date}</div></div>
+          </div>
+        `);
       });
+      html.push('</div></div>');
+      return html.join('\n');
+    }
 
-      document.querySelectorAll('.chip[data-group]').forEach(button => {
-        button.addEventListener('click', function () {
-          const group = this.dataset.group;
-          document.querySelectorAll('.chip[data-group]').forEach(chip => chip.classList.remove('active'));
-          this.classList.add('active');
+    function renderFlashCards(filterGroup='all'){
+      const viz = document.getElementById('visualization');
+      // group items
+      const groupsHtml = [];
+      timelineData.groups.forEach(g=>{
+        const items = timelineData.items.filter(i=>i.group===g.id);
+        if(filterGroup==='all' || filterGroup===g.id){
+          groupsHtml.push(buildGroupHtml(g.id, items));
+        }
+      });
+      viz.innerHTML = '<div class="groups">'+groupsHtml.join('\n')+'</div>';
 
-          if (group === 'all') {
-            timeline.fit();
-            return;
-          }
-
-          const filtered = items.get({ filter: item => item.group === group });
-          const ids = filtered.map(item => item.id);
-          timeline.setSelection(ids);
-          if (ids.length) {
-            const first = items.get(ids[0]);
-            if (first && first.data) updateDetailPanel(first.data);
-          }
-          timeline.fit();
+      // attach click handlers
+      viz.querySelectorAll('.flash').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          const id = el.dataset.id;
+          const item = timelineData.items.find(it=>it.id===id);
+          if(item) showDetail(item);
         });
       });
+
+      updateSummary();
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      renderCertificateTimeline();
+    function showDetail(item){
+      const panel = document.getElementById('detail-box');
+      panel.innerHTML = `<h4 style="margin:0 0 6px">${item.content}</h4><div style="color:var(--muted);font-size:13px">${item.issuer} • ${item.type} • ${item.date}</div><div style="margin-top:10px" class="preview ${item.status==='Expired'?'faded':''}">${item.short}</div><div style="margin-top:10px;color:var(--muted);font-size:13px">${item.note||''}</div>`;
+    }
+
+    function updateSummary(){
+      const total = timelineData.items.length;
+      const sapCerts = timelineData.items.filter(i=>i.group==='sapCerts').length;
+      const sapCourses = timelineData.items.filter(i=>i.group==='sapCourses').length;
+      const dataAgile = timelineData.items.filter(i=>i.group==='dataAgile').length;
+      const active = timelineData.items.filter(i=>i.status!=='Expired').length;
+      document.getElementById('kpi-total').textContent = total;
+      document.getElementById('kpi-sapcerts').textContent = sapCerts;
+      document.getElementById('kpi-sapcourses').textContent = sapCourses;
+      document.getElementById('kpi-data').textContent = dataAgile;
+      document.getElementById('kpi-active').textContent = active;
+
+      const summary = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
+      document.getElementById('summary-box').textContent = summary;
+    }
+
+    // chip handlers
+    document.addEventListener('click', function(ev){
+      const chip = ev.target.closest('.chip');
+      if(!chip) return;
+      const group = chip.dataset.group;
+      document.querySelectorAll('.chip[data-group]').forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll('.chip[data-group]').forEach(c=>{ if(c.dataset.group===group) c.classList.add('active'); });
+      renderFlashCards(group);
+    });
+
+    document.addEventListener('DOMContentLoaded', function(){
+      renderFlashCards('all');
     });
   </script>
 </body>
