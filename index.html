@@ -43,13 +43,25 @@
     .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:13px; font-weight:600; }
 
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
-    .kpi-card { padding:16px 14px; border-radius:14px; background:linear-gradient(180deg,#fff 0%,#fbfdff 100%); border:1px solid var(--line); box-shadow:0 10px 28px rgba(17,24,39,0.04); display:flex; flex-direction:column; gap:8px; }
+    .kpi-card {
+      padding:16px 14px;
+      border-radius:14px;
+      background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);
+      border:1px solid var(--line);
+      box-shadow:0 10px 28px rgba(17,24,39,0.04);
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:10px;
+      text-align:left;
+    }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
-    .kpi-value { font-size:clamp(1.6rem,2vw,2.2rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
-    .kpi-values { display:flex; flex-direction:column; gap:6px; margin-top:6px; }
-    .kpi-values .actual { color:var(--success); font-weight:700; }
+    .kpi-value { font-size:clamp(1.8rem,2vw,2.4rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
+    .kpi-values { display:flex; flex-direction:column; gap:6px; margin-top:0; align-items:flex-start; }
+    .kpi-values .actual { display:none; }
     .kpi-values .plan { color:var(--warning); font-weight:700; }
     .kpi-values .deviation { font-weight:700; }
+    .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
     .kpi-edit { display:inline-flex; gap:8px; align-items:center; }
     .kpi-edit button { background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700 }
     .kpi-edit input { width:64px;padding:4px;border-radius:6px;border:1px solid var(--line) }
@@ -85,7 +97,7 @@
     .group-title { font-weight:800; color:var(--tecan-dark); }
     .group-count { background:var(--tecan-blue); color:#fff; padding:6px 10px; border-radius:999px; font-weight:700; }
     .cards { display:grid; grid-template-columns:repeat(1,1fr); gap:10px; }
-    .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease; }
+    .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; transition:transform 0.2s ease, box-shadow 0.2s ease; }
     .flash:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(10,43,66,0.06); }
     /* restored icon letter style */
     .flash .icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:18px; }
@@ -96,7 +108,7 @@
 
     .detail-panel { display:grid; grid-template-columns:1fr 260px; gap:18px; margin-top:14px; }
     .detail-box { border:1px solid var(--line); background:linear-gradient(180deg,#ffffff,#fbfeff); border-radius:12px; padding:14px; min-height:130px; }
-    .preview { height:120px; border-radius:8px; background:linear-gradient(180deg,#eaf7ff,#f3f9ff); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--tecan-dark); font-size:1.8rem; font-weight:800; }
+    .preview { height:120px; border-radius:8px; background:linear-gradient(180deg,#eaf7ff,#f3f9ff); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--tecan-dark); font-weight:800; font-size:36px; }
 
     @media (max-width:900px) {
       .kpi-grid { grid-template-columns:repeat(3,1fr); }
@@ -117,7 +129,8 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17+</div>
-        <div class="kpi-values"><div class="actual" id="actual-years">17</div>
+        <div class="kpi-values">
+          <div class="actual" id="actual-years">17</div>
           <div class="kpi-edit">Plan: <span class="plan" id="plan-years">23</span>
             <button data-key="years" class="edit-plan">Edit</button>
           </div>
@@ -129,7 +142,8 @@
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-total">—</div>
+        <div class="kpi-values">
+          <div class="actual" id="actual-total">—</div>
           <div class="kpi-edit">Plan: <span class="plan" id="plan-total">19</span>
             <button data-key="total" class="edit-plan">Edit</button>
           </div>
@@ -141,7 +155,8 @@
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-sapcerts">—</div>
+        <div class="kpi-values">
+          <div class="actual" id="actual-sapcerts">—</div>
           <div class="kpi-edit">Plan: <span class="plan" id="plan-sapcerts">5</span>
             <button data-key="sapCerts" class="edit-plan">Edit</button>
           </div>
@@ -153,7 +168,8 @@
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-sapcourses">—</div>
+        <div class="kpi-values">
+          <div class="actual" id="actual-sapcourses">—</div>
           <div class="kpi-edit">Plan: <span class="plan" id="plan-sapcourses">10</span>
             <button data-key="sapCourses" class="edit-plan">Edit</button>
           </div>
@@ -165,7 +181,8 @@
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-data">—</div>
+        <div class="kpi-values">
+          <div class="actual" id="actual-data">—</div>
           <div class="kpi-edit">Plan: <span class="plan" id="plan-data">4</span>
             <button data-key="dataAgile" class="edit-plan">Edit</button>
           </div>
@@ -177,7 +194,8 @@
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-values"><div class="actual" id="actual-active">—</div>
+        <div class="kpi-values">
+          <div class="actual" id="actual-active">—</div>
           <div class="kpi-edit">Plan: <span class="plan" id="plan-active">19</span>
             <button data-key="active" class="edit-plan">Edit</button>
           </div>
@@ -342,7 +360,8 @@
         { id: 'c6', content: 'Modeling in SAP Datasphere / BW bridge', start: '2026-10', group: 'sapCourses', issuer: 'SAP', status: 'Active', type: 'Course', short: 'Datasphere BW bridge', date: '2026-10' },
 
         { id: 'd1', content: 'Databricks for Data Engineering', start: '2025-02', group: 'dataAgile', issuer: 'Databricks', status: 'Active', type: 'Course', short: 'Databricks', date: '2025-02' },
-        { id: 'd2', content: 'Certified ScrumMaster (CSM)', start: '2025-01', group: 'dataAgile', issuer: 'Scrum Alliance', status: 'Active', type: 'Certification', short: 'CSM', date: '2025-01' }
+        { id: 'd2', content: 'Certified ScrumMaster (CSM)', start: '2025-01', group: 'dataAgile', issuer: 'Scrum Alliance', status: 'Active', type: 'Certification', short: 'CSM', date: '2025-01' },
+        { id: 'd3', content: 'Power BI for Analytics', start: '2025-03', group: 'dataAgile', issuer: 'Microsoft', status: 'Active', type: 'Course', short: 'Power BI', date: '2025-03' }
       ]
     };
 
@@ -403,8 +422,11 @@
       if (!careerFitChart) {
         careerFitChart = new Chart(document.getElementById('careerFitChart'), {
           type: 'radar',
-          data: { labels, datasets: [ { label: 'Tecan expectation', data: expected, borderColor: '#009FE3', backgroundColor: 'rgba(0,159,227,0.15)', pointBackgroundColor: '#009FE3', pointRadius: 3 }, { label: 'My profile', data: myProfile, borderColor: '#18a957', backgroundColor: 'rgba(24,169,87,0.15)', pointBackgroundColor: '#18a957', pointRadius: 3 } ] },
-          options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, usePointStyle:true } } }, scales:{ r:{ min:0, max:10, ticks:{ stepSize:2 }, pointLabels:{ font:{ size:10 } } } } }
+          data: { labels, datasets: [
+            { label: 'Tecan expectation', data: expected, borderColor: '#009FE3', backgroundColor: 'rgba(0,159,227,0.15)', pointBackgroundColor: '#009FE3', pointRadius: 3 },
+            { label: 'My profile', data: myProfile, borderColor: '#18a957', backgroundColor: 'rgba(24,169,87,0.15)', pointBackgroundColor: '#18a957', pointRadius: 3 }
+          ] },
+          options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, usePointStyle:true } } }, scales:{ r:{ min:0, max:10, ticks:{ stepSize:2 } } } }
         });
       } else {
         careerFitChart.data.labels = labels; careerFitChart.data.datasets[0].data = expected; careerFitChart.data.datasets[1].data = myProfile; careerFitChart.update();
@@ -433,20 +455,19 @@
       const commonBarOptions = { responsive:true, maintainAspectRatio:false, plugins:{ tooltip:{ enabled:true } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } };
 
       if (!categoryChart) {
-        categoryChart = new Chart(document.getElementById('categoryChart'), { type:'bar', data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'], borderRadius:8 }, { label:'Plan', data:planCategoryValues, backgroundColor:['rgba(255,160,64,0.18)','rgba(255,160,64,0.12)','rgba(255,160,64,0.08)'], borderRadius:8 } ] }, options:commonBarOptions });
+        categoryChart = new Chart(document.getElementById('categoryChart'), { type:'bar', data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'] }, { label:'Plan', data:planCategoryValues, backgroundColor:['rgba(10,102,194,0.2)','rgba(6,182,212,0.2)','rgba(124,58,237,0.2)'] } ] }, options:commonBarOptions });
       } else {
         categoryChart.data.datasets[0].data = categoryValues; categoryChart.data.datasets[1].data = planCategoryValues; categoryChart.update();
       }
 
       if (!statusChart) {
-        statusChart = new Chart(document.getElementById('statusChart'), { type:'doughnut', data:{ labels:['Active','Expired'], datasets:[{ data:[statusTotals.active, statusTotals.expired], backgroundColor:['#009FE3','#dfe8f1'] }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, boxWidth:10 } } } } });
+        statusChart = new Chart(document.getElementById('statusChart'), { type:'doughnut', data:{ labels:['Active','Expired'], datasets:[{ data:[statusTotals.active, statusTotals.expired], backgroundColor:['#18a957','#f59e0b'] }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } } } });
       } else { statusChart.data.datasets[0].data = [statusTotals.active, statusTotals.expired]; statusChart.update(); }
 
       if (!trendChart) {
-        trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.12)', fill:true, tension:0.35, pointRadius:4, pointHoverRadius:5 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
+        trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.08)', fill:true, tension:0.35 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
       } else { trendChart.data.labels = trendTotals.labels; trendChart.data.datasets[0].data = trendTotals.values; trendChart.update(); }
 
-      // update KPI deviations
       updateDeviations();
     }
 
@@ -468,7 +489,6 @@
         <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.issuer}</span>
         </div>
         <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
           <div>Actual: ${actualInGroup}</div>
@@ -479,49 +499,42 @@
     }
 
     function updateDeviations() {
-      // Years
       const actualYears = parseInt(document.getElementById('actual-years').textContent, 10) || 0;
       const planYears = planValues.years || 0;
       const diffYears = actualYears - planYears;
       const devYearsEl = document.getElementById('dev-years');
       if (diffYears >= 0) { devYearsEl.textContent = `+${diffYears} ahead`; devYearsEl.style.color = '#18a957'; } else { devYearsEl.textContent = `${Math.abs(diffYears)} to plan`; devYearsEl.style.color = '#f59e0b'; }
 
-      // SAP certs
       const actualSap = parseInt(document.getElementById('actual-sapcerts').textContent, 10) || 0;
       const planSap = planValues.sapCerts || 0;
       const diffSap = actualSap - planSap;
       const devSapEl = document.getElementById('dev-sapcerts');
       if (diffSap >= 0) { devSapEl.textContent = `+${diffSap} ahead`; devSapEl.style.color = '#18a957'; } else { devSapEl.textContent = `${Math.abs(diffSap)} to plan`; devSapEl.style.color = '#f59e0b'; }
 
-      // SAP courses
       const actualCourses = parseInt(document.getElementById('actual-sapcourses').textContent, 10) || 0;
       const planCourses = planValues.sapCourses || 0;
       const diffCourses = actualCourses - planCourses;
       const devCoursesEl = document.getElementById('dev-sapcourses');
       if (diffCourses >= 0) { devCoursesEl.textContent = `+${diffCourses} ahead`; devCoursesEl.style.color = '#18a957'; } else { devCoursesEl.textContent = `${Math.abs(diffCourses)} to plan`; devCoursesEl.style.color = '#f59e0b'; }
 
-      // Data Agile
       const actualData = parseInt(document.getElementById('actual-data').textContent, 10) || 0;
       const planData = planValues.dataAgile || 0;
       const diffData = actualData - planData;
       const devDataEl = document.getElementById('dev-data');
       if (diffData >= 0) { devDataEl.textContent = `+${diffData} ahead`; devDataEl.style.color = '#18a957'; } else { devDataEl.textContent = `${Math.abs(diffData)} to plan`; devDataEl.style.color = '#f59e0b'; }
 
-      // Total
       const actualTotal = parseInt(document.getElementById('actual-total').textContent, 10) || 0;
       const planTotal = planValues.total || 0;
       const diffTotal = actualTotal - planTotal;
       const devTotalEl = document.getElementById('dev-total');
       if (diffTotal >= 0) { devTotalEl.textContent = `+${diffTotal} ahead`; devTotalEl.style.color = '#18a957'; } else { devTotalEl.textContent = `${Math.abs(diffTotal)} to plan`; devTotalEl.style.color = '#f59e0b'; }
 
-      // Active
       const actualActive = parseInt(document.getElementById('actual-active').textContent, 10) || 0;
       const planActive = planValues.active || 0;
       const diffActive = actualActive - planActive;
       const devActiveEl = document.getElementById('dev-active');
       if (diffActive >= 0) { devActiveEl.textContent = `+${diffActive} ahead`; devActiveEl.style.color = '#18a957'; } else { devActiveEl.textContent = `${Math.abs(diffActive)} to plan`; devActiveEl.style.color = '#f59e0b'; }
 
-      // Update plan spans (in case planValues changed externally)
       document.querySelectorAll('.plan').forEach(el => {
         const id = el.id.replace('plan-', '');
         if (planValues[id] !== undefined) el.textContent = planValues[id];
@@ -591,13 +604,10 @@
       document.getElementById('actual-years').textContent = '17';
 
       document.getElementById('summary-box').textContent = `Total: ${total} • SAP certs: ${sapCerts} • SAP courses: ${sapCourses} • Data/Agile: ${dataAgile} • Active: ${active}`;
-
-      // deviations
       updateDeviations();
     }
 
     function startPlanEditor(key, parentEl) {
-      // create inline editor
       const input = document.createElement('input');
       input.type = 'number';
       input.min = '0';
@@ -611,11 +621,9 @@
         const val = parseInt(input.value, 10) || 0;
         planValues[key] = val;
         savePlanToStorage();
-        // update UI
         const span = document.getElementById('plan-' + key);
         if (span) span.textContent = val;
         renderCharts(document.querySelector('.chip.active')?.dataset.group || 'all');
-        // remove editor
         parentEl.removeChild(editorWrap);
       };
 
@@ -654,7 +662,6 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       loadPlanFromStorage();
-      // apply loaded plan into DOM
       document.getElementById('plan-years').textContent = planValues.years;
       document.getElementById('plan-sapcerts').textContent = planValues.sapCerts;
       document.getElementById('plan-sapcourses').textContent = planValues.sapCourses;
