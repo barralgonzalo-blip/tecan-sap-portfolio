@@ -393,10 +393,12 @@
     });
 
     document.addEventListener('DOMContentLoaded', function(){
-      // Wait for vis to be ready, then render timeline + cards. This avoids race conditions where vis is not available yet.
+      // Render flash cards immediately so the page is useful even if vis fails to load.
+      try{ renderFlashCards('all'); }catch(e){ console.error('flash render failed', e); }
+
+      // Then try to render the vis timeline once the library is available (avoids race conditions)
       whenVisReady(function(){
-        renderTimeline();
-        renderFlashCards('all');
+        try{ renderTimeline(); }catch(e){ console.warn('timeline init failed', e); }
       }, 5000);
     });
   </script>
