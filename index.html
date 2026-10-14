@@ -43,7 +43,7 @@
 
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card {
-      padding:16px 14px;
+      padding:16px 14px 12px;
       border-radius:14px;
       background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);
       border:1px solid var(--line);
@@ -52,25 +52,38 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      gap:4px; /* reduced gap to tighten vertical spacing */
+      gap:2px;
       text-align:center;
-      min-height:300px; /* slightly reduced to keep cards compact */
+      min-height:290px;
     }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
     .kpi-value {
-      font-size:clamp(2.1rem,2.7vw,2.8rem);
+      font-size:clamp(2.3rem,3vw,3.2rem);
       font-weight:800;
       color:var(--tecan-blue);
       line-height:1;
       letter-spacing:-0.04em;
-      margin-bottom:4px; /* small spacing under the value */
+      margin-bottom:2px;
     }
-    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; align-items:center; justify-content:center; min-height:0; }
-    .kpi-sub .vs { display:inline-flex; align-items:center; justify-content:center; font-weight:700; color:var(--muted); }
+    .kpi-sub {
+      font-size:0.88rem;
+      line-height:1.2;
+      color:var(--muted);
+      display:block;
+      min-height:0;
+      margin-top:0;
+      letter-spacing:-0.02em;
+    }
+    .kpi-sub .vs {
+      display:inline;
+      white-space:nowrap;
+      font-weight:700;
+      color:var(--muted);
+    }
     .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
     .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:2px; }
     .kpi-percent {
-      /* keep footer aligned to bottom while removing forced height */
+      min-height:20px;
       font-size:0.95rem;
       line-height:1.1;
       color:var(--tecan-dark);
@@ -87,7 +100,7 @@
       color:var(--muted);
       font-size:11px;
       line-height:1.4;
-      min-height:0; /* let meta size to its content to avoid extra white space */
+      min-height:0;
       display:flex;
       align-items:flex-end;
       justify-content:center;
