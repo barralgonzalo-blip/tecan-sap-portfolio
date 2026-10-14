@@ -66,12 +66,11 @@
     }
     /* smaller secondary KPI texts */
     .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; }
-    .kpi-sub .act { color:var(--tecan-blue); font-weight:800; }
-    .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
-    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-top:2px; }
     .kpi-sub .vs { color:var(--muted); font-weight:700; }
-    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; display:flex; flex-direction:column; align-items:center; }
-    .kpi-note { font-size:0.72rem; color:var(--muted); font-weight:700; margin-top:4px; }
+    .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
+    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:6px; }
+    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; display:flex; align-items:center; gap:8px; }
+    .kpi-note { font-size:0.82rem; color:var(--muted); font-weight:700; }
 
     .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
 
@@ -113,22 +112,24 @@
     .flash .icon { position:absolute; inset:0; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:18px; }
     .measure-symbol {
       position:absolute;
-      right:-4px;
-      bottom:-4px;
-      width:18px;
-      height:18px;
+      right:-6px;
+      bottom:-6px;
+      width:20px;
+      height:20px;
       border-radius:50%;
       display:flex;
       align-items:center;
       justify-content:center;
       background:#fff;
       color:var(--tecan-dark);
-      border:2px solid rgba(255,255,255,0.9);
+      border:2px solid #fff;
       box-shadow:0 6px 14px rgba(10,43,66,0.12);
-      font-size:10px;
+      font-size:11px;
       font-weight:800;
       line-height:1;
     }
+    /* card number to help identify each flash card individually */
+    .card-number { display:inline-flex; align-items:center; justify-content:center; background:#eef6fb; color:var(--tecan-dark); font-weight:800; font-size:12px; padding:4px 8px; border-radius:999px; margin-bottom:6px; }
     .flash .meta { display:flex; flex-direction:column; }
     .flash .title { font-weight:700; color:var(--tecan-dark); font-size:13px; }
     .flash .sub { color:var(--muted); font-size:12px; }
@@ -157,48 +158,48 @@
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17y</div>
-        <div class="kpi-sub" id="sub-years"><span class="act">17y</span> ACT • <span class="plan-number">23y</span><span class="plan-label"> PLAN</span></div>
-        <div class="kpi-percent" id="percent-years">74%</div>
+        <div class="kpi-sub" id="sub-years"><div class="vs">vs 23y <span class="plan-label">PLAN</span></div></div>
+        <div class="kpi-percent" id="percent-years">74% <span class="kpi-note">Shared</span></div>
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
-        <div class="kpi-sub" id="sub-total">— ACT • <span class="plan-number">19</span><span class="plan-label"> PLAN</span></div>
-        <div class="kpi-percent" id="percent-total">—%</div>
+        <div class="kpi-sub" id="sub-total"><div class="vs">vs 19 <span class="plan-label">PLAN</span></div></div>
+        <div class="kpi-percent" id="percent-total">—</div>
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
-        <div class="kpi-sub" id="sub-sapcerts">— ACT • <span class="plan-number">5</span><span class="plan-label"> PLAN</span></div>
-        <div class="kpi-percent" id="percent-sapcerts">—%</div>
+        <div class="kpi-sub" id="sub-sapcerts"><div class="vs">vs 5 <span class="plan-label">PLAN</span></div></div>
+        <div class="kpi-percent" id="percent-sapcerts">—</div>
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
-        <div class="kpi-sub" id="sub-sapcourses">— ACT • <span class="plan-number">10</span><span class="plan-label"> PLAN</span></div>
-        <div class="kpi-percent" id="percent-sapcourses">—%</div>
+        <div class="kpi-sub" id="sub-sapcourses"><div class="vs">vs 10 <span class="plan-label">PLAN</span></div></div>
+        <div class="kpi-percent" id="percent-sapcourses">—</div>
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
-        <div class="kpi-sub" id="sub-data">— ACT • <span class="plan-number">4</span><span class="plan-label"> PLAN</span></div>
-        <div class="kpi-percent" id="percent-data">—%</div>
+        <div class="kpi-sub" id="sub-data"><div class="vs">vs 4 <span class="plan-label">PLAN</span></div></div>
+        <div class="kpi-percent" id="percent-data">—</div>
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
-        <div class="kpi-sub" id="sub-active">— ACT • <span class="plan-number">19</span><span class="plan-label"> PLAN</span></div>
-        <div class="kpi-percent" id="percent-active">—%</div>
+        <div class="kpi-sub" id="sub-active"><div class="vs">vs 19 <span class="plan-label">PLAN</span></div></div>
+        <div class="kpi-percent" id="percent-active">—</div>
         <div class="kpi-meta">Currently active credentials</div>
       </div>
     </section>
@@ -467,7 +468,7 @@
 
     function getMeasureSymbol(item) {
       if (item.group === 'sapCerts') return '✓';
-      if (item.group === 'sapCourses') return '◌';
+      if (item.group === 'sapCourses') return '○';
       return '◇';
     }
 
@@ -477,18 +478,19 @@
       html.push(`<div class="group" data-group="${groupId}">`);
       html.push(`<div class="group-header"><div class="group-title">${timelineData.groups.find(g=>g.id===groupId).content}</div><div class="group-count">${items.length}</div></div>`);
       html.push('<div class="cards">');
-      items.forEach(it => {
+      items.forEach((it, idx) => {
         const faded = it.status === 'Expired' ? 'faded' : '';
         const letter = (it.issuer || it.content || 'C').charAt(0).toUpperCase();
         const measureSymbol = getMeasureSymbol(it);
         const measureLabel = it.group === 'sapCerts' ? 'Certification' : it.group === 'sapCourses' ? 'Course' : 'Data / Agile';
+        const cardNumber = idx + 1;
         html.push(`
           <div class="flash ${faded}" data-id="${it.id}" data-group="${groupId}">
             <div class="flash-icon-wrap">
               <div class="icon" style="background:${color}">${letter}</div>
-              <span class="measure-symbol" title="${measureLabel}" style="color:${color}">${measureSymbol}</span>
+              <span class="measure-symbol" title="${measureLabel}" style="background:${color};color:#fff;border:2px solid #fff;">${measureSymbol}</span>
             </div>
-            <div class="meta"><div class="title">${it.content}</div><div class="sub">${it.issuer} • ${it.date}</div></div>
+            <div class="meta"><div class="card-number">#${cardNumber}</div><div class="title">${it.content}</div><div class="sub">${it.issuer} • ${it.date}</div></div>
           </div>
         `);
       });
@@ -540,8 +542,8 @@
         if (kpiEl) kpiEl.textContent = actDisplay;
 
         if (subEl) {
-          // stack ACT and PLAN with a centered "vs"
-          subEl.innerHTML = `<div class="act">${actDisplay}</div><div class="vs">vs</div><div class="plan-number">${planDisplay}</div><div class="plan-label">PLAN</div>`;
+          // show only "vs <plan> PLAN" to avoid repeating the act value
+          subEl.innerHTML = `<div class="vs">vs ${planDisplay} <span class="plan-label">PLAN</span></div>`;
         }
 
         let pct = 0;
@@ -553,7 +555,8 @@
 
         const label = kpiLabels[idsPrefix] || '';
         if (pctEl) {
-          pctEl.innerHTML = isNaN(pct) ? '—' : `${pct}%` + (label ? `<div class="kpi-note">${label}</div>` : '');
+          // place percent and small label together on the same line
+          pctEl.innerHTML = isNaN(pct) ? '—' : `${pct}%` + (label ? ` <span class="kpi-note">${label}</span>` : '');
         }
       }
 
