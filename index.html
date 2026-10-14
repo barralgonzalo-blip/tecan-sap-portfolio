@@ -1,229 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Gonzalo Barral – BI KPI Portfolio & Presentation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gonzalo Barral — SAP Analytics Cloud Story for TECAN</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
   <style>
-    :root{--tecan-blue:#009FE3;--bg:#f5f7fb;--card:#fff;--muted:#6b7280;--success:#16a34a;--danger:#ef4444}
+    :root{--tecan:#0077b6;--bg:#f5f8fb;--card:#fff;--muted:#6b7280;--good:#16a34a}
     *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:linear-gradient(180deg,var(--bg),#eef6fb);color:#1f2933;padding:28px}
-    header{max-width:1200px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center}
-    h1{margin:0;color:var(--tecan-blue);font-size:20px}
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:linear-gradient(180deg,var(--bg),#eef6fb);color:#0f1724;padding:28px}
+    header{max-width:1100px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    h1{margin:0;color:var(--tecan);font-size:20px}
     .subtitle{color:var(--muted);font-size:13px}
-    main{max-width:1200px;margin:0 auto}
+    main{max-width:1100px;margin:0 auto}
 
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{background:var(--tecan-blue);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
-    .btn-ghost{background:transparent;border:1px solid #e5e7eb;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .controls{display:flex;gap:8px}
+    .btn{background:var(--tecan);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    .link-ghost{background:transparent;border:1px solid #e6eef7;padding:8px 12px;border-radius:8px;color:var(--tecan);cursor:pointer}
 
-    .layout{display:grid;grid-template-columns:1fr 420px;gap:18px}
-    @media(max-width:980px){.layout{grid-template-columns:1fr} .right-col{order:2}}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr} .aside{order:2}}
 
-    /* KPI Grid */
-    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-    .kpi-card{background:var(--card);border:1px solid #eaeff4;padding:14px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:110px}
+    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+    @media(max-width:760px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+
+    .card{background:var(--card);border:1px solid #e6eef7;padding:14px;border-radius:10px;display:flex;flex-direction:column;gap:8px;cursor:default}
     .kpi-title{font-size:13px;color:var(--muted)}
-    .kpi-value{font-size:22px;font-weight:700;color:var(--tecan-blue)}
-    .kpi-extra{font-size:12px;color:var(--muted)}
+    .kpi-value{font-size:22px;font-weight:700;color:var(--tecan)}
+    .kpi-meta{font-size:12px;color:var(--muted)}
 
-    /* Presentation area */
-    .right-col .panel{background:var(--card);border:1px solid #eaeff4;padding:14px;border-radius:10px}
+    .spark{height:36px}
 
-    /* Why Hire Me */
-    .hire{display:grid;gap:12px;margin-top:12px}
-    .hire .item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:8px;background:linear-gradient(180deg,#fff,#fcfdff);border:1px solid #f0f6fb}
-    .meter{height:8px;background:#eef3fb;border-radius:999px;overflow:hidden;flex:1}
-    .meter > i{display:block;height:100%;background:var(--tecan-blue)}
+    .why{margin-top:10px;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fcfdff);border:1px solid #eef6fb}
+    .why h3{margin:0;color:var(--tecan)}
+    .why p{margin:8px 0 0 0;color:var(--muted)}
 
-    /* Details modal */
-    .overlay{position:fixed;inset:0;background:rgba(16,24,40,0.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
-    .panel-large{width:100%;max-width:1000px;background:var(--card);border-radius:12px;padding:18px;border:1px solid #eaeff4;box-shadow:0 20px 60px rgba(16,24,40,0.25);max-height:90vh;overflow:auto}
+    .aside .card{margin-bottom:12px}
+    .evidence{display:grid;gap:10px}
+    .evidence .item{display:flex;gap:10px;align-items:center}
+    .item .num{font-weight:700;color:var(--tecan);min-width:44px;text-align:center}
+    .timeline-cta{display:flex;gap:8px;align-items:center;margin-top:8px}
+
+    .overlay{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:80}
+    .modal{width:100%;max-width:980px;background:var(--card);border-radius:12px;padding:16px;border:1px solid #e6eef7;max-height:90vh;overflow:auto}
+    .close{background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700}
 
     footer{text-align:center;color:var(--muted);margin-top:18px;font-size:13px}
-
-    /* small helpers */
-    .muted{color:var(--muted);font-size:13px}
   </style>
 </head>
 <body>
   <header>
     <div>
-      <h1>Gonzalo Barral — BI KPI Portfolio (Presentation)</h1>
-      <div class="subtitle">Interactive demo tailored for a BI role — show data lineage, ETL, SAP data KPIs & decisions</div>
+      <h1>SAP Analytics Cloud story — TECAN interview</h1>
+      <div class="subtitle">Tailored BI presentation: data reliability, ETL, modeling & business impact</div>
     </div>
-
     <div class="controls">
-      <button class="btn" id="presentBtn">Start Presentation</button>
-      <button class="btn-ghost" id="downloadPdf">Download PDF</button>
+      <button class="btn" id="present">Start Presentation</button>
+      <button class="link-ghost" id="exportPdf">Export Summary</button>
     </div>
   </header>
 
   <main>
-    <div class="layout">
+    <div class="grid">
       <section>
-        <div class="kpi-grid" id="kpiGrid"></div>
+        <!-- KPI row (6 cards total) -->
+        <div class="kpi-row" id="kpiRow">
+          <!-- Cards injected by JS -->
+        </div>
 
-        <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-          <div style="flex:1">
-            <h3 style="margin:0 0 8px 0;color:var(--tecan-blue)">Why this matters for the BI role</h3>
-            <p class="muted" style="margin:0">In interviews I present clear data-driven stories: reliable ETL, high-quality SAP data model, performant queries, and actionable dashboards that support business decisions.</p>
+        <div class="why card">
+          <h3>Why I'm a strong fit for TECAN (data & BI)</h3>
+          <p>With 17+ years in SAP analytics (BW/4HANA, HANA, SAC) I deliver end-to-end solutions: model design, ETL orchestration, and dashboards that translate SAP data into decisions. Examples: 35% faster report delivery in the Tecan integration project; consolidated 6 models into 1 LSA++ during a BW migration; delivered 12+ analytics projects across finance, sales and operations.</p>
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" onclick="openModal('timeline')">View experience timeline</button>
+            <button class="link-ghost" onclick="openModal('projects')">View project evidence</button>
           </div>
         </div>
 
-        <div style="margin-top:14px">
-          <h4 style="margin:0 0 8px 0">Selected Projects (summary)</h4>
-          <div class="kpi-grid">
-            <div class="kpi-card" onclick="openDetail('Tecan Integration')">
-              <div class="kpi-title">Tecan Integration</div>
-              <div class="kpi-value">Integration • 2026</div>
-              <div class="kpi-extra">Result: 35% faster report delivery</div>
-            </div>
-            <div class="kpi-card" onclick="openDetail('SAP BW Migration')">
-              <div class="kpi-title">SAP BW Migration</div>
-              <div class="kpi-value">Migration • 2024</div>
-              <div class="kpi-extra">Result: Consolidated 6 models into 1 LSA++</div>
-            </div>
-            <div class="kpi-card" onclick="openDetail('Analytics Rollout')">
-              <div class="kpi-title">Analytics Rollout</div>
-              <div class="kpi-value">Rollout • 2023</div>
-              <div class="kpi-extra">Result: 20% better decision latency</div>
-            </div>
-          </div>
+        <div style="margin-top:12px" class="card">
+          <h3 style="margin:0;color:var(--tecan)">SAP Analytics Cloud story</h3>
+          <p class="kpi-meta" style="margin-top:6px">Demonstration flow I would present to TECAN: data lineage → validation rules → ETL reliability → modeling (LSA++, CDS) → SAC story + business KPIs. Use the "Start Presentation" button to walk through these points.</p>
         </div>
       </section>
 
-      <aside class="right-col">
-        <div class="panel">
-          <h3 style="margin:0 0 10px 0;color:var(--tecan-blue)">Charts moved</h3>
-          <div style="display:grid;gap:10px">
-            <p class="muted" style="margin:0">The interactive charts have been removed from the main page to keep the interview flow focused. If you need them during the presentation, open the separate charts page (charts.html) or use the PDF export.</p>
+      <aside class="aside">
+        <div class="card">
+          <h4 style="margin:0;color:var(--tecan)">Quick evidence</h4>
+          <div class="evidence" style="margin-top:8px">
+            <div class="item"><div class="num">17+</div><div><div style="font-weight:600">Years experience</div><div class="kpi-meta">SAP BW/4HANA, HANA, SAC</div></div></div>
+            <div class="item"><div class="num">6</div><div><div style="font-weight:600">Certifications</div><div class="kpi-meta">BW/4HANA, HANA, Snowflake, Scrum</div></div></div>
+            <div class="item"><div class="num">12</div><div><div style="font-weight:600">Projects delivered</div><div class="kpi-meta">Integration, migration, analytics</div></div></div>
           </div>
         </div>
 
-        <div class="panel" style="margin-top:12px">
-          <h4 style="margin:0 0 8px 0;color:var(--tecan-blue)">Why hire me — quick evidence</h4>
-          <div class="hire">
-            <div class="item"><div style="width:36px;height:36;border-radius:8px;background:#f0fbff;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--tecan-blue)">+8</div>
-              <div style="flex:1"><div style="font-weight:600">Years experience</div><div class="muted">SAP analytics, ETL, reporting</div></div></div>
-
-            <div class="item"><div style="width:36px;height:36;border-radius:8px;background:#fff7f7;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--danger)">6</div>
-              <div style="flex:1"><div style="font-weight:600">Certifications</div><div class="muted">BW/4HANA, HANA, Snowflake</div></div></div>
-
-            <div class="item"><div style="width:36px;height:36;border-radius:8px;background:#f6fff6;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--success)">12</div>
-              <div style="flex:1"><div style="font-weight:600">Projects delivered</div><div class="muted">Integration, migration, analytics</div></div></div>
-
-          </div>
+        <div class="card">
+          <h4 style="margin:0;color:var(--tecan)">Key impact numbers</h4>
+          <div style="margin-top:8px" class="kpi-meta">Use these during the interview to quantify impact:</div>
+          <ul class="kpi-meta" style="margin-top:8px;padding-left:18px">
+            <li>35% faster report delivery (Tecan integration)</li>
+            <li>Consolidated 6 models into 1 LSA++ (BW migration)</li>
+            <li>95%+ data validation rate in production loads</li>
+          </ul>
         </div>
       </aside>
     </div>
 
-    <section style="margin-top:18px">
-      <h3 style="color:var(--tecan-blue);margin:0 0 8px 0">Presentation script (guided)</h3>
-      <p class="muted" style="margin:0 0 10px 0">Use the presentation button — I created a guided flow that highlights data story points: data quality, ETL, performance, business impact.</p>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn-ghost" onclick="goSlide(0)">Data Quality</button>
-        <button class="btn-ghost" onclick="goSlide(1)">ETL & Lineage</button>
-        <button class="btn-ghost" onclick="goSlide(2)">Performance</button>
-        <button class="btn-ghost" onclick="goSlide(3)">Business Impact</button>
-      </div>
-    </section>
+    <!-- small footnote cards -->
+    <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+      <div class="card"><div style="font-weight:700">Primary tools</div><div class="kpi-meta" style="margin-top:6px">SAP BW/4HANA, SAP HANA, SAP Analytics Cloud, CDS Views, AMDP, ABAP, SQL, Analysis for Office</div></div>
+      <div class="card"><div style="font-weight:700">Domains</div><div class="kpi-meta" style="margin-top:6px">Finance, Sales, Logistics, HR, Banking</div></div>
+      <div class="card"><div style="font-weight:700">Education & Certs</div><div class="kpi-meta" style="margin-top:6px">System Information Engineer (Buenos Aires). SAP BW/4HANA & HANA certified. Scrum Master.</div></div>
+    </div>
 
   </main>
 
-  <!-- Details modal -->
+  <footer>Built for TECAN interview • Gonzalo Barral — contact: barralgonzalo@hotmail.com • linkedin.com/in/gonzalobarral</footer>
+
+  <!-- Modal overlay for timeline and projects -->
   <div id="overlay" class="overlay" role="dialog" aria-hidden="true">
-    <div class="panel-large">
+    <div class="modal" id="modal">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-        <div>
-          <h2 id="detailTitle">Title</h2>
-          <div class="muted" id="detailSubtitle">Subtitle</div>
-        </div>
-        <div><button class="btn-ghost" onclick="closeDetail()">Close</button></div>
+        <div><h2 id="modalTitle" style="margin:0;color:var(--tecan)"></h2><div id="modalSub" class="kpi-meta"></div></div>
+        <div><button class="close" onclick="closeModal()">Close ✕</button></div>
       </div>
-      <div id="detailContent" style="margin-top:12px"></div>
+      <div id="modalBody" style="margin-top:12px"></div>
     </div>
   </div>
 
-  <footer>Built with ❤️ — Gonzalo Barral • tecan-sap-portfolio</footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const kpis = [
-      {id:'data-quality',title:'Data Quality',value:'95%',short:'High validation rate',details:['Data completeness 99%','Validation rules: 120','Exceptions: 5%']},
-      {id:'etl-success',title:'ETL Success Rate',value:'98%',short:'Reliable loads',details:['Avg load time: 45m','Incidents last month: 1','Retries automated: yes']},
-      {id:'query-time',title:'Avg Query Time',value:'1.0s',short:'Optimized models',details:['Top query: Sales by region','Indexes: AMDP, CDS views']},
-      {id:'models',title:'SAP Models',value:'8',short:'BW/4HANA & CDS',details:['LSA++ modeled','Star schemas: 3','Composite providers: 5']}
+    // Structured data from CV
+    const profile = {
+      yearsExperience: 17,
+      certifications: 6,
+      projectsDelivered: 12,
+      sapModels: 8,
+      dataQualityPct: 95,
+      avgQueryTime: 1.0,
+      impactExamples: [
+        {title:'Tecan Integration',impact:'35% faster report delivery'},
+        {title:'BW Migration',impact:'Consolidated 6 models into 1 LSA++'},
+        {title:'Analytics Rollout',impact:'20% better decision latency'}
+      ]
+    };
+
+    // KPI cards: define 6 cards
+    const kpiCards = [
+      {id:'years',title:'Years experience',value:profile.yearsExperience + '+',meta:'SAP BW/4HANA, HANA, SAC',spark:[1,3,5,7,9,11,13,15,17]},
+      {id:'certs',title:'Certifications',value:profile.certifications,meta:'BW/4HANA, HANA, Snowflake'},
+      {id:'projects',title:'Projects delivered',value:profile.projectsDelivered,meta:'Integration, Migration, Analytics'},
+      {id:'models',title:'SAP Models',value:profile.sapModels,meta:'LSA++, CDS, CompositeProviders'},
+      {id:'quality',title:'Data Quality',value:profile.dataQualityPct + '%',meta:'Validation & monitoring'},
+      {id:'query',title:'Avg Query Time',value:profile.avgQueryTime + 's',meta:'Optimized CDS & AMDP'}
     ];
 
-    // render KPI grid
-    const grid = document.getElementById('kpiGrid');
-    function renderKPIs(){
-      grid.innerHTML='';
-      kpis.forEach(k=>{
-        const el = document.createElement('button');
-        el.className='kpi-card';
-        el.onclick = ()=> openDetail(k.title);
-        el.innerHTML = `<div><div class="kpi-title">${k.title}</div><div class="kpi-value">${k.value}</div></div><div class="kpi-extra">${k.short}</div>`;
-        grid.appendChild(el);
+    function sparkSVG(values,color='#9ecff8'){
+      if(!values||values.length===0) return '';
+      const w=140,h=36,len=values.length,max=Math.max(...values),min=Math.min(...values);
+      const pts = values.map((v,i)=>{const x=(i/(len-1))*w;const y=(1-((v-min)/(max-min||1)))*(h-6)+3;return x.toFixed(1)+','+y.toFixed(1)}).join(' ');
+      return `<svg class="spark" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polyline fill="none" stroke="${color}" stroke-width="2" points="${pts}" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    }
+
+    // Render KPI cards
+    const row = document.getElementById('kpiRow');
+    kpiCards.forEach(k=>{
+      const el = document.createElement('div'); el.className='card';
+      el.innerHTML = `<div class=\"kpi-title\">${k.title}</div><div class=\"kpi-value\">${k.value}</div><div class=\"kpi-meta\">${k.meta}</div><div>${sparkSVG(k.spark||k.spark)}</div>`;
+      el.addEventListener('click',()=>{
+        openModal(k.id);
       });
-    }
-    renderKPIs();
-
-    // Details overlay
-    const overlay = document.getElementById('overlay');
-    function openDetail(title){
-      const item = kpis.find(x=>x.title===title) || {title,details:['No details configured']};
-      document.getElementById('detailTitle').textContent = item.title;
-      document.getElementById('detailSubtitle').textContent = item.short || '';
-      const content = document.getElementById('detailContent');
-      content.innerHTML = `<p class=\"muted\">Detailed evidence:</p>`;
-      const ul = document.createElement('div'); ul.style.display='grid'; ul.style.gap='8px';
-      (item.details||[]).forEach(d=>{ const dEl = document.createElement('div'); dEl.className='item'; dEl.textContent=d; dEl.style.padding='8px'; dEl.style.border='1px dashed #e6eef7'; dEl.style.borderRadius='6px'; ul.appendChild(dEl); });
-      content.appendChild(ul);
-      overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
-    }
-    function closeDetail(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');}
-
-    // Presentation guided flow (charts removed)
-    const presentBtn = document.getElementById('presentBtn');
-    let slide = 0; let presenting = false; let slideTimer;
-    const slides = [
-      {title:'Data Quality',action:()=>{ highlightKPI('data-quality'); showNote('Emphasize data validation rules, completeness & lineage.'); }},
-      {title:'ETL & Lineage',action:()=>{ highlightKPI('etl-success'); showNote('Describe ETL orchestration, delta loads, monitoring.'); }},
-      {title:'Performance',action:()=>{ highlightKPI('query-time'); showNote('Explain query tuning: CDS, AMDP, aggregates.'); }},
-      {title:'Business Impact',action:()=>{ highlightKPI('models'); showNote('Show how dashboards improved decision latency and outcomes.'); }}
-    ];
-
-    function highlightKPI(id){
-      const buttons = document.querySelectorAll('.kpi-card'); buttons.forEach(b=>b.style.boxShadow='');
-      const idx = kpis.findIndex(k=>k.id===id || k.title.toLowerCase().includes(id.replace('-',' ')));
-      if(idx>=0 && buttons[idx]){ buttons[idx].style.boxShadow='0 10px 30px rgba(0,159,227,0.12)'; buttons[idx].focus(); }
-    }
-
-    function showNote(text){
-      console.log('Slide note:',text);
-      const prev = document.querySelector('.slide-note'); if(prev) prev.remove();
-      const n = document.createElement('div'); n.className='slide-note muted'; n.textContent = text; n.style.marginTop='8px'; n.style.padding='8px'; n.style.borderLeft='3px solid var(--tecan-blue)'; document.querySelector('main').prepend(n);
-      setTimeout(()=>n.remove(),3500);
-    }
-
-    function nextSlide(){ slide = (slide+1) % slides.length; slides[slide].action(); }
-    function goSlide(i){ slide = i; slides[slide].action(); }
-
-    presentBtn.addEventListener('click',()=>{
-      if(presenting){ presenting=false; presentBtn.textContent='Start Presentation'; clearInterval(slideTimer); return; }
-      presenting=true; presentBtn.textContent='Stop Presentation'; slides[0].action(); slideTimer=setInterval(nextSlide,4500);
+      row.appendChild(el);
     });
 
-    // PDF (print)
-    document.getElementById('downloadPdf').addEventListener('click',()=>{ window.print(); });
+    // Modal handling
+    const overlay = document.getElementById('overlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSub = document.getElementById('modalSub');
+    const modalBody = document.getElementById('modalBody');
 
-    // keyboard support
-    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeDetail(); });
+    function openModal(key){
+      modalBody.innerHTML = '';
+      if(key==='timeline'){
+        modalTitle.textContent = 'Experience timeline';
+        modalSub.textContent = 'Year-by-year professional growth and major milestones';
+        modalBody.innerHTML = `<canvas id=\"timelineChart\" height=180></canvas><div style=\"margin-top:12px\" class=\"kpi-meta\">Years and roles: 2007 YPF → 2011 Accenture/Capgemini → 2013–2017 Carrefour & TUI → 2017–2019 Servihabitat → 2019–2024 Cchellenic/Bacardi/Bayer → 2024–Present Ruby Group</div>`;
+        setTimeout(()=>createTimelineChart(),50);
+      } else if(key==='projects'){
+        modalTitle.textContent = 'Project evidence';
+        modalSub.textContent = 'Select examples with impact statements';
+        modalBody.innerHTML = `<div style=\"display:grid;gap:8px\">${profile.impactExamples.map(p=>`<div style=\"padding:10px;border-radius:8px;border:1px solid #eef6fb;background:#fff\"><div style=\"font-weight:700;color:var(--tecan)\">${p.title}</div><div class=\"kpi-meta\">${p.impact}</div></div>`).join('')}</div>`;
+      } else {
+        // card-specific detail
+        const card = kpiCards.find(c=>c.id===key);
+        modalTitle.textContent = card ? card.title : 'Detail';
+        modalSub.textContent = card ? card.meta : '';
+        modalBody.innerHTML = `<div class=\"kpi-meta\">Detailed evidence and talking points for ${card ? card.title : key}.</div><ul style=\"margin-top:8px;padding-left:18px\"><li>Use examples from projects to show how this KPI was achieved.</li><li>Prepare a short note: challenge → action → result (CAR).</li></ul>`;
+      }
+      overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false');
+    }
 
+    function closeModal(){ overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); }
+
+    function createTimelineChart(){
+      const ctx = document.getElementById('timelineChart').getContext('2d');
+      const years = [2008,2010,2012,2014,2016,2018,2020,2022,2024,2026];
+      const experience = [1,3,5,7,9,11,13,14,16,17];
+      new Chart(ctx,{type:'line',data:{labels:years,datasets:[{label:'Years experience (cumulative)',data:experience,borderColor:getComputedStyle(document.documentElement).getPropertyValue('--tecan')||'#0077b6',backgroundColor:'rgba(0,119,182,0.08)',tension:0.25,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+    }
+
+    // Presentation guided flow
+    const presentBtn = document.getElementById('present');
+    let presenting=false, slideIndex=0, slideTimer;
+    const slides = [
+      ()=>{ openModal('quality'); showNote('Start: emphasize data quality & monitoring (95%+).'); },
+      ()=>{ openModal('etl-success'); showNote('Explain ETL design: delta loads, automation and monitoring.'); },
+      ()=>{ openModal('models'); showNote('Show modeling approach: LSA++, CDS, composite providers.'); },
+      ()=>{ openModal('projects'); showNote('Close with project impact: 35% faster reports, consolidation wins.'); }
+    ];
+
+    function showNote(text){ const n=document.createElement('div'); n.className='kpi-meta'; n.style.borderLeft='3px solid var(--tecan)'; n.style.padding='8px'; n.style.marginTop='8px'; n.textContent=text; document.querySelector('main').prepend(n); setTimeout(()=>n.remove(),3500); }
+
+    presentBtn.addEventListener('click',()=>{
+      if(presenting){ clearInterval(slideTimer); presenting=false; presentBtn.textContent='Start Presentation'; return; }
+      presenting=true; presentBtn.textContent='Stop Presentation'; slides[0](); slideIndex=0; slideTimer=setInterval(()=>{ slideIndex=(slideIndex+1)%slides.length; slides[slideIndex](); },4500);
+    });
+
+    // Export (print)
+    document.getElementById('exportPdf').addEventListener('click',()=> window.print());
+
+    // initial render
+    // map some card ids to available details (etl-success -> etl) add simple mapping
+    // add small mapping for modal details
+    kpiCards.forEach(c=>{ if(c.id==='quality') c.id='quality'; if(c.id==='years') c.id='timeline'; });
+    renderKpiCards = ()=>{}; // placeholder to keep linter happy
+
+    // accessibility: close modal on Esc
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
   </script>
 </body>
 </html>
