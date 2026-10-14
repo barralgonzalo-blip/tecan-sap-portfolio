@@ -58,6 +58,12 @@
     .mini-badge { display:inline-flex; align-items:center; justify-content:center; min-width:36px; height:24px; padding:0 8px; border-radius:999px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:800; }
     .chart-shell { position:relative; height:230px; }
     .chart-shell.small { height:220px; }
+    .coverage-summary { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:6px; flex-wrap:wrap; }
+    .coverage-score { font-size:clamp(1.8rem,3vw,2.6rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
+    .coverage-note { color:var(--muted); font-size:13px; }
+    .legend-list { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .legend-pill { display:inline-flex; align-items:center; gap:8px; border-radius:999px; background:#edf7ff; border:1px solid #dfeffe; padding:7px 10px; font-size:12px; font-weight:700; color:var(--tecan-dark); }
+    .legend-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
 
     .timeline-wrap { margin-top:24px; }
     .timeline-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
@@ -138,6 +144,40 @@
     </section>
 
     <section class="card">
+      <div class="section-header">
+        <h3 class="section-title">Tecan role fit: estimated coverage</h3>
+        <p>Conservative estimate against a Senior IT Data Analyst Expert profile based on current SAP and data experience.</p>
+      </div>
+
+      <div class="chart-grid" style="grid-template-columns: 1.5fr 0.7fr;">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>Expected vs coverage</h4>
+            <span class="mini-badge" id="fit-total-score">0%</span>
+          </div>
+          <div class="chart-shell"><canvas id="careerFitChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>Summary</h4>
+          </div>
+          <div class="coverage-summary">
+            <div class="coverage-score" id="coverageNumeric">0%</div>
+            <div class="coverage-note">Estimated match</div>
+          </div>
+          <div class="legend-list">
+            <div class="legend-pill"><span class="legend-dot" style="background:#009FE3"></span> Expected</div>
+            <div class="legend-pill"><span class="legend-dot" style="background:#18a957"></span> My profile</div>
+          </div>
+          <p style="margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.6;">
+            This is a conservative estimate based on a mix of SAP BW/4HANA, HANA, SAC, Datasphere, ETL/data integration, and governance experience visible in the portfolio.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:18px;">
       <div class="section-header">
         <h3 class="section-title">Portfolio snapshot</h3>
         <p>Quick view of the credentials currently visible in the flash-card collection.</p>
@@ -233,9 +273,21 @@
       ]
     };
 
+    const roleFitData = [
+      { label: 'SAP BW / BW4HANA', expected: 8.5, me: 9.2 },
+      { label: 'SAP HANA', expected: 8, me: 8.8 },
+      { label: 'SAP Datasphere', expected: 8, me: 7.3 },
+      { label: 'SAC / Dashboards', expected: 8, me: 7.5 },
+      { label: 'Data integration / ETL', expected: 8, me: 7.8 },
+      { label: 'Data modeling / governance', expected: 8.5, me: 8.7 },
+      { label: 'BI / KPI design', expected: 8.2, me: 8.9 },
+      { label: 'Documentation / knowledge transfer', expected: 7.8, me: 8.5 }
+    ];
+
     let categoryChart;
     let statusChart;
     let trendChart;
+    let careerFitChart;
 
     function getVisibleItems(filterGroup='all') {
       return filterGroup === 'all'
@@ -277,6 +329,75 @@
         labels: sortedYears,
         values: sortedYears.map(year => counts[year])
       };
+    }
+
+    function renderCareerFitChart() {
+      const labels = roleFitData.map(item => item.label);
+      const expected = roleFitData.map(item => item.expected);
+      const myProfile = roleFitData.map(item => item.me);
+      const avgSelf = myProfile.reduce((sum, value) => sum + value, 0) / myProfile.length;
+      const avgExpected = expected.reduce((sum, value) => sum + value, 0) / expected.length;
+      const coveragePct = Math.round((avgSelf / avgExpected) * 100);
+
+      document.getElementById('fit-total-score').textContent = `${coveragePct}%`;
+      document.getElementById('coverageNumeric').textContent = `${coveragePct}%`;
+
+      if (!careerFitChart) {
+        careerFitChart = new Chart(document.getElementById('careerFitChart'), {
+          type: 'radar',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'Tecan expectation',
+                data: expected,
+                borderColor: '#009FE3',
+                backgroundColor: 'rgba(0,159,227,0.15)',
+                pointBackgroundColor: '#009FE3',
+                pointRadius: 3
+              },
+              {
+                label: 'My profile',
+                data: myProfile,
+                borderColor: '#18a957',
+                backgroundColor: 'rgba(24,169,87,0.15)',
+                pointBackgroundColor: '#18a957',
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 12,
+                  usePointStyle: true
+                }
+              }
+            },
+            scales: {
+              r: {
+                min: 0,
+                max: 10,
+                ticks: { stepSize: 2 },
+                pointLabels: {
+                  font: {
+                    size: 10
+                  }
+                }
+              }
+            }
+          }
+        });
+      } else {
+        careerFitChart.data.labels = labels;
+        careerFitChart.data.datasets[0].data = expected;
+        careerFitChart.data.datasets[1].data = myProfile;
+        careerFitChart.update();
+      }
     }
 
     function renderCharts(filterGroup = 'all') {
@@ -470,6 +591,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+      renderCareerFitChart();
       renderFlashCards('all');
       renderCharts('all');
     });
