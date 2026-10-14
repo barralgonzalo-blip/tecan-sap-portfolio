@@ -39,7 +39,7 @@
     .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
     .brand { display:flex; flex-direction:column; gap:4px; }
     .brand h1 { margin:0; font-size:clamp(1.6rem,2.4vw,2.5rem); color:var(--tecan-blue); letter-spacing:-0.04em; font-weight:800; }
-    .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:12px; font-weight:600; }
+    .contact-pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,0.7); border-radius:999px; padding:9px 14px; color:var(--muted); font-size:0.83rem; font-weight:600; }
 
     .kpi-grid { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:12px; margin:18px 0 20px; }
     .kpi-card {
@@ -51,8 +51,10 @@
       display:flex;
       flex-direction:column;
       align-items:center;
+      justify-content:flex-start;
       gap:6px;
       text-align:center;
+      min-height:330px;
     }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
     .kpi-value {
@@ -66,9 +68,30 @@
     .kpi-sub .vs { display:inline-flex; align-items:center; justify-content:center; font-weight:700; color:var(--muted); }
     .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
     .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:2px; }
-    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .kpi-percent {
+      min-height:22px;
+      font-size:0.95rem;
+      line-height:1.1;
+      color:var(--tecan-dark);
+      font-weight:800;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      margin-top:auto;
+    }
     .kpi-note { font-size:0.82rem; color:var(--muted); font-weight:700; }
-    .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
+    .kpi-meta {
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.4;
+      min-height:38px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      text-align:center;
+    }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
     .chart-card { background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:16px; box-shadow:0 14px 30px rgba(17,24,39,0.03); padding:16px; }
@@ -101,7 +124,7 @@
     .group-title { font-weight:800; color:var(--tecan-dark); }
     .group-count { background:var(--tecan-blue); color:#fff; padding:6px 10px; border-radius:999px; font-weight:700; }
     .cards { display:grid; grid-template-columns:repeat(1,1fr); gap:10px; }
-    .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease; }
+    .flash { display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:linear-gradient(180deg,#f6fbff,#ffffff); border:1px solid #eef6fb; cursor:pointer; transition:transform 0.15s ease, box-shadow 0.15s ease; }
     .flash:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(10,43,66,0.06); }
     .flash-icon-wrap { position:relative; width:44px; height:44px; flex-shrink:0; }
     .flash .icon { position:absolute; inset:0; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:18px; }
@@ -123,7 +146,7 @@
       font-weight:800;
       line-height:1;
     }
-    .card-number { display:inline-flex; align-items:center; justify-content:center; background:#eef6fb; color:var(--tecan-dark); font-weight:800; font-size:12px; padding:4px 8px; border-radius:999px; margin-bottom:6px; }
+    .card-number { display:inline-flex; align-items:center; justify-content:center; background:#eef6fb; color:var(--tecan-dark); font-weight:800; font-size:12px; padding:4px 8px; border-radius:999px; margin-bottom:4px; }
     .flash .meta { display:flex; flex-direction:column; }
     .flash .title { font-weight:700; color:var(--tecan-dark); font-size:13px; }
     .flash .sub { color:var(--muted); font-size:12px; }
@@ -131,7 +154,7 @@
 
     .detail-panel { display:grid; grid-template-columns:1fr 260px; gap:18px; margin-top:14px; }
     .detail-box { border:1px solid var(--line); background:linear-gradient(180deg,#ffffff,#fbfeff); border-radius:12px; padding:14px; min-height:130px; }
-    .preview { height:120px; border-radius:8px; background:linear-gradient(180deg,#eaf7ff,#f3f9ff); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--tecan-dark); font-size:2rem; font-weight:800; }
+    .preview { height:120px; border-radius:8px; background:linear-gradient(180deg,#eaf7ff,#f3f9ff); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--tecan-dark); font-size:24px; font-weight:800; }
 
     @media (max-width:900px) {
       .kpi-grid { grid-template-columns:repeat(3,1fr); }
@@ -314,7 +337,14 @@
       active: 19
     };
 
-    const kpiLabels = { years: 'Shared' };
+    const kpiLabels = {
+      years: 'Shared',
+      total: 'Shared',
+      sapcerts: 'Shared',
+      sapcourses: 'Shared',
+      data: 'Shared',
+      active: 'Shared'
+    };
 
     let planValues = Object.assign({}, defaultPlanValues);
 
@@ -440,17 +470,29 @@
       document.getElementById('chart-trend-total').textContent = trendTotals.labels.length || 0;
 
       if (!categoryChart) {
-        categoryChart = new Chart(document.getElementById('categoryChart'), { type:'bar', data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'] }, { label:'Plan', data:planCategoryValues, backgroundColor:['rgba(10,102,194,0.25)','rgba(6,182,212,0.25)','rgba(124,58,237,0.25)'] } ] }, options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
+        categoryChart = new Chart(document.getElementById('categoryChart'), {
+          type:'bar',
+          data:{ labels, datasets:[ { label:'Actual', data:categoryValues, backgroundColor:['#0a66c2','#06b6d4','#7c3aed'] }, { label:'Plan', data:planCategoryValues, type:'line', borderColor:'#0a2b42', backgroundColor:'rgba(10,43,66,0.1)', borderWidth:2, pointRadius:0 } ] },
+          options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } }
+        });
       } else {
         categoryChart.data.datasets[0].data = categoryValues; categoryChart.data.datasets[1].data = planCategoryValues; categoryChart.update();
       }
 
       if (!statusChart) {
-        statusChart = new Chart(document.getElementById('statusChart'), { type:'doughnut', data:{ labels:['Active','Expired'], datasets:[{ data:[statusTotals.active, statusTotals.expired], backgroundColor:['#18a957','#f59e0b'] }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } } } });
+        statusChart = new Chart(document.getElementById('statusChart'), {
+          type:'doughnut',
+          data:{ labels:['Active','Expired'], datasets:[{ data:[statusTotals.active, statusTotals.expired], backgroundColor:['#18a957','#e4ebf3'] }] },
+          options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } } }
+        });
       } else { statusChart.data.datasets[0].data = [statusTotals.active, statusTotals.expired]; statusChart.update(); }
 
       if (!trendChart) {
-        trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.15)', fill:true, tension:0.35 }] }, options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
+        trendChart = new Chart(document.getElementById('trendChart'), {
+          type:'line',
+          data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.15)', tension:0.3, fill:true, pointRadius:3 }] },
+          options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } }
+        });
       } else { trendChart.data.labels = trendTotals.labels; trendChart.data.datasets[0].data = trendTotals.values; trendChart.update(); }
 
       updateSummary();
@@ -570,7 +612,7 @@
         <div style="margin-top:10px" class="preview">${item.short}</div>
         <div class="tags" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
           <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${statusText}</span>
-          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.type}</span>
+          <span class="tag" style="display:inline-flex; align-items:center; border-radius:999px; padding:7px 10px; background:#edf7ff; color:var(--tecan-dark); font-size:12px; font-weight:700; border:1px solid #dfeffe;">${item.group}</span>
         </div>
         <div style="margin-top:12px;color:var(--muted);font-size:13px;font-weight:700;">
           <div>Actual: ${actualInGroup}</div>
