@@ -65,11 +65,13 @@
       letter-spacing:-0.04em;
     }
     /* smaller secondary KPI texts */
-    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); }
+    .kpi-sub { font-size:0.88rem; line-height:1.2; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; }
     .kpi-sub .act { color:var(--tecan-blue); font-weight:800; }
     .kpi-sub .plan-number { color:var(--warning); font-weight:800; }
-    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-left:6px; }
-    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; }
+    .kpi-sub .plan-label { color:var(--muted); font-weight:700; margin-top:2px; }
+    .kpi-sub .vs { color:var(--muted); font-weight:700; }
+    .kpi-percent { font-size:0.95rem; line-height:1.1; color:var(--tecan-dark); font-weight:800; display:flex; flex-direction:column; align-items:center; }
+    .kpi-note { font-size:0.72rem; color:var(--muted); font-weight:700; margin-top:4px; }
 
     .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
 
@@ -318,6 +320,9 @@
       active: 19
     };
 
+    // Optional small labels for KPI percent values (e.g., 'Shared')
+    const kpiLabels = { years: 'Shared' };
+
     let planValues = Object.assign({}, defaultPlanValues);
 
     // load saved plan values from localStorage
@@ -535,7 +540,8 @@
         if (kpiEl) kpiEl.textContent = actDisplay;
 
         if (subEl) {
-          subEl.innerHTML = `<span class="act">${actDisplay}</span> ACT • <span class="plan-number">${planDisplay}</span><span class="plan-label"> PLAN</span>`;
+          // stack ACT and PLAN with a centered "vs"
+          subEl.innerHTML = `<div class="act">${actDisplay}</div><div class="vs">vs</div><div class="plan-number">${planDisplay}</div><div class="plan-label">PLAN</div>`;
         }
 
         let pct = 0;
@@ -544,7 +550,11 @@
         }
         // cap at 100
         pct = Math.min(100, pct);
-        if (pctEl) pctEl.textContent = isNaN(pct) ? '—' : `${pct}%`;
+
+        const label = kpiLabels[idsPrefix] || '';
+        if (pctEl) {
+          pctEl.innerHTML = isNaN(pct) ? '—' : `${pct}%` + (label ? `<div class="kpi-note">${label}</div>` : '');
+        }
       }
 
       setKpi(years, planValues.years, 'years', true);
