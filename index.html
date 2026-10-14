@@ -52,17 +52,33 @@
       box-shadow:0 10px 28px rgba(17,24,39,0.04);
       display:flex;
       flex-direction:column;
-      align-items:center; /* center the stacked KPI */
-      gap:8px;
+      align-items:center;
+      gap:5px;
       text-align:center;
     }
     .kpi-label { color:var(--muted); font-size:12px; font-weight:600; text-transform:uppercase; }
-    .kpi-value { font-size:clamp(1.8rem,2.8vw,2.8rem); font-weight:800; color:var(--tecan-blue); line-height:1; }
+    .kpi-value {
+      font-size:clamp(2.1rem,2.7vw,2.8rem);
+      font-weight:800;
+      color:var(--tecan-blue);
+      line-height:1;
+      letter-spacing:-0.04em;
+    }
     /* smaller secondary KPI texts */
-    .kpi-sub { font-size:0.95rem; color:var(--muted); }
-    .kpi-ratio { font-size:0.95rem; color:var(--muted); font-weight:700; }
-
-    .kpi-meta { margin-top:4px; color:var(--muted); font-size:11px; line-height:1.4; }
+    .kpi-sub {
+      font-size:0.78rem;
+      line-height:1.25;
+      color:var(--muted);
+      letter-spacing:-0.01em;
+    }
+    .kpi-ratio {
+      font-size:0.76rem;
+      line-height:1.2;
+      color:var(--muted);
+      font-weight:700;
+      letter-spacing:-0.01em;
+    }
+    .kpi-meta { margin-top:2px; color:var(--muted); font-size:11px; line-height:1.4; }
 
     .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:24px 22px; }
     .chart-card { background:linear-gradient(180deg,#fff,#fbfeff); border:1px solid var(--line); border-radius:16px; box-shadow:0 14px 30px rgba(17,24,39,0.03); padding:16px; }
@@ -124,7 +140,6 @@
     </header>
 
     <section class="kpi-grid" aria-label="Key metrics">
-      <!-- Years -->
       <div class="kpi-card">
         <div class="kpi-label">Years experience</div>
         <div class="kpi-value" id="kpi-years">17y</div>
@@ -133,7 +148,6 @@
         <div class="kpi-meta">SAP analytics and BW/4HANA delivery</div>
       </div>
 
-      <!-- Total credentials -->
       <div class="kpi-card">
         <div class="kpi-label">Total credentials</div>
         <div class="kpi-value" id="kpi-total">—</div>
@@ -142,7 +156,6 @@
         <div class="kpi-meta">Certificates, courses, and badges</div>
       </div>
 
-      <!-- SAP certs -->
       <div class="kpi-card">
         <div class="kpi-label">SAP certs</div>
         <div class="kpi-value" id="kpi-sapcerts">—</div>
@@ -151,7 +164,6 @@
         <div class="kpi-meta">Official SAP certifications</div>
       </div>
 
-      <!-- SAP courses -->
       <div class="kpi-card">
         <div class="kpi-label">SAP courses</div>
         <div class="kpi-value" id="kpi-sapcourses">—</div>
@@ -160,7 +172,6 @@
         <div class="kpi-meta">SAP learning paths and records</div>
       </div>
 
-      <!-- Data & Agile -->
       <div class="kpi-card">
         <div class="kpi-label">Data &amp; Agile</div>
         <div class="kpi-value" id="kpi-data">—</div>
@@ -169,7 +180,6 @@
         <div class="kpi-meta">Data engineering &amp; agile badges</div>
       </div>
 
-      <!-- Active -->
       <div class="kpi-card">
         <div class="kpi-label">Active</div>
         <div class="kpi-value" id="kpi-active">—</div>
@@ -432,8 +442,6 @@
       if (!trendChart) {
         trendChart = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels:trendTotals.labels, datasets:[{ label:'Credentials', data:trendTotals.values, borderColor:'#009FE3', backgroundColor:'rgba(0,159,227,0.08)', fill:true, tension:0.35 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
       } else { trendChart.data.labels = trendTotals.labels; trendChart.data.datasets[0].data = trendTotals.values; trendChart.update(); }
-
-      // no per-card editor anymore; KPI text is updated by updateSummary
     }
 
     function buildGroupHtml(groupId, items) {
@@ -484,11 +492,8 @@
       const sapCourses = timelineData.items.filter(i => i.group === 'sapCourses').length;
       const dataAgile = timelineData.items.filter(i => i.group === 'dataAgile').length;
       const active = timelineData.items.filter(i => i.status !== 'Expired').length;
-
-      // Years is a fixed ACT value in this portfolio
       const years = 17;
 
-      // Update the primary visible KPI (ACT) and the smaller PLAN/ratio texts
       document.getElementById('kpi-years').textContent = years + 'y';
       document.getElementById('sub-years').textContent = `${years}y ACT • ${planValues.years}y PLAN`;
       document.getElementById('ratio-years').textContent = `${years} / ${planValues.years}`;
@@ -555,7 +560,6 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       loadPlanFromStorage();
-
       renderCareerFitChart();
       renderFlashCards('all');
       renderCharts('all');
